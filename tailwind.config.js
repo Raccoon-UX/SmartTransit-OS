@@ -8,18 +8,33 @@ export default {
   theme: {
     extend: {
       colors: {
+        warm: {
+          50: '#F7F5F0',
+          100: '#F3F0E9',
+          200: '#ECE8DF',
+          border: '#E5E0D8',
+          text: '#172033',
+          muted: '#596273',
+        },
         transit: {
           50: '#f0f7ff',
           100: '#e0effe',
           200: '#bae0fd',
           300: '#7cc5fb',
           400: '#36a5f7',
-          500: '#0c87eb',
-          600: '#026bc9',
-          700: '#0355a3',
-          800: '#074886',
-          900: '#0c3d70',
-          950: '#08274a',
+          500: '#1769D1', // Primary municipal brand blue
+          600: '#1252A5',
+          700: '#0E3E7E',
+          800: '#092A56',
+          900: '#051833',
+          950: '#030E1F',
+        },
+        civic: {
+          teal: '#0E8F82',
+          orange: '#D97732',
+          green: '#218A63',
+          amber: '#C8891A',
+          red: '#C94A45',
         },
         navy: {
           800: '#0f172a',
@@ -27,22 +42,15 @@ export default {
           900: '#080d1a',
           950: '#040711',
         },
-        telemetry: {
-          cyan: '#06b6d4',
-          emerald: '#10b981',
-          amber: '#f59e0b',
-          rose: '#f43f5e',
-          violet: '#8b5cf6',
-        }
       },
       fontFamily: {
-        sans: ['Inter', 'Outfit', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        display: ['Outfit', 'Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
       boxShadow: {
-        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
-        'glow-sm': '0 0 15px rgba(12, 135, 235, 0.25)',
-        'glow': '0 0 25px rgba(12, 135, 235, 0.35)',
+        'subtle': '0 1px 3px rgba(23, 32, 51, 0.05)',
+        'panel': '0 2px 6px rgba(23, 32, 51, 0.06)',
       }
     },
   },
