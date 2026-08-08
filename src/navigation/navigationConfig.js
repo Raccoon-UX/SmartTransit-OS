@@ -30,6 +30,7 @@ import {
 
 /**
  * SmartTransit OS — Centralized Role-Aware Navigation Registry
+ * Clean, restrained enterprise navigation structure
  */
 export const NAVIGATION_CONFIG = {
   // PASSENGER ROLE NAVIGATION
@@ -42,18 +43,18 @@ export const NAVIGATION_CONFIG = {
         title: 'Transit Explorer',
         items: [
           { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/passenger/dashboard' },
-          { id: 'live-map', label: 'Live Map', icon: MapPin, path: '/passenger/live-map', badge: 'LIVE', badgeVariant: 'success' },
-          { id: 'search-bus', label: 'Search Bus', icon: Search, path: '/passenger/search' },
-          { id: 'routes', label: 'Routes & Timetables', icon: Route, path: '/passenger/routes' },
-          { id: 'journey-planner', label: 'Journey Planner', icon: Compass, path: '/passenger/planner' },
+          { id: 'live-map', label: 'Live Transit Map', icon: MapPin, path: '/passenger/live-map' },
+          { id: 'search-bus', label: 'Search Buses', icon: Search, path: '/passenger/search' },
+          { id: 'routes', label: 'Routes & Schedules', icon: Route, path: '/passenger/routes' },
+          { id: 'journey-planner', label: 'Trip Planner', icon: Compass, path: '/passenger/planner' },
         ],
       },
       {
         title: 'Personal Mobility',
         items: [
           { id: 'notifications', label: 'Alerts & Notices', icon: Bell, path: '/passenger/notifications', badge: '3', badgeVariant: 'warning' },
-          { id: 'favorites', label: 'Favorite Routes', icon: Star, path: '/passenger/favorites' },
-          { id: 'profile', label: 'Passenger Profile', icon: User, path: '/passenger/profile' },
+          { id: 'favorites', label: 'Saved Routes', icon: Star, path: '/passenger/favorites' },
+          { id: 'profile', label: 'Profile Settings', icon: User, path: '/passenger/profile' },
         ],
       },
     ],
@@ -66,12 +67,12 @@ export const NAVIGATION_CONFIG = {
     badgeVariant: 'accent',
     sections: [
       {
-        title: 'Active Operations',
+        title: 'Active Shift',
         items: [
           { id: 'dashboard', label: 'Driver Cockpit', icon: LayoutDashboard, path: '/driver/dashboard' },
-          { id: 'current-trip', label: 'Current Trip', icon: Navigation, path: '/driver/current-trip', badge: 'ACTIVE', badgeVariant: 'success' },
-          { id: 'waypoints', label: 'Route Waypoints', icon: Route, path: '/driver/waypoints' },
-          { id: 'occupancy', label: 'Passenger Occupancy', icon: Users, path: '/driver/occupancy' },
+          { id: 'current-trip', label: 'Current Trip', icon: Navigation, path: '/driver/current-trip' },
+          { id: 'waypoints', label: 'Route Stops', icon: Route, path: '/driver/waypoints' },
+          { id: 'occupancy', label: 'Passenger Counter', icon: Users, path: '/driver/occupancy' },
         ],
       },
       {
@@ -98,18 +99,18 @@ export const NAVIGATION_CONFIG = {
           { id: 'fleet', label: 'Fleet Management', icon: Bus, path: '/admin/fleet', badge: '256', badgeVariant: 'neutral' },
           { id: 'drivers', label: 'Driver Roster', icon: Users, path: '/admin/drivers' },
           { id: 'routes', label: 'Transit Routes', icon: Route, path: '/admin/routes' },
-          { id: 'bus-stops', label: 'Bus Stop Terminals', icon: MapPin, path: '/admin/stops' },
+          { id: 'bus-stops', label: 'Bus Terminals', icon: MapPin, path: '/admin/stops' },
           { id: 'schedules', label: 'Schedule Dispatcher', icon: Calendar, path: '/admin/schedules' },
         ],
       },
       {
         title: 'Intelligence & Command',
         items: [
-          { id: 'alerts', label: 'City Transit Alerts', icon: Bell, path: '/admin/alerts', badge: '2', badgeVariant: 'warning' },
+          { id: 'alerts', label: 'Service Alerts', icon: Bell, path: '/admin/alerts', badge: '2', badgeVariant: 'warning' },
           { id: 'analytics', label: 'Fleet Analytics', icon: BarChart3, path: '/admin/analytics' },
           { id: 'reports', label: 'Operational Reports', icon: FileText, path: '/admin/reports' },
-          { id: 'ai-overview', label: 'AI Intelligence Center', icon: Sparkles, path: '/ai/overview', badge: 'AI', badgeVariant: 'accent' },
-          { id: 'soc', label: 'System Operations Center', icon: Terminal, path: '/admin/soc', badge: 'LIVE', badgeVariant: 'success' },
+          { id: 'ai-overview', label: 'AI Intelligence Center', icon: Sparkles, path: '/ai/overview' },
+          { id: 'soc', label: 'Operations Center (SOC)', icon: Terminal, path: '/admin/soc' },
           { id: 'settings', label: 'Platform Settings', icon: Settings, path: '/admin/settings' },
         ],
       },
@@ -127,25 +128,24 @@ export const NAVIGATION_CONFIG = {
         items: [
           { id: 'overview', label: 'SOC Overview', icon: Activity, path: '/system/overview' },
           { id: 'infrastructure', label: 'Cluster Infrastructure', icon: Server, path: '/system/infrastructure' },
-          { id: 'server-health', label: 'Server Health', icon: Cpu, path: '/system/health', badge: '99.98%', badgeVariant: 'success' },
+          { id: 'server-health', label: 'Server Health', icon: Cpu, path: '/system/health' },
           { id: 'api-monitoring', label: 'API Gateway & Latency', icon: Radio, path: '/system/api' },
           { id: 'active-users', label: 'Active Sessions & Mesh', icon: Users, path: '/system/users' },
-          { id: 'gps-stream', label: 'GPS Ingestion Stream', icon: Wifi, path: '/system/gps', badge: 'LIVE', badgeVariant: 'success' },
+          { id: 'gps-stream', label: 'GPS Ingestion Stream', icon: Wifi, path: '/system/gps' },
         ],
       },
       {
         title: 'Security & Maintenance',
         items: [
-          { id: 'database', label: 'Database & Redis Cache', icon: Database, path: '/system/database' },
+          { id: 'database', label: 'Database & Cache', icon: Database, path: '/system/database' },
           { id: 'backups', label: 'Disaster Backups', icon: HardDrive, path: '/system/backups' },
           { id: 'security', label: 'Security & Access Audits', icon: ShieldCheck, path: '/system/security' },
           { id: 'incidents', label: 'Incident Log', icon: AlertTriangle, path: '/system/incidents', badge: '1', badgeVariant: 'critical' },
-          { id: 'ai-overview', label: 'AI Intelligence Engine', icon: Sparkles, path: '/ai/overview', badge: 'AI', badgeVariant: 'accent' },
+          { id: 'ai-overview', label: 'AI Intelligence Engine', icon: Sparkles, path: '/ai/overview' },
         ],
       },
     ],
   },
 };
-
 
 export default NAVIGATION_CONFIG;
