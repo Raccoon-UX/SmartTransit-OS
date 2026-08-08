@@ -1,0 +1,68 @@
+import { Navigation, Bus, Users, Terminal } from 'lucide-react';
+
+export const ECOSYSTEM_ROLES = [
+  {
+    id: 'passenger',
+    roleName: 'Passenger',
+    tagline: 'Know before you go.',
+    description: 'Empowering urban citizens with live bus locations, minute-by-minute arrival countdowns, and crowding visibility.',
+    icon: Navigation,
+    color: 'text-transit-500 bg-transit-500/10 border-transit-500/30',
+    features: [
+      'Live map bus tracking on mobile & desktop',
+      'Accurate arrival ETA countdowns for every stop',
+      'Real-time passenger occupancy status (Low/Med/High)',
+      'Smart journey planner with transfer route discovery',
+      'Instant service disruption & delay notifications',
+    ],
+    ctaLabel: 'Explore Passenger Experience',
+  },
+  {
+    id: 'driver',
+    roleName: 'Driver / Operator',
+    tagline: 'Operate with clarity.',
+    description: 'Providing bus operators with clear route waypoints, onboard passenger counting, schedule pacing, and emergency beacons.',
+    icon: Bus,
+    color: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/30',
+    features: [
+      'Active trip guidance with upcoming waypoint checklist',
+      'Automatic high-frequency GPS coordinate sharing',
+      'Passenger count and capacity management',
+      'Instant emergency SOS distress beacon broadcast',
+      'Digital shift completion and incident reports',
+    ],
+    ctaLabel: 'Explore Driver Cockpit',
+  },
+  {
+    id: 'admin',
+    roleName: 'Transport Administrator',
+    tagline: 'Control the network.',
+    description: 'Giving municipal transport authorities an executive dispatch cockpit to optimize citywide transit lines and schedules.',
+    icon: Users,
+    color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30',
+    features: [
+      'Real-time fleet tracking across all active routes',
+      'Driver roster management and bus assignment',
+      'Stop sequence editor and timetable orchestration',
+      'Citywide public transit alert broadcasting',
+      'Deep operational analytics on delay patterns',
+    ],
+    ctaLabel: 'Explore Admin Dispatch',
+  },
+  {
+    id: 'soc',
+    roleName: 'System Operations (SOC)',
+    tagline: 'Keep the platform running.',
+    description: 'Empowering IT and infrastructure engineers to monitor telemetry ingestion, WebSocket clusters, database caches, and security.',
+    icon: Terminal,
+    color: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
+    features: [
+      'Sub-50ms API gateway health and latency wall',
+      'Live GPS telemetry packet stream rate visualizer',
+      'Cluster CPU, RAM, Redis cache, and DB status',
+      'Real-time security audits and incident tracking',
+      'Automated cold backups and failover mechanisms',
+    ],
+    ctaLabel: 'Explore Operations Center',
+  },
+];

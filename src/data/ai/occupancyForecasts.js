@@ -1,0 +1,106 @@
+/**
+ * SmartTransit OS — Occupancy Forecasting Dataset
+ * Bus & route occupancy forecasts with crowding risk alerts.
+ * SIMULATED AI FORECASTS — not operationally guaranteed.
+ */
+
+export const MOCK_OCCUPANCY_FORECASTS = [
+  {
+    id: 'occ-001',
+    busId: 'b-245',
+    busNumber: 'Bus 245',
+    routeId: 'RT-108',
+    routeName: 'Metro Coastal Express',
+    currentOccupancy: 78,
+    forecast10min: 86,
+    forecast20min: 94,
+    forecast30min: 88,
+    riskLevel: 'HIGH',
+    riskLabel: 'BUS FULL RISK',
+    confidence: 89,
+    confidenceLevel: 'HIGH',
+    factors: [
+      { label: 'Peak morning window', impactPercent: 8.2 },
+      { label: 'Magathane Junction boarding surge', impactPercent: 5.4 },
+      { label: 'Limited alighting at next stops', impactPercent: 3.1 },
+      { label: 'Historical pattern adjustment', impactPercent: -1.2 },
+    ],
+    recommendation: 'Dispatch additional vehicle or redirect passenger demand.',
+    timestamp: '09:38',
+  },
+  {
+    id: 'occ-002',
+    busId: 'b-312',
+    busNumber: 'Bus 312',
+    routeId: 'RT-204',
+    routeName: 'Airport Superfast Link',
+    currentOccupancy: 42,
+    forecast10min: 48,
+    forecast20min: 55,
+    forecast30min: 52,
+    riskLevel: 'LOW',
+    riskLabel: 'NORMAL',
+    confidence: 94,
+    confidenceLevel: 'HIGH',
+    factors: [
+      { label: 'Steady off-peak demand', impactPercent: 3.1 },
+      { label: 'Airport arrival window', impactPercent: 2.8 },
+      { label: 'Historical low-load corridor', impactPercent: -1.5 },
+    ],
+    recommendation: 'No action required. Operating within normal capacity.',
+    timestamp: '09:38',
+  },
+  {
+    id: 'occ-003',
+    busId: 'b-118',
+    busNumber: 'Bus 118',
+    routeId: 'RT-302',
+    routeName: 'CBD Feeder Corridor',
+    currentOccupancy: 92,
+    forecast10min: 96,
+    forecast20min: 98,
+    forecast30min: 90,
+    riskLevel: 'CRITICAL',
+    riskLabel: 'OVERCROWDED',
+    confidence: 86,
+    confidenceLevel: 'HIGH',
+    factors: [
+      { label: 'CBD morning peak saturation', impactPercent: 4.8 },
+      { label: 'Tech Park commuter surge', impactPercent: 3.6 },
+      { label: 'No alighting until Tech Park', impactPercent: 2.1 },
+      { label: 'Historical peak pattern', impactPercent: 1.2 },
+    ],
+    recommendation: 'Urgent: Deploy standby vehicle from CBD depot.',
+    timestamp: '09:38',
+  },
+  {
+    id: 'occ-004',
+    busId: 'b-504',
+    busNumber: 'Bus 504',
+    routeId: 'RT-415',
+    routeName: 'Suburban Ring Expressway',
+    currentOccupancy: 88,
+    forecast10min: 84,
+    forecast20min: 76,
+    forecast30min: 68,
+    riskLevel: 'MEDIUM',
+    riskLabel: 'DECREASING',
+    confidence: 78,
+    confidenceLevel: 'MEDIUM',
+    factors: [
+      { label: 'Post-junction alighting pattern', impactPercent: -6.2 },
+      { label: 'Suburban stop distribution', impactPercent: -3.8 },
+      { label: 'Declining demand trend', impactPercent: -2.4 },
+    ],
+    recommendation: 'Monitor trend. Occupancy expected to normalize.',
+    timestamp: '09:38',
+  },
+];
+
+
+export const MOCK_CROWDING_THRESHOLDS = {
+  low: 50,
+  medium: 70,
+  high: 85,
+  critical: 95,
+};
