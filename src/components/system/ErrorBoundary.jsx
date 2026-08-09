@@ -31,9 +31,9 @@ export class ErrorBoundary extends React.Component {
             <div className="h-1.5 bg-[#B91C1C] w-full" />
 
             <div className="p-6 sm:p-8 space-y-6">
-              <div className="flex items-center space-x-3">
-                <img src={logoImg} alt="SmartTransit OS Logo" className="w-10 h-10 object-contain shrink-0" />
-                <div>
+              <div className="flex items-center space-x-4">
+                <img src={logoImg} alt="SmartTransit OS Logo" className="h-12 sm:h-14 w-auto max-w-[160px] object-contain shrink-0" />
+                <div className="border-l border-slate-300 dark:border-slate-700 pl-4">
                   <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-900 border border-rose-300 uppercase">
                     SERVICE TEMPORARILY UNAVAILABLE
                   </span>

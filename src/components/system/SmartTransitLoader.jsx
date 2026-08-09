@@ -52,8 +52,8 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
       )}
     >
       <div className="relative z-10 max-w-sm w-full space-y-6 text-center">
-        {/* Brand Logo Image */}
-        <img src={logoImg} alt="SmartTransit OS Logo" className="mx-auto w-14 h-14 object-contain shrink-0" />
+        {/* Prominent Brand Logo Image */}
+        <img src={logoImg} alt="SmartTransit OS Logo" className="mx-auto h-20 sm:h-24 w-auto max-w-[220px] object-contain shrink-0" />
 
         <div className="space-y-1">
           <h1 className="text-2xl font-extrabold tracking-tight text-[#172033] dark:text-white font-sans">

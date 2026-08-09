@@ -13,8 +13,8 @@ export function PublicFooter() {
           {/* Masthead Attribution */}
           <div className="md:col-span-2 space-y-3">
             <div className="flex items-center space-x-3">
-              <img src={logoImg} alt="SmartTransit OS Logo" className="w-8 h-8 object-contain shrink-0" />
-              <div>
+              <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-12 w-auto max-w-[140px] object-contain shrink-0" />
+              <div className="border-l border-slate-300 dark:border-slate-700 pl-3">
                 <span className="font-extrabold text-base text-slate-900 dark:text-white font-sans">
                   SmartTransit OS Portal
                 </span>

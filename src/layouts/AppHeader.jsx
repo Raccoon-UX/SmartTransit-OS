@@ -41,7 +41,7 @@ export function AppHeader({
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#0B3D91] w-full" />
 
-      <div className="h-15 px-4 sm:px-6 flex items-center justify-between gap-4 py-2">
+      <div className="h-16 px-4 sm:px-6 flex items-center justify-between gap-4 py-2">
         {/* Left: Official Masthead Identity */}
         <div className="flex items-center space-x-3">
           <button
@@ -64,10 +64,10 @@ export function AppHeader({
 
           {/* Official Logo Image & Platform Name */}
           <div className="flex items-center space-x-3">
-            <img src={logoImg} alt="SmartTransit OS Logo" className="w-9 h-9 object-contain shrink-0" />
-            <div className="hidden sm:block">
+            <img src={logoImg} alt="SmartTransit OS Logo" className="h-11 sm:h-12 w-auto max-w-[140px] object-contain shrink-0" />
+            <div className="hidden sm:block border-l border-slate-200 dark:border-slate-700 pl-3">
               <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans">
+                <span className="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white font-sans">
                   SmartTransit OS
                 </span>
                 <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
