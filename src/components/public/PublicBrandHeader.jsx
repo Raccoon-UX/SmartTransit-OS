@@ -20,24 +20,24 @@ export function PublicBrandHeader() {
   } = usePublicAccessibility();
 
   return (
-    <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-1.5 sm:py-2 px-4 sm:px-6 text-left select-none font-sans leading-none">
+    <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-2 sm:py-2.5 px-4 sm:px-6 text-left select-none font-sans leading-none">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4">
-        {/* Left Side: Dual Emblem Logos */}
+        {/* Left Side: Dual Emblem Logos (Larger Sizes) */}
         <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
           <img
             src={logoImg}
             alt="SmartTransit OS Logo"
-            className="h-11 sm:h-13 w-auto max-w-[160px] object-contain shrink-0"
+            className="h-13 sm:h-16 w-auto max-w-[180px] object-contain shrink-0"
           />
-          <span className="text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
+          <span className="text-slate-300 dark:text-slate-700 text-2xl font-mono shrink-0">|</span>
           <img
             src={msrtcLogo1}
             alt="MSRTC Official Emblem"
-            className="h-16 sm:h-18 w-auto max-w-[260px] object-contain shrink-0"
+            className="h-18 sm:h-22 w-auto max-w-[320px] object-contain shrink-0"
           />
         </div>
 
-        {/* Right Side: Transit Network Partners + Stacked (Uper-Neeche) High Contrast & English/Marathi */}
+        {/* Right Side: Transit Network Partners + Stacked High Contrast & English/Marathi Switcher */}
         <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 sm:gap-4 shrink-0">
           {/* Transit Network Partners Logo Box */}
           <div className="flex items-center space-x-3 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
@@ -52,29 +52,29 @@ export function PublicBrandHeader() {
               src={bestLogo}
               alt="BEST Undertaking Logo"
               title="BEST Undertaking"
-              className="h-9 sm:h-10 w-auto object-contain shrink-0 px-0.5"
+              className="h-9 sm:h-11 w-auto object-contain shrink-0 px-0.5"
             />
             <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
             <img
               src={msrtcLogo}
               alt="MSRTC Corporation Logo"
               title="MSRTC Transport Corporation"
-              className="h-9 sm:h-10 w-auto object-contain shrink-0 px-0.5"
+              className="h-9 sm:h-11 w-auto object-contain shrink-0 px-0.5"
             />
             <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
             <img
               src={tmtLogo}
               alt="TMT Transport Logo"
               title="Thane Municipal Transport (TMT)"
-              className="h-9 sm:h-10 w-auto object-contain shrink-0 px-0.5"
+              className="h-9 sm:h-11 w-auto object-contain shrink-0 px-0.5"
             />
           </div>
 
           <span className="hidden sm:inline text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
 
-          {/* STACKED (UPER-NEECHE) ACCESSIBILITY & LANGUAGE CONTROLS */}
+          {/* STACKED ACCESSIBILITY & LANGUAGE CONTROLS */}
           <div className="flex flex-col items-stretch justify-center space-y-1.5 shrink-0">
-            {/* Top Item: High Contrast Toggle Button */}
+            {/* High Contrast Toggle Button */}
             <button
               type="button"
               onClick={toggleHighContrast}
@@ -90,7 +90,7 @@ export function PublicBrandHeader() {
               <span>{t('highContrast')}</span>
             </button>
 
-            {/* Bottom Item: Language Switcher (English | मराठी) */}
+            {/* Language Switcher (English | मराठी) */}
             <div className="flex items-center justify-between space-x-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 font-mono text-xs w-full">
               <button
                 type="button"

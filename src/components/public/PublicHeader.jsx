@@ -37,10 +37,17 @@ export function PublicHeader({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
           <PublicUtilityBar />
         </div>
 
-        {/* Level 2: Brand & Identity Header */}
-        <PublicBrandHeader />
+        {/* Level 2: Brand & Identity Header (Collapses smoothly on scroll down) */}
+        <div
+          className={cn(
+            'transition-all duration-300 overflow-hidden',
+            isScrolled ? 'max-h-0 opacity-0 py-0 border-none pointer-events-none' : 'max-h-48 opacity-100'
+          )}
+        >
+          <PublicBrandHeader />
+        </div>
 
-        {/* Level 3: Main Navigation */}
+        {/* Level 3: Main Navigation (Remains Sticky & Docked at Top while scrolling) */}
         <PublicMainNavigation
           onOpenDemo={onOpenDemo}
           onOpenSignIn={onOpenSignIn}
