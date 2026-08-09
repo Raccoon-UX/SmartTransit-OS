@@ -22,7 +22,7 @@ export function PublicBrandHeader() {
   return (
     <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-1.5 sm:py-2 px-4 sm:px-6 text-left select-none font-sans leading-none">
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4">
-        {/* Left Side: Dual Emblem Logos with Larger Images (Compact Vertical Height) */}
+        {/* Left Side: Dual Emblem Logos */}
         <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
           <img
             src={logoImg}
@@ -37,10 +37,10 @@ export function PublicBrandHeader() {
           />
         </div>
 
-        {/* Right Side: Transit Network Partners + High Contrast + English/Marathi Switcher (Equal Spacing) */}
+        {/* Right Side: Transit Network Partners + Stacked (Uper-Neeche) High Contrast & English/Marathi */}
         <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 sm:gap-4 shrink-0">
-          {/* Transit Network Partners Logo Box with Slightly Larger Partner Logos */}
-          <div className="flex items-center space-x-3 bg-slate-50 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
+          {/* Transit Network Partners Logo Box */}
+          <div className="flex items-center space-x-3 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
             <div className="text-right pr-1">
               <span className="block text-[10px] font-mono font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider leading-none">
                 {t('transitPartners')}
@@ -70,53 +70,54 @@ export function PublicBrandHeader() {
             />
           </div>
 
-          <span className="hidden sm:inline text-slate-300 dark:text-slate-700 text-sm font-mono shrink-0">|</span>
+          <span className="hidden sm:inline text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
 
-          {/* High Contrast Toggle Button */}
-          <button
-            type="button"
-            onClick={toggleHighContrast}
-            className={cn(
-              'px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all flex items-center space-x-1.5 shrink-0 shadow-xs leading-none',
-              highContrast
-                ? 'bg-amber-400 text-slate-950 border-amber-300 font-black'
-                : 'border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
-            )}
-            title="Toggle High Contrast Mode"
-          >
-            <Eye className="w-4 h-4 text-[#B83E12] dark:text-amber-400 inline shrink-0" />
-            <span>{t('highContrast')}</span>
-          </button>
-
-          <span className="hidden sm:inline text-slate-300 dark:text-slate-700 text-sm font-mono shrink-0">|</span>
-
-          {/* Language Switcher (English | मराठी) */}
-          <div className="flex items-center space-x-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 font-mono text-xs">
+          {/* STACKED (UPER-NEECHE) ACCESSIBILITY & LANGUAGE CONTROLS */}
+          <div className="flex flex-col items-stretch justify-center space-y-1.5 shrink-0">
+            {/* Top Item: High Contrast Toggle Button */}
             <button
               type="button"
-              onClick={() => toggleLanguage('en')}
+              onClick={toggleHighContrast}
               className={cn(
-                'px-2.5 py-1 rounded-lg text-xs font-bold transition-colors leading-none',
-                language === 'en'
-                  ? 'bg-[#B83E12] text-white shadow-xs font-black'
-                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                'px-3 py-1 rounded-lg border text-xs font-mono font-bold transition-all flex items-center justify-center space-x-1.5 shrink-0 shadow-xs leading-none w-full text-center',
+                highContrast
+                  ? 'bg-amber-400 text-slate-950 border-amber-300 font-black'
+                  : 'border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
               )}
+              title="Toggle High Contrast Mode"
             >
-              English
+              <Eye className="w-3.5 h-3.5 text-[#B83E12] dark:text-amber-400 inline shrink-0" />
+              <span>{t('highContrast')}</span>
             </button>
-            <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
-            <button
-              type="button"
-              onClick={() => toggleLanguage('mr')}
-              className={cn(
-                'px-2.5 py-1 rounded-lg text-xs font-bold transition-colors font-sans leading-none',
-                language === 'mr'
-                  ? 'bg-[#B83E12] text-white shadow-xs font-black'
-                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-              )}
-            >
-              मराठी
-            </button>
+
+            {/* Bottom Item: Language Switcher (English | मराठी) */}
+            <div className="flex items-center justify-between space-x-1 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 font-mono text-xs w-full">
+              <button
+                type="button"
+                onClick={() => toggleLanguage('en')}
+                className={cn(
+                  'flex-1 px-2 py-0.5 rounded text-[11px] font-bold transition-colors leading-none text-center',
+                  language === 'en'
+                    ? 'bg-[#B83E12] text-white shadow-xs font-black'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                )}
+              >
+                English
+              </button>
+              <span className="text-slate-300 dark:text-slate-600 text-[10px]">|</span>
+              <button
+                type="button"
+                onClick={() => toggleLanguage('mr')}
+                className={cn(
+                  'flex-1 px-2 py-0.5 rounded text-[11px] font-bold transition-colors font-sans leading-none text-center',
+                  language === 'mr'
+                    ? 'bg-[#B83E12] text-white shadow-xs font-black'
+                    : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                )}
+              >
+                मराठी
+              </button>
+            </div>
           </div>
         </div>
       </div>

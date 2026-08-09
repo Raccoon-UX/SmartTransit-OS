@@ -1,25 +1,20 @@
 import React from 'react';
-import { PhoneCall, Eye, Globe, Radio, Tv } from 'lucide-react';
+import { PhoneCall, Globe, Radio, Tv } from 'lucide-react';
 import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
 import { CONTACT_CONFIG } from '../../config/contact.js';
-import { cn } from '../../utils/index.js';
 
 export function PublicUtilityBar() {
   const {
-    language,
-    toggleLanguage,
     handleFontDecrease,
     handleFontReset,
     handleFontIncrease,
-    highContrast,
-    toggleHighContrast,
     t,
   } = usePublicAccessibility();
 
   return (
     <div className="bg-[#B83E12] text-white text-xs font-mono border-b border-[#9E2F0A] py-1.5 px-4 sm:px-6 select-none leading-none overflow-x-auto scrollbar-none">
       <div className="max-w-7xl mx-auto flex flex-nowrap items-center justify-between gap-4 whitespace-nowrap min-w-max">
-        {/* Left Side: Welcome & Helplines (Single Horizontal Line, Perfect Equal Alignment) */}
+        {/* Left Side: Welcome & Helplines (Equal Alignment) */}
         <div className="flex flex-nowrap items-center space-x-3 text-xs leading-none shrink-0">
           <span className="font-bold text-amber-200 shrink-0">
             {t('welcomeText')}
@@ -42,8 +37,8 @@ export function PublicUtilityBar() {
           </div>
         </div>
 
-        {/* Right Side: Language, Text Resize, High Contrast, Socials (Single Horizontal Line, Equal Alignment) */}
-        <div className="flex flex-nowrap items-center space-x-3 sm:space-x-4 ml-auto text-xs leading-none shrink-0">
+        {/* Right Side: Media Links & Text Resize Controls (Equal Alignment, No Repeated Contrast or Language) */}
+        <div className="flex flex-nowrap items-center space-x-4 ml-auto text-xs leading-none shrink-0">
           {/* Skip to Main Content */}
           <a
             href="#main-content"
@@ -96,51 +91,6 @@ export function PublicUtilityBar() {
               title="Increase Font Size"
             >
               A+
-            </button>
-          </div>
-
-          <span className="text-[#E87A50] shrink-0 font-light">|</span>
-
-          {/* High Contrast Toggle */}
-          <button
-            type="button"
-            onClick={toggleHighContrast}
-            className={cn(
-              'px-2 py-1 rounded border text-xs font-bold transition-colors flex items-center space-x-1 shrink-0 leading-none',
-              highContrast
-                ? 'bg-amber-400 text-slate-950 border-amber-300'
-                : 'border-amber-300/40 text-amber-100 hover:bg-white/10'
-            )}
-            title="Toggle High Contrast Mode"
-          >
-            <Eye className="w-3.5 h-3.5 inline" />
-            <span>{t('highContrast')}</span>
-          </button>
-
-          <span className="text-[#E87A50] shrink-0 font-light">|</span>
-
-          {/* Language Switcher (English | मराठी) */}
-          <div className="flex items-center space-x-1 font-bold text-xs shrink-0">
-            <button
-              type="button"
-              onClick={() => toggleLanguage('en')}
-              className={cn(
-                'px-2 py-1 rounded text-xs transition-colors leading-none',
-                language === 'en' ? 'bg-white text-[#B83E12] font-black' : 'text-amber-100 hover:text-white'
-              )}
-            >
-              English
-            </button>
-            <span className="text-[#E87A50] shrink-0">|</span>
-            <button
-              type="button"
-              onClick={() => toggleLanguage('mr')}
-              className={cn(
-                'px-2 py-1 rounded text-xs transition-colors font-sans leading-none',
-                language === 'mr' ? 'bg-white text-[#B83E12] font-black' : 'text-amber-100 hover:text-white'
-              )}
-            >
-              मराठी
             </button>
           </div>
         </div>
