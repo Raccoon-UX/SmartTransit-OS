@@ -6,6 +6,7 @@ import { TextInput as Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { DemoLoginPills } from '../../components/auth/DemoLoginPills.jsx';
 import logoImg from '../../assets/logo.png';
+import msrtcLogo1 from '../../assets/msrtc logo1.png';
 import publicBusBg from '../../assets/PublicBus.webp';
 
 export function LoginPage({
@@ -89,8 +90,8 @@ export function LoginPage({
           {/* Top 3px Solid Institutional Accent Bar */}
           <div className="h-1.5 bg-[#0B3D91] w-full" />
 
-          {/* Portal Masthead Header */}
-          <div className="p-5 sm:p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between">
+          {/* Portal Masthead Header with Stacked Subsystem Text + MSRTC Logo 1 on Right */}
+          <div className="p-5 sm:p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between gap-4">
             <div className="flex items-center space-x-4 shrink-0">
               <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-12 w-auto max-w-[150px] object-contain shrink-0" />
               <div className="border-l border-slate-300 dark:border-slate-700 pl-4 shrink-0">
@@ -102,8 +103,23 @@ export function LoginPage({
                 </p>
               </div>
             </div>
-            <div className="hidden sm:block text-right text-xs font-mono text-slate-500 shrink-0">
-              <span>Authentication Subsystem</span>
+
+            {/* Right Side: Stacked Authentication Subsystem Text + MSRTC Emblem Logo */}
+            <div className="flex items-center space-x-3 shrink-0">
+              <div className="text-right font-mono font-bold shrink-0 leading-tight">
+                <span className="block text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                  Authentication
+                </span>
+                <span className="block text-xs text-slate-800 dark:text-slate-200">
+                  Subsystem
+                </span>
+              </div>
+              <span className="text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
+              <img
+                src={msrtcLogo1}
+                alt="MSRTC Official Emblem"
+                className="h-11 sm:h-13 w-auto max-w-[180px] object-contain shrink-0"
+              />
             </div>
           </div>
 
@@ -190,7 +206,7 @@ export function LoginPage({
               </form>
             </div>
 
-            {/* Right Column: Structured Sandbox Role Profiles List (Expanded 7/12 cols for Full Un-truncated Table) */}
+            {/* Right Column: Structured Sandbox Role Profiles List (7/12 cols) */}
             <div className="lg:col-span-7 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-300 dark:border-slate-700 space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono border-b border-slate-300 dark:border-slate-700 pb-2">
                 Select Demo Role Profile (Instant Access)
