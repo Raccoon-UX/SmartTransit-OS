@@ -12,10 +12,10 @@ export function PublicUtilityBar() {
   } = usePublicAccessibility();
 
   return (
-    <div className="bg-[#B83E12] text-white text-xs font-mono border-b border-[#9E2F0A] py-1.5 px-4 sm:px-6 select-none leading-none overflow-x-auto scrollbar-none">
-      <div className="max-w-7xl mx-auto flex flex-nowrap items-center justify-between gap-4 whitespace-nowrap min-w-max">
+    <div className="bg-[#B83E12] text-white text-xs font-mono border-b border-[#9E2F0A] py-1.5 px-6 sm:px-10 lg:px-12 select-none leading-none overflow-x-auto scrollbar-none w-full">
+      <div className="w-full flex flex-nowrap items-center justify-between gap-4 whitespace-nowrap min-w-max">
         {/* Left Side: Welcome & Helplines (Equal Alignment) */}
-        <div className="flex flex-nowrap items-center space-x-3 text-xs leading-none shrink-0">
+        <div className="flex flex-nowrap items-center space-x-3 sm:space-x-4 text-xs leading-none shrink-0">
           <span className="font-bold text-amber-200 shrink-0">
             {t('welcomeText')}
           </span>
@@ -38,7 +38,7 @@ export function PublicUtilityBar() {
         </div>
 
         {/* Right Side: Media Links & Text Resize Controls (Equal Alignment, Exact Official Links) */}
-        <div className="flex flex-nowrap items-center space-x-4 ml-auto text-xs leading-none shrink-0">
+        <div className="flex flex-nowrap items-center space-x-4 sm:space-x-6 ml-auto text-xs leading-none shrink-0">
           {/* Skip to Main Content */}
           <a
             href="#main-content"
@@ -48,13 +48,13 @@ export function PublicUtilityBar() {
           </a>
 
           {/* Official Media Portals */}
-          <div className="flex items-center space-x-3 text-amber-200 shrink-0">
+          <div className="flex items-center space-x-4 text-amber-200 shrink-0">
             <a
               href={CONTACT_CONFIG.SOCIAL_LINKS.PORTAL}
               target="_blank"
               rel="noreferrer"
               title="Official MSRTC Portal"
-              className="hover:text-white flex items-center space-x-1 font-bold"
+              className="hover:text-white flex items-center space-x-1.5 font-bold"
             >
               <Globe className="w-3.5 h-3.5 text-amber-300" />
               <span className="text-xs">Portal</span>
@@ -65,7 +65,7 @@ export function PublicUtilityBar() {
               target="_blank"
               rel="noreferrer"
               title="Ministry of Information & Broadcasting"
-              className="hover:text-white flex items-center space-x-1 font-bold"
+              className="hover:text-white flex items-center space-x-1.5 font-bold"
             >
               <Radio className="w-3.5 h-3.5 text-amber-300" />
               <span className="text-xs">Broadcast</span>
@@ -76,7 +76,7 @@ export function PublicUtilityBar() {
               target="_blank"
               rel="noreferrer"
               title="Official Media Stream"
-              className="hover:text-white flex items-center space-x-1 font-bold"
+              className="hover:text-white flex items-center space-x-1.5 font-bold"
             >
               <Tv className="w-3.5 h-3.5 text-amber-300" />
               <span className="text-xs">Media</span>
