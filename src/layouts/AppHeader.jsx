@@ -34,20 +34,20 @@ export function AppHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-30 w-full text-left bg-white dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800',
+        'sticky top-0 z-30 w-full text-left bg-white dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 shadow-subtle',
         className
       )}
     >
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#0B3D91] w-full" />
 
-      <div className="h-16 px-4 sm:px-6 flex items-center justify-between gap-4 py-2">
+      <div className="h-16 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4 max-w-full">
         {/* Left: Official Masthead Identity */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileNav}
-            className="lg:hidden p-1.5 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700"
+            className="lg:hidden p-1.5 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0"
             aria-label="Open Navigation"
           >
             <Menu className="w-5 h-5" />
@@ -56,47 +56,42 @@ export function AppHeader({
           <button
             type="button"
             onClick={onToggleSidebar}
-            className="hidden lg:flex p-1.5 rounded text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700"
+            className="hidden lg:flex p-1.5 rounded text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0"
             aria-label="Toggle Sidebar"
           >
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Official Logo Image & Platform Name */}
-          <div className="flex items-center space-x-3">
-            <img src={logoImg} alt="SmartTransit OS Logo" className="h-11 sm:h-12 w-auto max-w-[140px] object-contain shrink-0" />
-            <div className="hidden sm:block border-l border-slate-200 dark:border-slate-700 pl-3">
-              <div className="flex items-center space-x-2">
-                <span className="font-extrabold text-lg tracking-tight text-slate-900 dark:text-white font-sans">
-                  SmartTransit OS
-                </span>
-                <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
-                  GOVT DIGITAL SERVICE
-                </span>
-              </div>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-sans leading-tight">
-                Municipal Transport Authority • Operational Control Portal
-              </p>
+          {/* Official Logo Image & Platform Name (Single Row, Non-wrapping) */}
+          <div className="flex items-center space-x-2.5 shrink-0 min-w-0">
+            <img src={logoImg} alt="SmartTransit OS Logo" className="h-9 sm:h-10 w-auto max-w-[130px] object-contain shrink-0" />
+            <div className="hidden sm:flex items-center space-x-2 border-l border-slate-300 dark:border-slate-700 pl-3 shrink-0 whitespace-nowrap">
+              <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
+                SmartTransit <span className="text-[#0B3D91] dark:text-sky-400">OS</span>
+              </span>
+              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 shrink-0 whitespace-nowrap">
+                GOVT PORTAL
+              </span>
             </div>
           </div>
         </div>
 
         {/* Center: Search Trigger (Flat Bordered) */}
-        <div className="flex-1 max-w-md mx-2 sm:mx-6">
+        <div className="flex-1 min-w-0 max-w-xs xl:max-w-md mx-1 sm:mx-4">
           <button
             type="button"
             onClick={onOpenSearch}
             className={cn(
-              'w-full flex items-center justify-between px-3.5 py-1.5 rounded border text-xs transition-colors',
+              'w-full flex items-center justify-between px-3 py-1.5 rounded border text-xs transition-colors',
               'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400',
               'hover:border-[#0B3D91] dark:hover:border-slate-600 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
             )}
           >
             <div className="flex items-center space-x-2 truncate">
               <Search className="w-4 h-4 text-slate-500 flex-shrink-0" />
-              <span className="truncate">Search buses, routes, terminals...</span>
+              <span className="truncate">Search buses, routes...</span>
             </div>
-            <kbd className="hidden sm:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono text-slate-500 shadow-subtle">
+            <kbd className="hidden md:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono text-slate-500 shadow-subtle shrink-0">
               <Command className="w-3 h-3 inline" />
               <span>K</span>
             </kbd>
@@ -104,8 +99,8 @@ export function AppHeader({
         </div>
 
         {/* Right: Operational Status, Role Switcher, Notifications, Theme & Profile */}
-        <div className="flex items-center space-x-2.5 sm:space-x-3">
-          <div className="hidden md:block">
+        <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
+          <div className="hidden lg:block shrink-0">
             <LiveSystemIndicator />
           </div>
 
@@ -113,7 +108,7 @@ export function AppHeader({
             variant="outline"
             size="sm"
             onClick={() => setDemoModalOpen(true)}
-            className="hidden xl:inline-flex text-xs font-mono text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 rounded"
+            className="hidden xl:inline-flex text-xs font-mono text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 rounded shrink-0"
             leftIcon={Sliders}
           >
             Sandbox Controls
@@ -125,7 +120,7 @@ export function AppHeader({
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-1.5 rounded text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700"
+            className="p-1.5 rounded text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0"
             aria-label="Toggle Theme"
           >
             {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}

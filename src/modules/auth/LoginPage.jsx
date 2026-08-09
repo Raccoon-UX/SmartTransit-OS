@@ -80,10 +80,10 @@ export function LoginPage({
 
         {/* Portal Masthead Header */}
         <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <img src={logoImg} alt="SmartTransit OS Logo" className="h-12 sm:h-14 w-auto max-w-[160px] object-contain shrink-0" />
-            <div className="border-l border-slate-300 dark:border-slate-700 pl-4">
-              <h1 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans">
+          <div className="flex items-center space-x-4 shrink-0">
+            <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-11 w-auto max-w-[140px] object-contain shrink-0" />
+            <div className="border-l border-slate-300 dark:border-slate-700 pl-4 shrink-0">
+              <h1 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans whitespace-nowrap">
                 SmartTransit OS Authorization Portal
               </h1>
               <p className="text-xs text-slate-600 dark:text-slate-400 font-sans">
@@ -91,7 +91,7 @@ export function LoginPage({
               </p>
             </div>
           </div>
-          <div className="hidden sm:block text-right text-xs font-mono text-slate-500">
+          <div className="hidden sm:block text-right text-xs font-mono text-slate-500 shrink-0">
             <span>Authentication Subsystem</span>
           </div>
         </div>

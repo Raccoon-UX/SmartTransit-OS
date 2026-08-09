@@ -47,18 +47,16 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        {/* Brand Logo & Wordmark */}
-        <a href="#" className="flex items-center space-x-3 group">
-          <img src={logoImg} alt="SmartTransit OS Logo" className="h-11 sm:h-12 w-auto max-w-[140px] object-contain shrink-0" />
-          <div className="border-l border-slate-200 dark:border-slate-700 pl-3">
-            <div className="flex items-center space-x-2">
-              <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white font-sans">
-                SmartTransit <span className="text-[#0B3D91] dark:text-sky-400 font-semibold">OS</span>
-              </span>
-              <span className="hidden sm:inline-block text-[9px] font-mono font-bold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
-                GOVT PORTAL
-              </span>
-            </div>
+        {/* Brand Logo & Wordmark (Single Horizontal Row, Non-wrapping) */}
+        <a href="#" className="flex items-center space-x-2.5 shrink-0 group">
+          <img src={logoImg} alt="SmartTransit OS Logo" className="h-9 sm:h-10 w-auto max-w-[130px] object-contain shrink-0" />
+          <div className="flex items-center space-x-2 border-l border-slate-300 dark:border-slate-700 pl-3 shrink-0 whitespace-nowrap">
+            <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
+              SmartTransit <span className="text-[#0B3D91] dark:text-sky-400 font-semibold">OS</span>
+            </span>
+            <span className="hidden sm:inline-block text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 shrink-0 whitespace-nowrap">
+              GOVT PORTAL
+            </span>
           </div>
         </a>
 
@@ -77,7 +75,7 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
         </nav>
 
         {/* Right Actions */}
-        <div className="hidden sm:flex items-center space-x-3">
+        <div className="hidden sm:flex items-center space-x-3 shrink-0">
           <button
             type="button"
             onClick={toggleTheme}
@@ -88,7 +86,7 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
           </button>
 
           {isAuthenticated && user ? (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 shrink-0">
               <Button
                 variant="primary"
                 size="sm"
@@ -108,7 +106,7 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
               </Button>
             </div>
           ) : (
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 shrink-0">
               <Button
                 variant="outline"
                 size="sm"
@@ -131,7 +129,7 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
         </div>
 
         {/* Mobile Menu Button */}
-        <div className="flex items-center space-x-2 sm:hidden">
+        <div className="flex items-center space-x-2 sm:hidden shrink-0">
           <button
             type="button"
             onClick={toggleTheme}
