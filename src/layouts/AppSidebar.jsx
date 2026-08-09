@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChevronRight, Shield } from 'lucide-react';
 import { NAVIGATION_CONFIG } from '../navigation/navigationConfig.js';
+import { usePublicAccessibility } from '../context/PublicAccessibilityContext.jsx';
 import { cn } from '../utils/index.js';
 
 export function AppSidebar({
@@ -10,14 +11,103 @@ export function AppSidebar({
   collapsed = false,
   className = '',
 }) {
+  const { t } = usePublicAccessibility();
   const roleConfig = NAVIGATION_CONFIG[currentRole] || NAVIGATION_CONFIG.admin;
+
+  const getItemLabel = (item) => {
+    if (item.translationKey) return t(item.translationKey);
+    const keyMap = {
+      'Dashboard': 'menuDashboard',
+      'Fleet Management': 'menuFleet',
+      'Drivers & Staff': 'menuDrivers',
+      'Routes & Schedules': 'menuRoutes',
+      'Bus Stops & Terminals': 'menuStops',
+      'Dispatch Schedule': 'menuSchedules',
+      'Live Control': 'menuDispatch',
+      'Alerts & Warnings': 'menuAlerts',
+      'Analytics': 'menuAnalytics',
+      'Reports': 'menuReports',
+      'Settings': 'menuSettings',
+      'SOC Overview': 'menuSocOverview',
+      'Infrastructure': 'menuInfrastructure',
+      'Server Clusters': 'menuServers',
+      'API Gateways': 'menuApiMonitoring',
+      'User Sessions': 'menuSessions',
+      'GPS Ingestion': 'menuGpsMonitoring',
+      'Databases': 'menuDatabase',
+      'Backups': 'menuBackups',
+      'Security Audit': 'menuSecurity',
+      'Incidents': 'menuIncidents',
+      'Telemetry Logs': 'menuTelemetry',
+      'Scalability': 'menuScalability',
+      'SOC Settings': 'menuSocSettings',
+      'AI Hub Overview': 'menuAiOverview',
+      'ETA Predictor': 'menuEtaIntelligence',
+      'Occupancy AI': 'menuOccupancyForecast',
+      'Demand AI': 'menuDemandForecast',
+      'Route Optimizer': 'menuRouteIntelligence',
+      'Anomaly Detection': 'menuAnomalyDetection',
+      'Driver Intelligence': 'menuDriverIntelligence',
+      'Intelligent Alerts': 'menuIntelligentAlerts',
+      'Incident Intelligence': 'menuIncidentIntelligence',
+      'System Health AI': 'menuSystemIntelligence',
+      'Recommendations': 'menuRecommendations',
+      'AI Activity': 'menuAiActivity',
+      'Model Health': 'menuModelHealth',
+      'AI Settings': 'menuAiSettings',
+      'Trip Cockpit': 'menuActiveTrip',
+      'Turn Navigation': 'menuDriverNavigation',
+      'Passenger Counter': 'menuOccupancyInput',
+      'Emergency SOS': 'menuDriverEmergency',
+      'Shift Reports': 'menuDriverReports',
+      'Live Transit Map': 'menuLiveMap',
+      'Search Buses': 'menuBusSearch',
+      'Trip Planner': 'menuJourneyPlanner',
+      'Alerts & Notices': 'menuNotifications',
+      'Saved Routes': 'menuFavorites',
+      'Profile Settings': 'menuPassengerProfile',
+    };
+    const key = keyMap[item.label];
+    return key ? t(key) : item.label;
+  };
+
+  const getSectionTitle = (title) => {
+    const sectionMap = {
+      'Transit Explorer': 'menuPassengerSection',
+      'Personal Mobility': 'menuPassengerSection',
+      'Cockpit Controls': 'menuDriverSection',
+      'Shift Management': 'menuDriverSection',
+      'Core Operations': 'menuAdminSection',
+      'Operations Oversight': 'menuAdminSection',
+      'Infrastructure': 'menuSocSection',
+      'Reliability': 'menuSocSection',
+      'Security & Audit': 'menuSocSection',
+      'Predictive Intelligence': 'menuAiSection',
+      'Optimization': 'menuAiSection',
+      'Model Performance': 'menuAiSection',
+    };
+    const key = sectionMap[title];
+    return key ? t(key) : title;
+  };
+
+  const getRoleName = (role) => {
+    const roleMap = {
+      passenger: 'roleCommuter',
+      driver: 'roleDriver',
+      admin: 'roleAdmin',
+      soc: 'roleSoc',
+      ai: 'roleAi',
+    };
+    const key = roleMap[role];
+    return key ? t(key) : roleConfig.roleName;
+  };
 
   return (
     <aside
       className={cn(
         'hidden lg:flex flex-col justify-between h-[calc(100vh-4rem)] sticky top-16 border-r transition-all duration-200 select-none text-left',
         'bg-[#F7F5F0] dark:bg-navy-900 border-[#E5E0D8] dark:border-slate-800',
-        collapsed ? 'w-16' : 'w-60',
+        collapsed ? 'w-16' : 'w-64',
         className
       )}
     >
@@ -30,7 +120,7 @@ export function AppSidebar({
                 Workspace
               </span>
               <span className="text-xs font-bold text-[#172033] dark:text-white truncate block">
-                {roleConfig.roleName}
+                {getRoleName(currentRole)}
               </span>
             </div>
           </div>
@@ -49,7 +139,7 @@ export function AppSidebar({
           <div key={sIdx} className="space-y-0.5">
             {!collapsed && (
               <div className="px-3 py-1.5 text-[10px] font-mono uppercase font-bold tracking-wider text-[#596273] dark:text-slate-500">
-                {section.title}
+                {getSectionTitle(section.title)}
               </div>
             )}
             {section.items.map((item) => {
@@ -70,7 +160,7 @@ export function AppSidebar({
                 >
                   <Icon className={cn('w-4 h-4 flex-shrink-0', collapsed ? 'mx-auto' : 'mr-2.5')} />
 
-                  {!collapsed && <span className="flex-1 text-left truncate">{item.label}</span>}
+                  {!collapsed && <span className="flex-1 text-left truncate">{getItemLabel(item)}</span>}
 
                   {!collapsed && item.badge && (
                     <span

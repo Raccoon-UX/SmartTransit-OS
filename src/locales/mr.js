@@ -1,5 +1,6 @@
 /**
  * SmartTransit OS — Marathi (मराठी) Localization Dictionary
+ * Comprehensive Devanagari Marathi strings across all Public, Admin, SOC, AI, Driver, Commuter & Auth modules.
  */
 export const mr = {
   // Utility Bar
@@ -18,7 +19,7 @@ export const mr = {
   networkTag: 'अधिकृत वाहतूक नेटवर्क पोर्टल',
   transitPartners: 'सहभागी वाहतूक संस्था',
   
-  // Navigation
+  // Navigation Bar
   navHome: 'मुख्यपृष्ठ',
   navAbout: 'आमच्याबद्दल',
   navRti: 'माहिती अधिकार (RTI)',
@@ -29,7 +30,7 @@ export const mr = {
   navRecruitment: 'भरती (Recruitment)',
   navContact: 'संपर्क',
   
-  // Dropdown Sub-Items
+  // Navigation Dropdown Sub-Items
   navAboutOverview: 'आढावा आणि इतिहास',
   navAboutVision: 'व्हिजन आणि मिशन',
   navAboutHowItWorks: 'स्मार्टट्रान्सिट कसे कार्य करते',
@@ -65,7 +66,7 @@ export const mr = {
   navContactGeneral: 'सामान्य चौकशी',
   navContactSupport: 'प्रवासी मदत',
   navContactTech: 'तांत्रिक मदत',
-  
+
   // Ticker
   tickerLabel: 'महत्त्वाची माहिती:',
   tickerMsg1: 'सार्वजनिक जाणीव: नेहमी लागू वाहतूक आणि प्रवासी सुरक्षा नियमांचे पालन करा.',
@@ -75,14 +76,136 @@ export const mr = {
   tickerMsg5: 'सुलभता नियंत्रणे आणि फॉन्ट आकार बदल वरील युटिलिटी बारमध्ये उपलब्ध आहेत.',
   tickerMsg6: 'नवीनतम कायदे आणि सरकारी अधिसूचनांसाठी अधिकृत सरकारी स्रोतांचा वापर करा.',
 
-  // Hero
+  // Hero Section
   heroTag: 'महानगर सार्वजनिक वाहतूक पोर्टल',
   heroTitle: 'सार्वजनिक वाहतूक सर्वांसाठी अधिक स्मार्ट आणि सोयीस्कर.',
   heroDescription: 'स्मार्टट्रान्सिट ओएस एका अधिकृत रिअल-टाइम प्लॅटफॉर्मद्वारे बसेस, प्रवासी, चालक आणि वाहतूक प्राधिकरणांना जोडते — ज्यामुळे सार्वजनिक वाहतूक सेवा अधिक सुरक्षित आणि नियमित बनते.',
   btnTrackBuses: 'थेट बस ट्रॅक करा',
   btnSchedules: 'मार्ग वेळपत्रक पहा',
   liveTelemetry: 'थेट ताफा टेलिमेट्री ऑनलाइन सुरु',
-  
+
+  // Operations Shell & Top Header Bar
+  opsShellTitle: 'स्मार्टट्रान्सिट ऑपरेशन्स शेल',
+  signIn: 'साइन इन करा',
+  signOut: 'साइन आउट',
+  returnToPublicPortal: 'सार्वजनिक पोर्टलवर परत जा',
+  switchRole: 'भूमिका प्रोफाइल बदला',
+  currentRole: 'सध्याची भूमिका:',
+  systemStatusOnline: 'सिस्टम स्थिती: ऑनलाइन (सक्रिय)',
+
+  // Auth Portal (Sign In / Register)
+  authPortalTitle: 'स्मार्टट्रान्सिट ओएस अधिकृतता पोर्टल',
+  authPortalSub: 'शासकीय वाहतूक ऑपरेशन्स आणि महानगर परिवहन प्राधिकरण',
+  signInHeadline: 'अधिकृत खात्यात साइन इन करा',
+  signInDesc: 'आपल्या पोर्टलवर प्रवेश करण्यासाठी आपला अधिकृत ईमेल किंवा नोंदणीकृत मोबाईल नंबर प्रविष्ट करा.',
+  officialEmailLabel: 'अधिकृत ईमेल / नोंदणीकृत मोबाईल नंबर',
+  passwordLabel: 'खाते पासवर्ड',
+  rememberCredentials: 'या टर्मिनलवर क्रेडेन्शियल्स लक्षात ठेवा',
+  forgotPassword: 'पासवर्ड विसरलात?',
+  signInBtn: 'पोर्टलमध्ये साइन इन करा',
+  selectDemoProfile: 'डेमो रोल प्रोफाइल निवडा (झटपट प्रवेश)',
+  authenticateBtn: 'प्रमाणित करा',
+  demoSandboxNotice: 'डेमो सँडबॉक्स माहिती: मूल्यमापन उद्देशासाठी पूर्व-कॉन्फिगर केलेल्या भूमिका उपलब्ध आहेत.',
+
+  // Role Names
+  roleCommuter: 'दैनिक मेट्रो प्रवासी',
+  roleDriver: 'वरिष्ठ वाहतूक चालक (पायलट)',
+  roleAdmin: 'मुख्य नियंत्रण अधिकारी (डिसपॅच)',
+  roleSoc: 'एसओसी पायाभूत सुविधा वास्तुशास्त्रज्ञ',
+  roleAi: 'एआय ट्रान्सिट सिस्टम्स अभियंता',
+
+  // Sidebar Menu Sections & Items
+  menuAdminSection: 'वाहतूक प्रशासन (ADMINISTRATION)',
+  menuSocSection: 'एसओसी ऑपरेशन्स सेंटर (SOC)',
+  menuAiSection: 'एआय इंटेलिजन्स इंजिन (AI HUB)',
+  menuDriverSection: 'चालक कॉकपिट (DRIVER)',
+  menuPassengerSection: 'प्रवासी पोर्टल (COMMUTER)',
+
+  menuDashboard: 'ऑपरेशन्स डॅशबोर्ड',
+  menuFleet: 'बस ताफा व्यवस्थापन',
+  menuDrivers: 'चालक व कर्मचारी',
+  menuRoutes: 'मार्ग व थांबे (Routes)',
+  menuStops: 'बस थांबे व टर्मिनल्स',
+  menuSchedules: 'वेळपत्रक व डिसपॅच',
+  menuDispatch: 'थेट नियंत्रण कक्ष (Dispatch)',
+  menuAlerts: 'सिस्टम इशारे व सूचना',
+  menuAnalytics: 'वाहतूक विश्लेषण',
+  menuReports: 'प्रशासकीय अहवाल',
+  menuSettings: 'सिस्टम सेटिंग्ज',
+
+  menuSocOverview: 'एसओसी कमांड सेंटर',
+  menuInfrastructure: 'क्लाउड पायाभूत सुविधा',
+  menuServers: 'सर्व्हर क्लस्टर्स',
+  menuApiMonitoring: 'एपीआय गेटवे सनियंत्रण',
+  menuSessions: 'सक्रिय वापरकर्ता सत्रे',
+  menuGpsMonitoring: 'जीपीएस फीड नियंत्रण',
+  menuDatabase: 'डेटाबेस क्लस्टर्स',
+  menuBackups: 'डेटा बॅकअप्स',
+  menuSecurity: 'सुरक्षा ऑडिट लॉग',
+  menuIncidents: 'घटना व्यवस्थापन (Incidents)',
+  menuTelemetry: 'थेट टेलिमेट्री प्रवाह',
+  menuScalability: 'क्लस्टर ऑटो-स्केलिंग',
+
+  menuAiOverview: 'एआय हब आढावा',
+  menuEtaIntelligence: 'अंदाज ईटीए मॉडेल',
+  menuOccupancyForecast: 'प्रवासी संख्या अंदाज (Occupancy)',
+  menuDemandForecast: 'प्रवासी मागणी एआय',
+  menuRouteIntelligence: 'मार्ग ऑप्टिमायझेशन एआय',
+  menuAnomalyDetection: 'टेलिमेट्री विसंगती एआय',
+  menuDriverIntelligence: 'चालक वर्तन विश्लेषण',
+  menuIntelligentAlerts: 'एआय अंदाज इशारे',
+  menuIncidentIntelligence: 'घटना विश्लेषण एआय',
+  menuSystemIntelligence: 'सिस्टम आरोग्य एआय',
+  menuRecommendations: 'एआय निर्णय इंजिन',
+  menuAiActivity: 'मॉडेल ॲक्टिव्हिटी लॉग',
+  menuModelHealth: 'एआय मॉडेल आरोग्य व ड्रिफ्ट',
+
+  menuDriverDashboard: 'चालक कॉकपिट आढावा',
+  menuActiveTrip: 'सध्याची सक्रिय फेरी (Trip)',
+  menuDriverNavigation: 'मार्ग दिशा-निर्देशन (Navigation)',
+  menuOccupancyInput: 'प्रवासी संख्या नोंदणी',
+  menuDriverEmergency: 'आणीबाणी एसओएस सिग्नल',
+  menuDriverReports: 'शिफ्ट लॉग व अहवाल',
+
+  menuCommuterDashboard: 'प्रवासी केंद्र',
+  menuLiveMap: 'थेट बस रडार नकाशा',
+  menuBusSearch: 'बस व मार्ग शोधा',
+  menuRoutesList: 'सर्व मार्ग पहा',
+  menuJourneyPlanner: 'स्मार्ट प्रवास नियोजक',
+  menuFavorites: 'जतन केलेले थांबे व बसेस',
+  menuNotifications: 'प्रवास सूचना व अपडेट्स',
+
+  // Google Maps Light Theme Controls
+  mapLightView: 'गूगल मॅप लाईट मोड',
+  mapSatelliteView: 'सॅटेलाईट व्ह्यू',
+  mapTrafficLayer: 'थेट रहदारी थर (Traffic)',
+  mapExportWhatsapp: 'थेट लोकेशन शेअर करा (व्हॉट्सॲप)',
+  mapCopyGpsLink: 'जीपीएस लिंक कॉपी करा',
+  mapDownloadCard: 'जीपीएस टेलिमेट्री कार्ड डाउनलोड करा',
+  mapBusLocationTitle: 'बसचे थेट जीपीएस स्थान',
+  mapBusNumber: 'बस क्रमांक',
+  mapRouteNumber: 'मार्ग क्रमांक',
+  mapCurrentSpeed: 'सध्याचा वेग',
+  mapNextStop: 'पुढील थांबा',
+  mapEtaMin: 'अंदाजित वेळ (मिनिटे)',
+  mapOccupancy: 'प्रवासी संख्या',
+
+  // Road Safety Section
+  roadSafetyTitle: 'रस्ता सुरक्षा जागरूकता आणि नागरी वाहतूक मानके',
+  roadSafetyDesc: 'महाराष्ट्र राज्य आणि महानगर वाहतूक कॉरिडोअरमध्ये सुरक्षित प्रवासासाठी नागरिक, चालक आणि पादचाऱ्यांसाठी अधिकृत मार्गदर्शक तत्त्वे.',
+  safetyCard1Title: 'नेहमी हॅल्मेट आणि सीटबेल्ट वापरा',
+  safetyCard1Desc: 'दुचाकीस्वारांनी बीआयएस-प्रमाणित हेल्मेट वापरणे बंधनकारक आहे. चारचाकी चालकांनी मोटार वाहन कायद्यानुसार नेहमी सीटबेल्ट लावावा.',
+  safetyCard2Title: 'वाहतूक दिवे आणि लेन शिस्तीचे पालन करा',
+  safetyCard2Desc: 'लाल दिवा कधीही ओलांडू नका. मुख्य जंक्शन आणि महामार्गांवर स्वतंत्र लेन शिस्त बाळगा.',
+  safetyCard3Title: 'गाडी चालवताना मोबाईल वापरास बंदी',
+  safetyCard3Desc: 'वाहतूक करताना किंवा प्रवासी वाहने चालवताना मोबाईल फोनचा वापर करणे बेकायदेशीर आहे.',
+  safetyCard4Title: 'आणीबाणीच्या वाहनांना प्राधान्य द्या',
+  safetyCard4Desc: 'रुग्णवाहिका, अग्निशामक दल आणि पोलीस वाहनांना तत्काळ रस्ता मोकळा करून द्या.',
+  safetyCard5Title: 'झेब्रा क्रॉसिंगवर पादचाऱ्यांना प्राधान्य',
+  safetyCard5Desc: 'झेब्रा क्रॉसिंगजवळ वाहनाचा वेग कमी करा आणि पादचाऱ्यांना सुरक्षित रस्ता ओलांडू द्या.',
+  safetyCard6Title: 'बसमध्ये चढताना व उतरताना काळजी घ्या',
+  safetyCard6Desc: 'बस पूर्णपणे थांबल्यावरच निश्चित थांब्यावर चढा किंवा उतरा. चालत्या बसमध्ये चढण्याचा प्रयत्न करू नका.',
+
   // Footer
   footerAboutTitle: 'स्मार्टट्रान्सिट ओएस बद्दल',
   footerAboutDesc: 'महानगर परिवहन महामंडळाद्वारे शहर नागरी गतिशीलता विभागाच्या सहकार्याने प्रकाशित. रिअल-टाइम बस ट्रॅकिंग आणि सार्वजनिक वाहतूक देखरेखीसाठी नागरी सेवा.',

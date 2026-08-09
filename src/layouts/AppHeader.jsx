@@ -7,9 +7,11 @@ import {
   Command, 
   ChevronLeft, 
   ChevronRight,
-  Sliders
+  Sliders,
+  Globe
 } from 'lucide-react';
 import { useTheme } from '../design-system/context/ThemeContext.jsx';
+import { usePublicAccessibility } from '../context/PublicAccessibilityContext.jsx';
 import { Button } from '../components/ui/Button.jsx';
 import { RoleSwitcher } from '../components/navigation/RoleSwitcher.jsx';
 import { LiveSystemIndicator } from '../components/system/LiveSystemIndicator.jsx';
@@ -31,6 +33,7 @@ export function AppHeader({
   className = '',
 }) {
   const { isDark, toggleTheme } = useTheme();
+  const { language, toggleLanguage, t } = usePublicAccessibility();
   const [demoModalOpen, setDemoModalOpen] = useState(false);
 
   return (
@@ -74,7 +77,7 @@ export function AppHeader({
 
             <div className="hidden sm:flex items-center space-x-2 border-l border-slate-300 dark:border-slate-700 pl-3 shrink-0 whitespace-nowrap">
               <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
-                SmartTransit <span className="text-[#B83E12] dark:text-amber-400">OS</span>
+                {t('platformTitle')}
               </span>
               <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-amber-400 border border-slate-300 dark:border-slate-700 shrink-0 whitespace-nowrap">
                 GOVT PORTAL
@@ -83,7 +86,7 @@ export function AppHeader({
           </div>
         </div>
 
-        {/* Center: Search Trigger (Flat Bordered) */}
+        {/* Center: Search Trigger */}
         <div className="flex-1 min-w-0 max-w-xs xl:max-w-md mx-1 sm:mx-4">
           <button
             type="button"
@@ -96,7 +99,7 @@ export function AppHeader({
           >
             <div className="flex items-center space-x-2 truncate">
               <Search className="w-4 h-4 text-slate-500 flex-shrink-0" />
-              <span className="truncate">Search buses, routes...</span>
+              <span className="truncate">{t('menuBusSearch')}</span>
             </div>
             <kbd className="hidden md:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono text-slate-500 shadow-subtle shrink-0">
               <Command className="w-3 h-3 inline" />
@@ -105,7 +108,7 @@ export function AppHeader({
           </button>
         </div>
 
-        {/* Right: Operational Controls & Status */}
+        {/* Right: Operational Controls & Language Switcher */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
           <div className="hidden xl:block">
             <LiveSystemIndicator />
@@ -120,6 +123,35 @@ export function AppHeader({
           >
             Sandbox Controls
           </Button>
+
+          {/* Global Language Switcher (English | मराठी) */}
+          <div className="flex items-center space-x-0.5 p-0.5 rounded bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-xs shrink-0">
+            <button
+              type="button"
+              onClick={() => toggleLanguage('en')}
+              className={cn(
+                'px-2 py-0.5 rounded text-[11px] font-bold transition-colors leading-none',
+                language === 'en'
+                  ? 'bg-[#B83E12] text-white shadow-xs font-black'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              EN
+            </button>
+            <span className="text-slate-300 dark:text-slate-600 text-[10px]">|</span>
+            <button
+              type="button"
+              onClick={() => toggleLanguage('mr')}
+              className={cn(
+                'px-2 py-0.5 rounded text-[11px] font-bold transition-colors font-sans leading-none',
+                language === 'mr'
+                  ? 'bg-[#B83E12] text-white shadow-xs font-black'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              मराठी
+            </button>
+          </div>
 
           <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
 

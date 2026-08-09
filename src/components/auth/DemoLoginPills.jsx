@@ -2,8 +2,11 @@ import React from 'react';
 import { User, Bus, Shield, Terminal, ArrowRight } from 'lucide-react';
 import { DEMO_USERS } from '../../services/auth/mockAuth.js';
 import { USER_ROLES } from '../../services/auth/authTypes.js';
+import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
 
 export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, className = '' }) {
+  const { t } = usePublicAccessibility();
+
   const handleSelect = (roleKey) => {
     if (onSelectRole) onSelectRole(roleKey);
     else if (onSelectDemo) onSelectDemo(roleKey);
@@ -14,6 +17,17 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
     [USER_ROLES.DRIVER]: Bus,
     [USER_ROLES.ADMIN]: Shield,
     [USER_ROLES.SYSTEM_ADMIN]: Terminal,
+  };
+
+  const getRoleTitle = (role, defaultTitle) => {
+    const roleMap = {
+      [USER_ROLES.PASSENGER]: 'roleCommuter',
+      [USER_ROLES.DRIVER]: 'roleDriver',
+      [USER_ROLES.ADMIN]: 'roleAdmin',
+      [USER_ROLES.SYSTEM_ADMIN]: 'roleSoc',
+    };
+    const key = roleMap[role];
+    return key ? t(key) : defaultTitle;
   };
 
   return (
@@ -39,7 +53,7 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
                   <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white whitespace-nowrap">
                     <div className="flex items-center space-x-2">
                       <Icon className="w-4 h-4 text-[#0B3D91] dark:text-sky-400 shrink-0" />
-                      <span>{demo.roleTitle}</span>
+                      <span>{getRoleTitle(demo.role, demo.roleTitle)}</span>
                     </div>
                   </td>
                   <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-slate-400 text-[11px] whitespace-nowrap">
@@ -52,7 +66,7 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
                       onClick={() => handleSelect(demo.role)}
                       className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#0B3D91] hover:bg-[#093278] text-white border border-[#07275f] transition-all shadow-xs shrink-0 whitespace-nowrap"
                     >
-                      <span>Authenticate</span>
+                      <span>{t('authenticateBtn')}</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   </td>

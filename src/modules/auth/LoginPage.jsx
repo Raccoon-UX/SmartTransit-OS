@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Lock, Mail, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
 import { Button } from '../../components/ui/Button.jsx';
 import { TextInput as Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
@@ -16,6 +17,7 @@ export function LoginPage({
   onLoginSuccess,
 }) {
   const { login, demoLogin, isLoading, authError } = useAuth();
+  const { t } = usePublicAccessibility();
 
   const [emailOrPhone, setEmailOrPhone] = useState('admin@smarttransit.city');
   const [password, setPassword] = useState('TransitPass@2026');
@@ -77,7 +79,7 @@ export function LoginPage({
             className="inline-flex items-center space-x-1.5 text-xs font-mono font-bold text-sky-400 hover:text-sky-300 hover:underline"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Return to Public Portal</span>
+            <span>{t('returnToPublicPortal')}</span>
           </button>
 
           <div className="flex items-center space-x-2 text-xs font-mono text-slate-300 font-bold">
@@ -90,21 +92,21 @@ export function LoginPage({
           {/* Top 3px Solid Institutional Accent Bar */}
           <div className="h-1.5 bg-[#0B3D91] w-full" />
 
-          {/* Portal Masthead Header with Larger Text & Larger MSRTC Logo 1 on Right */}
+          {/* Portal Masthead Header */}
           <div className="p-5 sm:p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between gap-4">
             <div className="flex items-center space-x-4 shrink-0">
               <img src={logoImg} alt="SmartTransit OS Logo" className="h-12 sm:h-14 w-auto max-w-[160px] object-contain shrink-0" />
               <div className="border-l border-slate-300 dark:border-slate-700 pl-4 shrink-0">
                 <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white font-sans whitespace-nowrap">
-                  SmartTransit OS Authorization Portal
+                  {t('authPortalTitle')}
                 </h1>
                 <p className="text-xs text-slate-600 dark:text-slate-400 font-sans">
-                  Government Transit Operations & Municipal Transport Authority
+                  {t('authPortalSub')}
                 </p>
               </div>
             </div>
 
-            {/* Right Side: Stacked Authentication Subsystem Text (Larger) + MSRTC Emblem Logo (Larger) */}
+            {/* Right Side: Stacked Authentication Subsystem Text + MSRTC Emblem Logo */}
             <div className="flex items-center space-x-3.5 shrink-0">
               <div className="text-right shrink-0 leading-snug">
                 <span className="block text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-[#0B3D91] dark:text-sky-400">
@@ -127,7 +129,7 @@ export function LoginPage({
           <div className="p-3 bg-amber-50 dark:bg-amber-950/40 border-b border-amber-300 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex items-center space-x-2.5 font-mono">
             <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
             <span>
-              <strong>DEMO SANDBOX DISCLOSURE:</strong> This environment provides pre-configured role profiles (Commuter, Driver, Administrator, SOC Analyst, AI Engineer) for evaluation purposes.
+              {t('demoSandboxNotice')}
             </span>
           </div>
 
@@ -136,10 +138,10 @@ export function LoginPage({
             <div className="lg:col-span-5 space-y-6">
               <div className="space-y-1">
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white font-sans">
-                  Sign In to Authorized Account
+                  {t('signInHeadline')}
                 </h2>
                 <p className="text-xs text-slate-600 dark:text-slate-400">
-                  Enter your official email or registered mobile number to access your portal.
+                  {t('signInDesc')}
                 </p>
               </div>
 
@@ -154,7 +156,7 @@ export function LoginPage({
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
-                  label="Official Email / Registered Mobile"
+                  label={t('officialEmailLabel')}
                   type="text"
                   placeholder="name@smarttransit.city"
                   value={emailOrPhone}
@@ -164,7 +166,7 @@ export function LoginPage({
                 />
 
                 <Input
-                  label="Account Password"
+                  label={t('passwordLabel')}
                   type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••••••"
                   value={password}
@@ -181,7 +183,7 @@ export function LoginPage({
                       onChange={(e) => setRememberMe(e.target.checked)}
                       className="rounded border-slate-300 text-[#0B3D91] focus:ring-[#0B3D91]"
                     />
-                    <span className="text-slate-700 dark:text-slate-300">Remember credentials on this terminal</span>
+                    <span className="text-slate-700 dark:text-slate-300">{t('rememberCredentials')}</span>
                   </label>
                   {onNavigateForgotPassword && (
                     <button
@@ -189,7 +191,7 @@ export function LoginPage({
                       onClick={onNavigateForgotPassword}
                       className="text-[#0B3D91] dark:text-sky-400 hover:underline font-semibold"
                     >
-                      Forgot password?
+                      {t('forgotPassword')}
                     </button>
                   )}
                 </div>
@@ -201,7 +203,7 @@ export function LoginPage({
                   isLoading={isLoading}
                   className="font-bold py-2.5"
                 >
-                  Sign In to Authorized Portal
+                  {t('signInBtn')}
                 </Button>
               </form>
             </div>
@@ -209,7 +211,7 @@ export function LoginPage({
             {/* Right Column: Structured Sandbox Role Profiles List (7/12 cols) */}
             <div className="lg:col-span-7 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-300 dark:border-slate-700 space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono border-b border-slate-300 dark:border-slate-700 pb-2">
-                Select Demo Role Profile (Instant Access)
+                {t('selectDemoProfile')}
               </h3>
               <DemoLoginPills onSelectRole={handleDemoSelect} isLoading={isLoading} />
             </div>
