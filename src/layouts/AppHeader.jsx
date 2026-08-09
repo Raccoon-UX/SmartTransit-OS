@@ -8,7 +8,8 @@ import {
   Command, 
   ChevronLeft, 
   ChevronRight,
-  Sliders
+  Sliders,
+  Shield
 } from 'lucide-react';
 import { useTheme } from '../design-system/context/ThemeContext.jsx';
 import { Button } from '../components/ui/Button.jsx';
@@ -34,18 +35,20 @@ export function AppHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-30 h-16 w-full border-b transition-colors duration-200 text-left',
-        'bg-white dark:bg-navy-900 border-[#E5E0D8] dark:border-slate-800',
+        'sticky top-0 z-30 w-full text-left bg-white dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800',
         className
       )}
     >
-      <div className="h-full px-4 sm:px-6 flex items-center justify-between gap-4">
-        {/* Left: Branding & Sidebar Toggle */}
+      {/* Top 3px Solid Institutional Accent Line */}
+      <div className="h-1 bg-[#0B3D91] w-full" />
+
+      <div className="h-15 px-4 sm:px-6 flex items-center justify-between gap-4 py-2">
+        {/* Left: Official Masthead Identity */}
         <div className="flex items-center space-x-3">
           <button
             type="button"
             onClick={onOpenMobileNav}
-            className="lg:hidden p-2 rounded-lg text-[#596273] dark:text-slate-300 hover:bg-[#F3F0E9] dark:hover:bg-navy-800"
+            className="lg:hidden p-1.5 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700"
             aria-label="Open Navigation"
           >
             <Menu className="w-5 h-5" />
@@ -54,60 +57,69 @@ export function AppHeader({
           <button
             type="button"
             onClick={onToggleSidebar}
-            className="hidden lg:flex p-1.5 rounded-lg text-[#596273] hover:text-[#172033] dark:text-slate-400 dark:hover:text-white hover:bg-[#F3F0E9] dark:hover:bg-navy-800 transition-colors"
+            className="hidden lg:flex p-1.5 rounded text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700"
             aria-label="Toggle Sidebar"
           >
-            {sidebarCollapsed ? <ChevronRight className="w-5 h-5" /> : <ChevronLeft className="w-5 h-5" />}
+            {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#1769D1] flex items-center justify-center text-white font-bold flex-shrink-0">
-              <Activity className="w-4 h-4 text-white" />
+          {/* Official Emblem & Platform Name */}
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded bg-[#0B3D91] flex items-center justify-center text-white font-bold flex-shrink-0 shadow-subtle">
+              <Shield className="w-5 h-5 text-white" />
             </div>
             <div className="hidden sm:block">
-              <span className="font-bold text-base tracking-tight text-[#172033] dark:text-white font-sans">
-                SmartTransit <span className="text-[#1769D1]">OS</span>
-              </span>
+              <div className="flex items-center space-x-2">
+                <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans">
+                  SmartTransit OS
+                </span>
+                <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
+                  GOVT DIGITAL SERVICE
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-sans leading-tight">
+                Municipal Transport Authority • Operational Control Portal
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Center: Global Search Input */}
+        {/* Center: Search Trigger (Flat Bordered) */}
         <div className="flex-1 max-w-md mx-2 sm:mx-6">
           <button
             type="button"
             onClick={onOpenSearch}
             className={cn(
-              'w-full flex items-center justify-between px-3.5 py-1.5 rounded-lg border text-xs transition-all',
-              'bg-[#F7F5F0] dark:bg-navy-950 border-[#E5E0D8] dark:border-slate-800 text-[#596273] dark:text-slate-400',
-              'hover:border-[#1769D1] dark:hover:border-slate-700 hover:bg-white dark:hover:bg-navy-900 focus:outline-none'
+              'w-full flex items-center justify-between px-3.5 py-1.5 rounded border text-xs transition-colors',
+              'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400',
+              'hover:border-[#0B3D91] dark:hover:border-slate-600 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
             )}
           >
             <div className="flex items-center space-x-2 truncate">
-              <Search className="w-4 h-4 text-[#596273] flex-shrink-0" />
-              <span className="truncate">Search buses, routes, stops...</span>
+              <Search className="w-4 h-4 text-slate-500 flex-shrink-0" />
+              <span className="truncate">Search buses, routes, terminals...</span>
             </div>
-            <kbd className="hidden sm:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-navy-800 border border-[#E5E0D8] dark:border-slate-700 text-[10px] font-mono text-[#596273] shadow-sm">
+            <kbd className="hidden sm:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono text-slate-500 shadow-subtle">
               <Command className="w-3 h-3 inline" />
               <span>K</span>
             </kbd>
           </button>
         </div>
 
-        {/* Right: System Status, Role Switcher, Notifications, Theme & Profile */}
+        {/* Right: Operational Status, Role Switcher, Notifications, Theme & Profile */}
         <div className="flex items-center space-x-2.5 sm:space-x-3">
           <div className="hidden md:block">
             <LiveSystemIndicator />
           </div>
 
           <Button
-            variant="ghost"
+            variant="outline"
             size="sm"
             onClick={() => setDemoModalOpen(true)}
-            className="hidden xl:inline-flex text-xs text-[#596273] dark:text-slate-300 border border-[#E5E0D8] dark:border-slate-800 rounded-lg"
+            className="hidden xl:inline-flex text-xs font-mono text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 rounded"
             leftIcon={Sliders}
           >
-            Demo Controls
+            Sandbox Controls
           </Button>
 
           <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
@@ -116,10 +128,10 @@ export function AppHeader({
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-[#596273] hover:text-[#172033] dark:text-slate-400 dark:hover:text-white hover:bg-[#F3F0E9] dark:hover:bg-navy-800 transition-colors"
+            className="p-1.5 rounded text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700"
             aria-label="Toggle Theme"
           >
-            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-[#596273]" />}
+            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
           </button>
 
           <ProfileMenu currentRole={currentRole} />

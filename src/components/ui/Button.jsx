@@ -3,8 +3,8 @@ import { Loader2 } from 'lucide-react';
 import { cn } from '../../utils/index.js';
 
 /**
- * SmartTransit OS — Enterprise Reusable Button Component
- * Supports 7 variants, 3 sizes, micro-hover motion, loading indicators, and full accessibility.
+ * SmartTransit OS — Government Service Solid Button Component
+ * Sharp-ish corners (6px), solid fills, zero gradients, zero bounce motion.
  */
 export function Button({
   children,
@@ -20,36 +20,36 @@ export function Button({
   onClick,
   ...props
 }) {
-  const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 ease-out select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none active:scale-[0.98] active:translate-y-0 hover:-translate-y-0.5';
+  const baseStyles = 'inline-flex items-center justify-center font-semibold transition-all duration-150 select-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed border';
 
   const variantStyles = {
-    // Primary Main Action CTA — SmartTransit Blue
-    primary: 'bg-transit-500 hover:bg-transit-600 text-white shadow-sm hover:shadow-md focus:ring-transit-400 border border-transit-400/30 dark:focus:ring-offset-navy-950 focus:ring-offset-white',
+    // Primary Main Action — Institutional Navy
+    primary: 'bg-[#0B3D91] hover:bg-[#093278] text-white border-[#07275f] focus:ring-[#0B3D91] shadow-subtle',
     
-    // Supporting Action — Slate / Subtle Surface
-    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-navy-850 dark:hover:bg-navy-800 dark:text-slate-200 border border-slate-300/80 dark:border-slate-700/80 focus:ring-slate-400 dark:focus:ring-offset-navy-950',
+    // Supporting Action — Flat Neutral Surface
+    secondary: 'bg-slate-200 hover:bg-slate-300 text-slate-900 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-100 border-slate-300 dark:border-slate-700 focus:ring-slate-400',
     
     // Low Emphasis Outline
-    outline: 'bg-transparent hover:bg-slate-100 dark:hover:bg-navy-850 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 focus:ring-transit-500 dark:focus:ring-offset-navy-950',
+    outline: 'bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-300 dark:border-slate-700 focus:ring-[#0B3D91]',
     
-    // Ghost / Text Action
-    ghost: 'bg-transparent hover:bg-slate-100 dark:hover:bg-navy-850 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:ring-slate-400 dark:focus:ring-offset-navy-950 hover:translate-y-0',
+    // Ghost Action
+    ghost: 'bg-transparent hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border-transparent focus:ring-slate-400',
     
-    // Danger / Removal / Emergency
-    destructive: 'bg-rose-600 hover:bg-rose-700 text-white shadow-sm focus:ring-rose-500 border border-rose-500/30 dark:focus:ring-offset-navy-950',
+    // Emergency / Destructive Action — Solid Red
+    destructive: 'bg-[#B91C1C] hover:bg-[#991b1b] text-white border-[#7f1d1d] focus:ring-rose-600 shadow-subtle',
     
-    // Confirmation / Activate / Resolve
-    success: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm focus:ring-emerald-500 border border-emerald-500/30 dark:focus:ring-offset-navy-950',
+    // Success Action — Solid Green
+    success: 'bg-[#15803D] hover:bg-[#166534] text-white border-[#14532d] focus:ring-emerald-600 shadow-subtle',
     
     // Compact Icon Action
-    icon: 'p-2 bg-transparent hover:bg-slate-100 dark:hover:bg-navy-850 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent hover:border-slate-300 dark:hover:border-slate-700 rounded-xl focus:ring-transit-500 dark:focus:ring-offset-navy-950',
+    icon: 'p-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 rounded-md focus:ring-[#0B3D91]',
   };
 
   const sizeStyles = {
-    sm: 'text-xs px-3 py-1.5 rounded-xl gap-1.5',
-    md: 'text-sm px-4 py-2 rounded-xl gap-2',
-    lg: 'text-base px-5 py-2.5 rounded-xl gap-2.5 font-semibold',
-    icon: 'p-2 rounded-xl',
+    sm: 'text-xs px-3 py-1.5 rounded-md gap-1.5',
+    md: 'text-sm px-4 py-2 rounded-md gap-2',
+    lg: 'text-base px-5 py-2.5 rounded-md gap-2.5 font-bold',
+    icon: 'p-2 rounded-md',
   };
 
   const currentSize = variant === 'icon' ? sizeStyles.icon : sizeStyles[size] || sizeStyles.md;

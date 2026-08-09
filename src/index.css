@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    --color-bg-primary: #F7F5F0;
+    --color-bg-primary: #F8FAFC;
     --color-bg-surface: #FFFFFF;
     --color-bg-card: #FFFFFF;
-    --color-border: #E5E0D8;
-    --color-text-primary: #172033;
-    --color-text-muted: #596273;
-    --color-accent: #1769D1;
+    --color-border: #CBD5E1;
+    --color-text-primary: #0F172A;
+    --color-text-muted: #475569;
+    --color-accent: #0B3D91;
   }
 
   .dark {
@@ -28,71 +28,80 @@
     color: var(--color-text-primary);
     font-family: Inter, system-ui, -apple-system, sans-serif;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    transition: background-color 200ms ease, color 200ms ease;
+  }
+
+  /* Accessibility Focus Rings */
+  *:focus-visible {
+    outline: 2px solid #0B3D91;
+    outline-offset: 2px;
   }
 }
 
-/* Custom warm scrollbar */
+/* Custom utilitarian scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(236, 232, 223, 0.5);
+  background: #F1F5F9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
-  border-radius: 9999px;
+  background: #94A3B8;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #64748B;
 }
 
-/* Enterprise Warm Surface Utilities */
-.warm-panel {
+/* Government Service Surface Utilities — Flat Opaque Panels */
+.govt-panel {
   background: #FFFFFF;
-  border: 1px solid #E5E0D8;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(23, 32, 51, 0.04);
+  border: 1px solid #CBD5E1;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
-/* Page View Transition */
+.govt-panel-dark {
+  background: #1E293B;
+  border: 1px solid #334155;
+  border-radius: 6px;
+}
+
+/* Page View Transition — Fast & Functional */
 .page-transition {
-  animation: pageFadeIn 220ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: pageFadeIn 180ms ease-out forwards;
 }
 
 @keyframes pageFadeIn {
   from {
-    opacity: 0.88;
-    transform: translateY(2px);
+    opacity: 0.92;
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
-/* Live Telemetry Pulse */
-@keyframes pulse-dot {
+/* Functional Live Marker Pulse */
+@keyframes functional-ping {
   0% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(33, 138, 99, 0.6);
+    transform: scale(1);
+    opacity: 0.8;
   }
   70% {
-    transform: scale(1);
-    box-shadow: 0 0 0 5px rgba(33, 138, 99, 0);
+    transform: scale(1.4);
+    opacity: 0;
   }
   100% {
-    transform: scale(0.95);
-    box-shadow: 0 0 0 0 rgba(33, 138, 99, 0);
+    transform: scale(1);
+    opacity: 0;
   }
 }
 
 .telemetry-live {
-  animation: pulse-dot 2s infinite;
+  animation: functional-ping 1.8s ease-in-out infinite;
 }
 
 /* Reduced Motion Override */

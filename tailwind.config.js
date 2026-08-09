@@ -8,33 +8,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        warm: {
-          50: '#F7F5F0',
-          100: '#F3F0E9',
-          200: '#ECE8DF',
-          border: '#E5E0D8',
-          text: '#172033',
-          muted: '#596273',
-        },
         transit: {
-          50: '#f0f7ff',
-          100: '#e0effe',
-          200: '#bae0fd',
-          300: '#7cc5fb',
-          400: '#36a5f7',
-          500: '#1769D1', // Primary municipal brand blue
-          600: '#1252A5',
-          700: '#0E3E7E',
-          800: '#092A56',
-          900: '#051833',
-          950: '#030E1F',
-        },
-        civic: {
-          teal: '#0E8F82',
-          orange: '#D97732',
-          green: '#218A63',
-          amber: '#C8891A',
-          red: '#C94A45',
+          50: '#eff6ff',
+          100: '#dbeafe',
+          200: '#bfdbfe',
+          300: '#93c5fd',
+          400: '#60a5fa',
+          500: '#0B3D91', // Institutional Deep Navy Primary
+          600: '#093278',
+          700: '#07275f',
+          800: '#051c46',
+          900: '#03112d',
+          950: '#020919',
         },
         navy: {
           800: '#0f172a',
@@ -42,15 +27,32 @@ export default {
           900: '#080d1a',
           950: '#040711',
         },
+        govt: {
+          navy: '#0B3D91',
+          gold: '#C59B27',
+          border: '#CBD5E1',
+          bg: '#F8FAFC',
+          card: '#FFFFFF',
+          text: '#0F172A',
+          muted: '#475569',
+        },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        display: ['Outfit', 'Inter', 'sans-serif'],
         mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
       },
+      borderRadius: {
+        'xs': '2px',
+        'sm': '4px',
+        'DEFAULT': '6px',
+        'md': '6px',
+        'lg': '8px',
+        'xl': '10px',
+        '2xl': '12px',
+      },
       boxShadow: {
-        'subtle': '0 1px 3px rgba(23, 32, 51, 0.05)',
-        'panel': '0 2px 6px rgba(23, 32, 51, 0.06)',
+        'subtle': '0 1px 2px 0 rgba(15, 23, 42, 0.05)',
+        'panel': '0 1px 3px 0 rgba(15, 23, 42, 0.08)',
       }
     },
   },
