@@ -37,7 +37,7 @@ export function AppHeader({
   return (
     <header
       className={cn(
-        'sticky top-0 z-30 w-full text-left bg-white dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 shadow-subtle overflow-x-hidden',
+        'sticky top-0 z-50 w-full text-left bg-white dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 shadow-subtle',
         className
       )}
     >
@@ -93,7 +93,7 @@ export function AppHeader({
           </div>
         </div>
 
-        {/* Center: Search Bar Trigger (Clearly Visible & Well-Proportioned) */}
+        {/* Center: Search Bar Trigger */}
         <div className="flex-1 min-w-[140px] max-w-xs sm:max-w-sm mx-1 sm:mx-2">
           <button
             type="button"
@@ -115,13 +115,13 @@ export function AppHeader({
           </button>
         </div>
 
-        {/* Right: Operational Controls & Language Switcher with Equal Spacing */}
+        {/* Right: Operational Controls & Language Switcher */}
         <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
           <div className="hidden 2xl:block">
             <LiveSystemIndicator />
           </div>
 
-          {/* Compact Vertically Stacked Sandbox Controls Button (Sandbox on Top, Controls on Bottom) */}
+          {/* Compact Vertically Stacked Sandbox Controls Button */}
           <button
             type="button"
             onClick={() => setDemoModalOpen(true)}
@@ -167,7 +167,7 @@ export function AppHeader({
             </button>
           </div>
 
-          {/* Compact Vertically Stacked Role Switcher */}
+          {/* Interactive Role Switcher Dropdown */}
           <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
 
           <NotificationCenter />
