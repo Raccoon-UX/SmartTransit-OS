@@ -11,11 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const loaderStepText = document.getElementById('loader-step-text');
 
   const loaderSteps = [
-    { p: 20, text: '01 — Loading platform' },
-    { p: 45, text: '02 — Loading modules' },
-    { p: 70, text: '03 — Loading architecture' },
-    { p: 88, text: '04 — Loading intelligence' },
-    { p: 100, text: '05 — Loading documentation' },
+    { p: 20, text: '01 — Loading Platform' },
+    { p: 45, text: '02 — Initializing 4 Role Portals' },
+    { p: 70, text: '03 — Loading 7-Layer Architecture' },
+    { p: 88, text: '04 — Calibrating AI Predictive Engine' },
+    { p: 100, text: '05 — Launching Engineering Documentation' },
   ];
 
   let currentStepIdx = 0;
@@ -23,9 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const preloaderInterval = setInterval(() => {
     if (currentStepIdx < loaderSteps.length) {
       const step = loaderSteps[currentStepIdx];
-      loaderBar.style.width = `${step.p}%`;
-      loaderPercent.textContent = `${step.p}%`;
-      loaderStepText.textContent = step.text;
+      if (loaderBar) loaderBar.style.width = `${step.p}%`;
+      if (loaderPercent) loaderPercent.textContent = `${step.p}%`;
+      if (loaderStepText) loaderStepText.textContent = step.text;
       currentStepIdx++;
     } else {
       clearInterval(preloaderInterval);
@@ -167,6 +167,38 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const renderRoleData = (roleKey) => {
+    const data = roleData[roleKey];
+    if (data && roleContent) {
+      roleContent.innerHTML = `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3 gap-2">
+          <div>
+            <h3 class="text-base font-extrabold text-slate-900 dark:text-white">${data.title}</h3>
+            <p class="text-xs text-slate-500 font-mono">${data.sub}</p>
+          </div>
+          <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-sky-400 font-mono font-bold text-xs self-start sm:self-auto">Role ID: ${data.id}</span>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs pt-1">
+          <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <span class="text-[10px] text-slate-500 uppercase font-bold block mb-1.5">Accessible Modules</span>
+            <ul class="space-y-1 text-slate-700 dark:text-slate-300 font-sans text-xs">
+              ${data.modules.map(m => `<li>${m}</li>`).join('')}
+            </ul>
+          </div>
+          <div class="p-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <span class="text-[10px] text-slate-500 uppercase font-bold block mb-1.5">Operational Privileges</span>
+            <ul class="space-y-1 text-slate-700 dark:text-slate-300 font-sans text-xs">
+              ${data.privileges.map(p => `<li>${p}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      `;
+    }
+  };
+
+  // Initial render default to Admin
+  renderRoleData('admin');
+
   roleTabs.forEach((tab) => {
     tab.addEventListener('click', () => {
       const selectedRole = tab.getAttribute('data-role');
@@ -178,37 +210,69 @@ document.addEventListener('DOMContentLoaded', () => {
       tab.classList.add('active', 'bg-[#B83E12]', 'text-white');
       tab.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
 
-      const data = roleData[selectedRole];
-      if (data && roleContent) {
-        roleContent.innerHTML = `
-          <div class="flex justify-between items-center border-b border-slate-200 dark:border-slate-700 pb-2">
-            <div>
-              <h3 class="text-base font-extrabold text-slate-900 dark:text-white">${data.title}</h3>
-              <p class="text-xs text-slate-500 font-mono">${data.sub}</p>
-            </div>
-            <span class="px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-sky-400 font-mono font-bold">Role ID: ${data.id}</span>
-          </div>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 font-mono text-xs">
-            <div>
-              <span class="text-[10px] text-slate-500 uppercase font-bold block mb-1">Accessible Modules</span>
-              <ul class="space-y-1 text-slate-700 dark:text-slate-300">
-                ${data.modules.map(m => `<li>${m}</li>`).join('')}
-              </ul>
-            </div>
-            <div>
-              <span class="text-[10px] text-slate-500 uppercase font-bold block mb-1">Operational Privileges</span>
-              <ul class="space-y-1 text-slate-700 dark:text-slate-300">
-                ${data.privileges.map(p => `<li>${p}</li>`).join('')}
-              </ul>
-            </div>
-          </div>
-        `;
-      }
+      renderRoleData(selectedRole);
     });
   });
 
   // ==========================================
-  // 5. INTERACTIVE LIGHTBOX PREVIEW MODAL
+  // 5. SEARCH MODAL (Ctrl + K)
+  // ==========================================
+  const searchBtn = document.getElementById('search-btn');
+  const searchModal = document.getElementById('search-modal');
+  const searchInput = document.getElementById('search-input');
+  const searchClose = document.getElementById('search-close');
+  const searchResults = document.getElementById('search-results');
+
+  const openSearch = () => {
+    if (searchModal) {
+      searchModal.classList.remove('hidden');
+      searchModal.classList.add('flex');
+      if (searchInput) searchInput.focus();
+    }
+  };
+
+  const closeSearch = () => {
+    if (searchModal) {
+      searchModal.classList.add('hidden');
+      searchModal.classList.remove('flex');
+    }
+  };
+
+  if (searchBtn) searchBtn.addEventListener('click', openSearch);
+  if (searchClose) searchClose.addEventListener('click', closeSearch);
+
+  if (searchModal) {
+    searchModal.addEventListener('click', (e) => {
+      if (e.target === searchModal) closeSearch();
+    });
+  }
+
+  // Keyboard shortcut Ctrl+K / Cmd+K
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  // Instant filter
+  if (searchInput && searchResults) {
+    const items = searchResults.querySelectorAll('div');
+    searchInput.addEventListener('input', (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      items.forEach((item) => {
+        const text = item.textContent.toLowerCase();
+        if (text.includes(q)) {
+          item.style.display = 'block';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    });
+  }
+
+  // ==========================================
+  // 6. INTERACTIVE LIGHTBOX PREVIEW MODAL
   // ==========================================
   const galleryCards = document.querySelectorAll('.gallery-card');
   const lightbox = document.getElementById('lightbox');
@@ -242,7 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Escape') {
+      closeLightbox();
+      closeSearch();
+    }
   });
 
 });
