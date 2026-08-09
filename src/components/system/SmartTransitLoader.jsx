@@ -57,9 +57,9 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
       <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs" />
 
       <div className="relative z-10 max-w-sm w-full space-y-6 text-center">
-        {/* Prominent Brand Logo Image */}
-        <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-white/10 dark:bg-slate-900/60 border border-white/20 backdrop-blur-md shadow-2xl">
-          <img src={logoImg} alt="SmartTransit OS Logo" className="h-12 w-auto object-contain" />
+        {/* Prominent Brand Logo Image in High-Contrast Crisp White Card Container */}
+        <div className="inline-flex items-center justify-center px-6 py-4 rounded-2xl bg-white shadow-2xl border border-slate-200 ring-4 ring-white/20">
+          <img src={logoImg} alt="SmartTransit OS Logo" className="h-14 sm:h-16 w-auto max-w-[200px] object-contain drop-shadow-xs" />
         </div>
 
         {/* Header Title */}
@@ -88,7 +88,7 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
         </div>
 
         {/* Milestone Checklist Items */}
-        <div className="space-y-2 pt-2 text-left bg-slate-900/70 p-4 rounded-xl border border-slate-800/80 backdrop-blur-xs">
+        <div className="space-y-2 pt-2 text-left bg-slate-900/80 p-4 rounded-xl border border-slate-800/80 backdrop-blur-xs">
           {CHECKLIST_ITEMS.map((item) => {
             const isDone = progress >= item.threshold;
             return (
