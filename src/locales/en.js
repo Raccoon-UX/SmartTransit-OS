@@ -32,22 +32,49 @@ export const en = {
   // Dropdown Sub-Items
   navAboutOverview: 'Overview & History',
   navAboutVision: 'Vision & Mission',
-  navAboutLeadership: 'Leadership & Management',
-  navAboutOrganisation: 'Organizational Structure',
+  navAboutHowItWorks: 'How SmartTransit Works',
+  navAboutBenefits: 'Public & Citizen Benefits',
   
-  navServicesLive: 'Live Bus Tracking',
-  navServicesPlanner: 'Route & Journey Planner',
-  navServicesStops: 'Digital Bus Stops',
-  navServicesFares: 'Fare & Schedule Info',
+  navRtiWhatIs: 'What is RTI?',
+  navRtiRights: "Citizen's Right to Information",
+  navRtiOfficer: 'Public Information Officer',
+  navRtiResources: 'RTI Official Resources',
+  
+  navActsMvAct: 'Motor Vehicles Act, 1988',
+  navActsRulesSub: 'Central Motor Vehicle Rules',
+  navActsSafety: 'Road & Traffic Safety Regulations',
+  navActsAdvisories: 'Public Transport Advisories',
+  
+  navTendersActive: 'Active Tenders (Demo)',
+  navTendersUpcoming: 'Upcoming Tenders (Demo)',
+  navTendersArchived: 'Archived Tenders',
+  
+  navFeedbackPassenger: 'Passenger Feedback',
+  navFeedbackIssue: 'Report Service Issue',
+  navFeedbackAccess: 'Accessibility Feedback',
+
+  navFaqsPassenger: 'Passenger FAQs',
+  navFaqsDriver: 'Driver & Operator FAQs',
+  navFaqsDigital: 'Digital Services FAQs',
+  navFaqsAccessibility: 'Accessibility FAQs',
+
+  navRecruitCareers: 'Current Opportunities (Demo)',
+  navRecruitDriver: 'Driver / Operator Careers',
+  navRecruitTech: 'Technical Careers',
+
+  navContactGeneral: 'General Enquiries',
+  navContactSupport: 'Passenger Support',
+  navContactTech: 'Technical Support',
   
   // Ticker
   tickerLabel: 'IMPORTANT INFORMATION:',
-  tickerMsg1: 'SmartTransit OS live transit services are operational across the metropolitan network.',
-  tickerMsg2: 'Route schedules may vary during severe weather conditions.',
-  tickerMsg3: 'Real-time ETA information is based on live telemetry.',
-  tickerMsg4: 'Passengers are advised to check service alerts before starting their journey.',
-  tickerMsg5: 'Digital bus stop information is updated continuously.',
-  
+  tickerMsg1: 'Public awareness: Always follow applicable traffic and passenger safety requirements.',
+  tickerMsg2: 'Check live service alerts before beginning your journey across the metropolitan corridor.',
+  tickerMsg3: 'Real-time ETA information is predictive and may change with live traffic conditions.',
+  tickerMsg4: 'Digital bus stop information is updated continuously using available transit data.',
+  tickerMsg5: 'Accessibility controls and text resizing are available from the top utility bar.',
+  tickerMsg6: 'Use official government sources for the latest laws, rules, and public notifications.',
+
   // Hero
   heroTag: 'MUNICIPAL PUBLIC TRANSPORTATION PORTAL',
   heroTitle: 'Making Public Transit Smarter for Everyone.',
@@ -61,4 +88,11 @@ export const en = {
   footerAboutDesc: 'Published by the Municipal Transport Corporation in coordination with City Urban Mobility Department. Provided as a public civic digital service for real-time bus tracking, route schedules, and transit operational oversight.',
   footerHelplineHeading: '24x7 Transit Helpline & Toll-Free',
   footerDisclaimer: 'SmartTransit OS — Demonstration & Prototype Platform. Not an official state government publication.',
+  
+  // General Labels
+  officialSource: 'Official Source',
+  publicAwarenessNotice: 'PUBLIC AWARENESS INFORMATION SUMMARY',
+  demoDataDisclaimer: 'PROTOTYPE DEMONSTRATION DATA • FOR EVALUATION ONLY',
+  learnMore: 'Learn More',
+  close: 'Close',
 };

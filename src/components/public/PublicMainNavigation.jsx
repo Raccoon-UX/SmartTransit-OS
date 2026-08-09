@@ -4,7 +4,7 @@ import { usePublicAccessibility } from '../../context/PublicAccessibilityContext
 import { useAuth } from '../../context/AuthContext.jsx';
 import { cn } from '../../utils/index.js';
 
-export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
+export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell, onOpenInfoModal }) {
   const { t } = usePublicAccessibility();
   const { user, isAuthenticated, logout } = useAuth();
 
@@ -12,42 +12,59 @@ export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   const navStructure = [
-    { id: 'home', label: t('navHome'), href: '#' },
+    { id: 'home', label: t('navHome'), type: null, href: '#' },
     {
       id: 'about',
       label: t('navAbout'),
+      type: 'about',
       href: '#about',
       children: [
-        { label: t('navAboutOverview'), href: '#about-overview' },
-        { label: t('navAboutVision'), href: '#about-vision' },
-        { label: t('navAboutLeadership'), href: '#about-leadership' },
-        { label: t('navAboutOrganisation'), href: '#about-org' },
+        { label: t('navAboutOverview'), type: 'about' },
+        { label: t('navAboutVision'), type: 'about' },
+        { label: t('navAboutHowItWorks'), type: 'about' },
+        { label: t('navAboutBenefits'), type: 'about' },
       ],
     },
-    { id: 'rti', label: t('navRti'), href: '#rti' },
+    {
+      id: 'rti',
+      label: t('navRti'),
+      type: 'rti',
+      href: '#rti',
+      children: [
+        { label: t('navRtiWhatIs'), type: 'rti' },
+        { label: t('navRtiRights'), type: 'rti' },
+        { label: t('navRtiOfficer'), type: 'rti' },
+        { label: t('navRtiResources'), type: 'rti' },
+      ],
+    },
     {
       id: 'acts',
       label: t('navActsRules'),
+      type: 'acts',
       href: '#acts',
       children: [
-        { label: 'Motor Vehicles Act 1988', href: '#act-mv' },
-        { label: 'State Transport Rules & Policies', href: '#act-[#0B3D91]' },
-        { label: 'Public Advisory Circulars 2026', href: '#act-circulars' },
+        { label: t('navActsMvAct'), type: 'acts' },
+        { label: t('navActsRulesSub'), type: 'acts' },
+        { label: t('navActsSafety'), type: 'acts' },
+        { label: t('navActsAdvisories'), type: 'acts' },
       ],
     },
-    { id: 'tenders', label: t('navTenders'), href: '#tenders' },
-    { id: 'feedback', label: t('navFeedback'), href: '#feedback' },
-    { id: 'faqs', label: t('navFaqs'), href: '#faqs' },
-    { id: 'recruitment', label: t('navRecruitment'), href: '#recruitment' },
-    { id: 'contact', label: t('navContact'), href: '#contact' },
+    { id: 'tenders', label: t('navTenders'), type: 'tenders', href: '#tenders' },
+    { id: 'feedback', label: t('navFeedback'), type: 'feedback', href: '#feedback' },
+    { id: 'faqs', label: t('navFaqs'), type: 'faqs', href: '#faqs' },
+    { id: 'recruitment', label: t('navRecruitment'), type: 'recruitment', href: '#recruitment' },
+    { id: 'contact', label: t('navContact'), type: 'contact', href: '#contact' },
   ];
 
-  const handleNavClick = (e, href) => {
-    if (href.startsWith('#')) {
-      e.preventDefault();
-      setMobileNavOpen(false);
-      setActiveDropdown(null);
-      const target = document.querySelector(href);
+  const handleNavClick = (e, item) => {
+    e.preventDefault();
+    setMobileNavOpen(false);
+    setActiveDropdown(null);
+
+    if (item.type && onOpenInfoModal) {
+      onOpenInfoModal(item.type);
+    } else if (item.href && item.href.startsWith('#')) {
+      const target = document.querySelector(item.href);
       if (target) {
         target.scrollIntoView({ behavior: 'smooth' });
       }
@@ -71,8 +88,8 @@ export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell
                 onMouseLeave={() => hasChildren && setActiveDropdown(null)}
               >
                 <a
-                  href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
+                  href={item.href || '#'}
+                  onClick={(e) => handleNavClick(e, item)}
                   className={cn(
                     'px-3 py-1.5 inline-flex items-center space-x-1 transition-colors uppercase tracking-wider text-[11px]',
                     item.id === 'home'
@@ -86,12 +103,12 @@ export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell
 
                 {/* Dropdown Menu (Clean White Traditional Menu) */}
                 {hasChildren && isOpen && (
-                  <div className="absolute top-full left-0 w-56 bg-white text-slate-900 shadow-xl border border-slate-300 rounded-b py-1 z-50 animate-in fade-in duration-150">
+                  <div className="absolute top-full left-0 w-60 bg-white text-slate-900 shadow-xl border border-slate-300 rounded-b py-1 z-50 animate-in fade-in duration-150">
                     {item.children.map((child, idx) => (
                       <a
                         key={idx}
-                        href={child.href}
-                        onClick={(e) => handleNavClick(e, child.href)}
+                        href="#"
+                        onClick={(e) => handleNavClick(e, child)}
                         className="block px-4 py-2 text-xs font-sans text-slate-700 hover:bg-slate-100 hover:text-[#B83E12] font-semibold border-b border-slate-100 last:border-0"
                       >
                         {child.label}
@@ -163,8 +180,8 @@ export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell
           {navStructure.map((item) => (
             <div key={item.id} className="space-y-1">
               <a
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
+                href={item.href || '#'}
+                onClick={(e) => handleNavClick(e, item)}
                 className="block py-1.5 text-xs font-bold text-amber-200 uppercase hover:text-white"
               >
                 {item.label}
@@ -174,8 +191,8 @@ export function PublicMainNavigation({ onOpenDemo, onOpenSignIn, onSwitchToShell
                   {item.children.map((child, idx) => (
                     <a
                       key={idx}
-                      href={child.href}
-                      onClick={(e) => handleNavClick(e, child.href)}
+                      href="#"
+                      onClick={(e) => handleNavClick(e, child)}
                       className="block py-1 text-[11px] text-slate-300 hover:text-white"
                     >
                       • {child.label}

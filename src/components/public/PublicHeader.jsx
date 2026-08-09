@@ -3,10 +3,13 @@ import { PublicUtilityBar } from './PublicUtilityBar.jsx';
 import { PublicBrandHeader } from './PublicBrandHeader.jsx';
 import { PublicMainNavigation } from './PublicMainNavigation.jsx';
 import { ImportantTicker } from './ImportantTicker.jsx';
+import { PublicInfoModal } from './PublicInfoModal.jsx';
 import { cn } from '../../utils/index.js';
 
 export function PublicHeader({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [infoModalOpen, setInfoModalOpen] = useState(false);
+  const [infoModalType, setInfoModalType] = useState('about');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,31 +19,46 @@ export function PublicHeader({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleOpenInfoModal = (type) => {
+    setInfoModalType(type);
+    setInfoModalOpen(true);
+  };
+
   return (
-    <header className="sticky top-0 z-50 w-full transition-all duration-200 shadow-md font-sans">
-      {/* Level 1: Utility Bar (Collapses smoothly on scroll) */}
-      <div
-        className={cn(
-          'transition-all duration-300 overflow-hidden',
-          isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-16 opacity-100'
-        )}
-      >
-        <PublicUtilityBar />
-      </div>
+    <>
+      <header className="sticky top-0 z-50 w-full transition-all duration-200 shadow-md font-sans">
+        {/* Level 1: Utility Bar (Collapses smoothly on scroll) */}
+        <div
+          className={cn(
+            'transition-all duration-300 overflow-hidden',
+            isScrolled ? 'max-h-0 opacity-0 py-0 border-none' : 'max-h-16 opacity-100'
+          )}
+        >
+          <PublicUtilityBar />
+        </div>
 
-      {/* Level 2: Brand & Identity Header */}
-      <PublicBrandHeader />
+        {/* Level 2: Brand & Identity Header */}
+        <PublicBrandHeader />
 
-      {/* Level 3: Main Navigation */}
-      <PublicMainNavigation
-        onOpenDemo={onOpenDemo}
-        onOpenSignIn={onOpenSignIn}
-        onSwitchToShell={onSwitchToShell}
+        {/* Level 3: Main Navigation */}
+        <PublicMainNavigation
+          onOpenDemo={onOpenDemo}
+          onOpenSignIn={onOpenSignIn}
+          onSwitchToShell={onSwitchToShell}
+          onOpenInfoModal={handleOpenInfoModal}
+        />
+
+        {/* Information Marquee Ticker */}
+        <ImportantTicker />
+      </header>
+
+      {/* Public Awareness Information Modal */}
+      <PublicInfoModal
+        isOpen={infoModalOpen}
+        type={infoModalType}
+        onClose={() => setInfoModalOpen(false)}
       />
-
-      {/* Information Marquee Ticker */}
-      <ImportantTicker />
-    </header>
+    </>
   );
 }
 

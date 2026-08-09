@@ -14,6 +14,7 @@ import { AiIntelligenceSection } from './sections/AiIntelligenceSection.jsx';
 import { SecurityScalabilitySection } from './sections/SecurityScalabilitySection.jsx';
 import { SocPreviewSection } from './sections/SocPreviewSection.jsx';
 import { ImpactMetricsSection } from './sections/ImpactMetricsSection.jsx';
+import { RoadSafetySection } from '../../components/public/RoadSafetySection.jsx';
 import { FinalCtaSection } from './sections/FinalCtaSection.jsx';
 
 export function LandingPage({ onSwitchToShell, onOpenSignIn }) {
@@ -81,7 +82,10 @@ export function LandingPage({ onSwitchToShell, onOpenSignIn }) {
       {/* 14. Impact Metrics (Benchmarked KPIs with Prototype Label) */}
       <ImpactMetricsSection />
 
-      {/* 15. Final CTA Banner ("Build a Smarter Transit Network.") */}
+      {/* 15. Road Safety & Passenger Etiquette Awareness */}
+      <RoadSafetySection />
+
+      {/* 16. Final CTA Banner ("Build a Smarter Transit Network.") */}
       <FinalCtaSection
         onExploreTransit={() => scrollTo('live-tracking')}
         onExplorePlatform={() => scrollTo('capabilities')}
