@@ -46,8 +46,8 @@ export function AppHeader({
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#B83E12] w-full" />
 
-      <div className="h-18 sm:h-20 px-3 sm:px-6 flex items-center justify-between gap-3 max-w-full">
-        {/* Left: Official Masthead Identity (Larger Dual Emblems + Stacked Title) */}
+      <div className="h-20 sm:h-22 px-3 sm:px-6 flex items-center justify-between gap-3 max-w-full">
+        {/* Left: Official Masthead Identity (Equal-Sized Dual Emblems + Stacked Title) */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0 min-w-0">
           <button
             type="button"
@@ -67,12 +67,20 @@ export function AppHeader({
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Larger Dual Emblem Logos (logo.png + msrtc logo1.png) & Stacked Title */}
+          {/* Equal Height Dual Emblem Logos (logo.png + msrtc logo1.png) & Stacked Title */}
           <div className="flex items-center space-x-3 shrink-0 min-w-0">
-            <div className="flex items-center space-x-2.5 shrink-0">
-              <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-12 w-auto max-w-[140px] object-contain shrink-0" />
-              <span className="text-slate-300 dark:text-slate-700 text-lg font-mono">|</span>
-              <img src={msrtcLogo1} alt="MSRTC Official Emblem" className="h-9 sm:h-11 w-auto max-w-[130px] object-contain shrink-0" />
+            <div className="flex items-center space-x-3 shrink-0">
+              <img
+                src={logoImg}
+                alt="SmartTransit OS Logo"
+                className="h-12 sm:h-14 w-auto max-w-[170px] object-contain shrink-0"
+              />
+              <span className="text-slate-300 dark:text-slate-700 text-xl font-mono">|</span>
+              <img
+                src={msrtcLogo1}
+                alt="MSRTC Official Emblem"
+                className="h-12 sm:h-14 w-auto max-w-[280px] object-contain shrink-0"
+              />
             </div>
 
             {/* Vertically Stacked Title (SmartTransit OS on Top, GOVT PORTAL on Bottom) */}
