@@ -46,8 +46,8 @@ export function AppHeader({
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#B83E12] w-full" />
 
-      <div className="h-16 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4 max-w-full">
-        {/* Left: Official Masthead Identity (Dual Emblem: logo.png + msrtc logo1.png) */}
+      <div className="h-18 sm:h-20 px-3 sm:px-6 flex items-center justify-between gap-3 max-w-full">
+        {/* Left: Official Masthead Identity (Larger Dual Emblems + Stacked Title) */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0 min-w-0">
           <button
             type="button"
@@ -67,41 +67,42 @@ export function AppHeader({
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Official Dual Emblem Logos (logo.png + msrtc logo1.png) & Title */}
-          <div className="flex items-center space-x-2.5 shrink-0 min-w-0">
-            <div className="flex items-center space-x-2 shrink-0">
-              <img src={logoImg} alt="SmartTransit OS Logo" className="h-8 sm:h-9 w-auto max-w-[110px] object-contain shrink-0" />
-              <span className="text-slate-300 dark:text-slate-700 text-sm font-mono">|</span>
-              <img src={msrtcLogo1} alt="MSRTC Official Emblem" className="h-7 sm:h-8 w-auto max-w-[100px] object-contain shrink-0" />
+          {/* Larger Dual Emblem Logos (logo.png + msrtc logo1.png) & Stacked Title */}
+          <div className="flex items-center space-x-3 shrink-0 min-w-0">
+            <div className="flex items-center space-x-2.5 shrink-0">
+              <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-12 w-auto max-w-[140px] object-contain shrink-0" />
+              <span className="text-slate-300 dark:text-slate-700 text-lg font-mono">|</span>
+              <img src={msrtcLogo1} alt="MSRTC Official Emblem" className="h-9 sm:h-11 w-auto max-w-[130px] object-contain shrink-0" />
             </div>
 
-            <div className="hidden sm:flex items-center space-x-2 border-l border-slate-300 dark:border-slate-700 pl-3 shrink-0 whitespace-nowrap">
-              <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
-                {t('platformTitle')}
+            {/* Vertically Stacked Title (SmartTransit OS on Top, GOVT PORTAL on Bottom) */}
+            <div className="hidden sm:flex flex-col justify-center border-l border-slate-300 dark:border-slate-700 pl-3 shrink-0 leading-tight">
+              <span className="font-extrabold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
+                SmartTransit <span className="text-[#B83E12] dark:text-amber-400">OS</span>
               </span>
-              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-amber-400 border border-slate-300 dark:border-slate-700 shrink-0 whitespace-nowrap">
+              <span className="text-[9px] sm:text-[10px] font-mono font-extrabold tracking-widest px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-amber-400 border border-slate-300 dark:border-slate-700 w-fit shrink-0 mt-0.5">
                 GOVT PORTAL
               </span>
             </div>
           </div>
         </div>
 
-        {/* Center: Search Trigger */}
-        <div className="flex-1 min-w-0 max-w-xs xl:max-w-md mx-1 sm:mx-4">
+        {/* Center: Search Bar Trigger (Clearly Visible & Well-Proportioned) */}
+        <div className="flex-1 min-w-[180px] max-w-xs sm:max-w-sm lg:max-w-md mx-2">
           <button
             type="button"
             onClick={onOpenSearch}
             className={cn(
-              'w-full flex items-center justify-between px-3 py-1.5 rounded border text-xs transition-colors',
-              'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400',
-              'hover:border-[#B83E12] dark:hover:border-amber-400 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
+              'w-full flex items-center justify-between px-3.5 py-2 rounded-lg border text-xs font-sans transition-all shadow-xs',
+              'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300',
+              'hover:border-[#B83E12] dark:hover:border-amber-400 hover:bg-white dark:hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-[#B83E12]'
             )}
           >
-            <div className="flex items-center space-x-2 truncate">
-              <Search className="w-4 h-4 text-slate-500 flex-shrink-0" />
-              <span className="truncate">{t('menuBusSearch')}</span>
+            <div className="flex items-center space-x-2.5 truncate">
+              <Search className="w-4 h-4 text-[#B83E12] dark:text-amber-400 flex-shrink-0" />
+              <span className="truncate font-medium">{t('menuBusSearch')}</span>
             </div>
-            <kbd className="hidden md:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono text-slate-500 shadow-subtle shrink-0">
+            <kbd className="hidden md:inline-flex items-center space-x-0.5 px-2 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[10px] font-mono text-slate-500 shadow-subtle shrink-0">
               <Command className="w-3 h-3 inline" />
               <span>K</span>
             </kbd>
@@ -109,8 +110,8 @@ export function AppHeader({
         </div>
 
         {/* Right: Operational Controls & Language Switcher */}
-        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
-          <div className="hidden xl:block">
+        <div className="flex items-center space-x-2 sm:space-x-2.5 shrink-0">
+          <div className="hidden 2xl:block">
             <LiveSystemIndicator />
           </div>
 
@@ -119,7 +120,7 @@ export function AppHeader({
             size="sm"
             leftIcon={Sliders}
             onClick={() => setDemoModalOpen(true)}
-            className="hidden md:inline-flex text-xs font-mono font-bold"
+            className="hidden xl:inline-flex text-xs font-mono font-bold"
           >
             Sandbox Controls
           </Button>
