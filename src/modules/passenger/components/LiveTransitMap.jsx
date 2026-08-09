@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Bus, MapPin, Navigation, Compass, Radio, Users, Filter, RotateCcw, X, Clock } from 'lucide-react';
+import { Bus, MapPin, Navigation, Compass, Radio, Users, Filter, RotateCcw, X, Clock, Share2, ZoomIn, ZoomOut } from 'lucide-react';
 import { MOCK_PASSENGER_BUSES } from '../../../data/passenger/mockBuses.js';
 import { MOCK_PASSENGER_STOPS } from '../../../data/passenger/mockStops.js';
+import { LocationShareModal } from '../../../components/maps/LocationShareModal.jsx';
 import { BusDetailCard } from './BusDetailCard.jsx';
 import { cn } from '../../../utils/index.js';
 
@@ -15,7 +16,8 @@ export function LiveTransitMap({
   const [selectedRouteFilter, setSelectedRouteFilter] = useState('ALL');
   const [selectedStatusFilter, setSelectedStatusFilter] = useState('ALL');
   const [activeBusId, setActiveBusId] = useState(selectedBusId);
-  const [userLocation, setUserLocation] = useState({ x: 32, y: 52 });
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+  const [busToShare, setBusToShare] = useState(null);
 
   // Simulate vehicle motion on controlled interval
   useEffect(() => {
@@ -51,177 +53,100 @@ export function LiveTransitMap({
     if (onSelectBus) onSelectBus(b);
   };
 
-  const handleRecenter = () => {
-    setUserLocation({ x: 32, y: 52 });
+  const handleOpenShare = (e, bus) => {
+    e.stopPropagation();
+    setBusToShare(bus || activeBus);
+    setShareModalOpen(true);
   };
 
   return (
     <div
       className={cn(
-        'relative w-full h-[520px] sm:h-[620px] rounded-3xl overflow-hidden border shadow-2xl transition-all duration-300 text-left',
-        'bg-slate-900 border-slate-700/80 dark:border-slate-800',
+        'relative w-full h-[520px] sm:h-[620px] rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-800 shadow-xl transition-all duration-300 text-left bg-[#E8ECEF] font-sans',
         className
       )}
     >
-      {/* City Road Network Grid */}
-      <svg className="absolute inset-0 w-full h-full opacity-20 pointer-events-none stroke-slate-500/40">
-        <defs>
-          <pattern id="passenger-map-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-            <path d="M 40 0 L 0 0 0 40" fill="none" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#passenger-map-grid)" />
-      </svg>
-
-      {/* Transit Route Vectors */}
+      {/* REALISTIC GOOGLE MAPS LIGHT THEME CANVAS */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        {/* RT-108 Coastal Express Vector */}
-        <path
-          d="M 60 140 Q 180 180, 260 260 T 480 320 T 720 400"
-          fill="none"
-          stroke="#0c87eb"
-          strokeWidth="4"
-          strokeDasharray="6 6"
-          className="opacity-70 animate-pulse"
-        />
-        {/* RT-204 Airport Link Vector */}
-        <path
-          d="M 120 420 Q 300 340, 440 220 T 680 140"
-          fill="none"
-          stroke="#06b6d4"
-          strokeWidth="3.5"
-          className="opacity-70"
-        />
-        {/* RT-302 CBD Feeder Vector */}
-        <path
-          d="M 220 80 Q 360 200, 480 360 T 620 460"
-          fill="none"
-          stroke="#10b981"
-          strokeWidth="3.5"
-          className="opacity-60"
-        />
+        <path d="M 0 0 L 140 0 Q 220 180, 180 340 T 240 600 L 0 600 Z" fill="#A5C9EB" />
+        <path d="M 680 40 Q 820 80, 960 160 L 960 40 Z" fill="#D2E8D4" />
+
+        {/* Secondary White Local Streets */}
+        <g stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="160" y1="120" x2="900" y2="120" />
+          <line x1="180" y1="240" x2="960" y2="240" />
+          <line x1="200" y1="360" x2="960" y2="360" />
+          <line x1="300" y1="40" x2="300" y2="560" />
+          <line x1="450" y1="40" x2="450" y2="560" />
+        </g>
+
+        {/* Google Maps Yellow Expressway */}
+        <path d="M 180 80 Q 320 220, 520 280 T 880 480" fill="none" stroke="#FFE082" strokeWidth="10" strokeLinecap="round" />
       </svg>
 
-      {/* Top Filter & Status Control Overlay */}
+      {/* Top Controls Overlay */}
       <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-auto">
-        <div className="flex flex-wrap items-center gap-1.5 p-1.5 rounded-2xl bg-slate-950/85 backdrop-blur-md border border-slate-700 shadow-md text-xs font-mono">
-          <span className="text-[10px] text-slate-400 px-2 font-bold uppercase">Route:</span>
-          {['ALL', 'RT-108', 'RT-204', 'RT-302', 'RT-415'].map((r) => (
-            <button
-              key={r}
-              type="button"
-              onClick={() => setSelectedRouteFilter(r)}
-              className={cn(
-                'px-2.5 py-1 rounded-xl transition-colors font-bold',
-                selectedRouteFilter === r
-                  ? 'bg-transit-500 text-white shadow-sm'
-                  : 'text-slate-400 hover:text-white hover:bg-slate-800'
-              )}
-            >
-              {r}
-            </button>
-          ))}
+        <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-xs font-mono font-bold text-slate-800 dark:text-slate-200 shadow-md">
+          <Radio className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+          <span>Live GPS Telemetry ({filteredBuses.length} Buses Active)</span>
         </div>
 
-        {/* Right Live Stream Status Badge & Recenter */}
-        <div className="flex items-center space-x-2">
-          <button
-            type="button"
-            onClick={handleRecenter}
-            className="p-2 rounded-xl bg-slate-950/85 backdrop-blur-md border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 transition-colors shadow flex items-center space-x-1 text-xs font-mono"
-            title="Recenter Map on Your Location"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Recenter</span>
-          </button>
-
-          <div className="hidden sm:flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-950/85 backdrop-blur-md border border-slate-700 text-[11px] font-mono text-emerald-400 shadow">
-            <span className="w-2 h-2 rounded-full bg-emerald-400 telemetry-live" />
-            <span>Simulated Transit Stream Active</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Bus Stop Markers */}
-      {MOCK_PASSENGER_STOPS.map((stop) => (
-        <div
-          key={stop.id}
-          className="absolute z-10 transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
-          style={{ left: `${stop.coordinates.x}%`, top: `${stop.coordinates.y}%` }}
+        {/* WhatsApp Location Export Button */}
+        <button
+          type="button"
+          onClick={(e) => handleOpenShare(e, activeBus)}
+          className="px-3.5 py-2 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold font-mono text-xs shadow-md inline-flex items-center space-x-1.5 border border-emerald-400"
         >
-          <div className="w-6 h-6 rounded-full bg-slate-950 border-2 border-slate-400 flex items-center justify-center text-slate-200 shadow-md group-hover:scale-125 transition-transform">
-            <MapPin className="w-3 h-3 text-transit-400" />
-          </div>
-          <div className="mt-1 px-2 py-0.5 rounded-md bg-slate-950/90 text-white text-[9px] font-mono font-semibold shadow opacity-75 group-hover:opacity-100 whitespace-nowrap border border-slate-800">
-            {stop.name}
-          </div>
-        </div>
-      ))}
-
-      {/* Passenger Commuter Location Pin */}
-      <div
-        className="absolute z-20 transform -translate-x-1/2 -translate-y-1/2"
-        style={{ left: `${userLocation.x}%`, top: `${userLocation.y}%` }}
-      >
-        <span className="absolute -inset-2 rounded-full bg-cyan-400/40 animate-ping pointer-events-none" />
-        <div className="w-5 h-5 rounded-full bg-cyan-500 border-2 border-white flex items-center justify-center text-white shadow-lg">
-          <Navigation className="w-2.5 h-2.5" />
-        </div>
-        <div className="mt-1 px-1.5 py-0.5 rounded bg-cyan-950/90 text-cyan-200 text-[8px] font-mono font-bold whitespace-nowrap shadow border border-cyan-700">
-          You are here
-        </div>
+          <Share2 className="w-4 h-4" />
+          <span>Export / Share on WhatsApp</span>
+        </button>
       </div>
 
-      {/* Moving Live Bus Markers */}
+      {/* Dynamic Moving Bus Markers */}
       {filteredBuses.map((bus) => {
         const coords = bus.dynamicCoords || bus.coordinates;
-        const isSelected = bus.id === activeBusId;
+        const isActive = bus.id === activeBusId;
 
         return (
           <div
             key={bus.id}
             onClick={() => handleBusClick(bus)}
-            className="absolute z-30 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-700 ease-out select-none"
+            className="absolute z-30 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer transition-all duration-300"
             style={{ left: `${coords.x}%`, top: `${coords.y}%` }}
           >
-            {/* GPS Pulse */}
-            <span className="absolute -inset-2 rounded-full bg-transit-500/40 animate-ping pointer-events-none" />
-
             <div
               className={cn(
-                'w-10 h-10 rounded-2xl flex items-center justify-center text-white font-bold transition-transform shadow-2xl border',
-                isSelected
-                  ? 'bg-transit-500 border-white scale-125 ring-4 ring-transit-500/40'
-                  : 'bg-transit-700 border-transit-400 hover:scale-110'
+                'flex items-center space-x-1.5 px-2.5 py-1 rounded-full shadow-lg border transition-all',
+                isActive
+                  ? 'bg-[#0B3D91] text-white border-amber-400 ring-4 ring-[#0B3D91]/30 scale-110'
+                  : 'bg-white text-slate-900 border-slate-400 font-bold hover:scale-105'
               )}
             >
-              <Bus className="w-5 h-5" />
-            </div>
-
-            {/* Floating Live Badge */}
-            <div className="mt-1.5 px-2 py-0.5 rounded-full bg-slate-950/95 border border-slate-700 text-white text-[10px] font-mono font-bold shadow-md flex items-center space-x-1 whitespace-nowrap">
-              <span>{bus.busNumber}</span>
-              <span className="text-emerald-400 font-normal">({bus.eta})</span>
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+              <Bus className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-xs font-mono font-bold">{bus.busNumber}</span>
             </div>
           </div>
         );
       })}
 
-      {/* Floating Selected Bus Detail Card Overlay (Bottom Left) */}
+      {/* Selected Bus Detail Card */}
       {activeBus && (
-        <div className="absolute bottom-4 left-4 z-40 max-w-sm w-full pointer-events-auto">
+        <div className="absolute bottom-4 left-4 right-4 sm:left-auto sm:right-4 sm:w-96 z-40">
           <BusDetailCard
             bus={activeBus}
+            onAddToFavorites={onAddToFavorites}
             onClose={() => setActiveBusId(null)}
-            onTrackOnMap={() => {
-              console.log('Tracking bus:', activeBus.busNumber);
-            }}
-            onAddToFavorites={() => {
-              if (onAddToFavorites) onAddToFavorites(activeBus);
-            }}
           />
         </div>
       )}
+
+      {/* WhatsApp Share Location Modal */}
+      <LocationShareModal
+        isOpen={shareModalOpen}
+        bus={busToShare}
+        onClose={() => setShareModalOpen(false)}
+      />
     </div>
   );
 }

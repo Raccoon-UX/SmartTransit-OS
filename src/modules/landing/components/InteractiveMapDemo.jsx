@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
-import { Shield } from 'lucide-react';
+import { Shield, Share2 } from 'lucide-react';
 import { BusCard } from '../../../components/cards/BusCard.jsx';
 import { WaypointNode } from '../../../components/maps/RoutePathPrimitives.jsx';
 import { GaugeDonut } from '../../../components/dataviz/GaugeDonut.jsx';
+import { LocationShareModal } from '../../../components/maps/LocationShareModal.jsx';
 import { cn } from '../../../utils/index.js';
 
 export function InteractiveMapDemo({ className = '' }) {
   const [selectedRoute, setSelectedRoute] = useState('RT-108');
+  const [shareModalOpen, setShareModalOpen] = useState(false);
+
+  const demoBusObj = {
+    id: 'Bus 245',
+    busNumber: 'Bus 245',
+    routeId: selectedRoute,
+    speed: 42,
+    status: 'ACTIVE',
+    lat: 19.0760,
+    lng: 72.8777,
+    nextStop: 'Western Highway Exchange',
+    nextStopEta: '2 mins',
+  };
 
   return (
     <div
       className={cn(
-        'p-5 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-left text-slate-900 dark:text-white space-y-4 shadow-subtle',
+        'p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-left text-slate-900 dark:text-white space-y-4 shadow-subtle',
         className
       )}
     >
@@ -27,14 +41,14 @@ export function InteractiveMapDemo({ className = '' }) {
           </p>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-wrap items-center gap-2">
           {['RT-108', 'RT-204', 'RT-302'].map((routeId) => (
             <button
               key={routeId}
               type="button"
               onClick={() => setSelectedRoute(routeId)}
               className={cn(
-                'text-xs font-mono font-bold px-3 py-1 rounded transition-colors',
+                'text-xs font-mono font-bold px-3 py-1.5 rounded-lg transition-colors',
                 selectedRoute === routeId
                   ? 'bg-[#0B3D91] text-white border border-[#07275f]'
                   : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700'
@@ -43,13 +57,23 @@ export function InteractiveMapDemo({ className = '' }) {
               {routeId}
             </button>
           ))}
+
+          {/* WhatsApp Location Share Button */}
+          <button
+            type="button"
+            onClick={() => setShareModalOpen(true)}
+            className="px-3.5 py-1.5 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold font-mono text-xs shadow inline-flex items-center space-x-1.5"
+          >
+            <Share2 className="w-3.5 h-3.5" />
+            <span>Share Location on WhatsApp</span>
+          </button>
         </div>
       </div>
 
       {/* Main Split Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         {/* Left 2 Cols: Waypoint Progression */}
-        <div className="lg:col-span-2 p-4 rounded bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 space-y-3">
+        <div className="lg:col-span-2 p-4 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 space-y-3">
           <div className="flex items-center justify-between border-b border-slate-300 dark:border-slate-800 pb-2">
             <span className="text-xs font-mono font-bold uppercase text-[#0B3D91] dark:text-sky-400">
               Active Corridor • {selectedRoute}
@@ -81,7 +105,7 @@ export function InteractiveMapDemo({ className = '' }) {
             nextStop="Western Highway Exchange"
           />
 
-          <div className="p-3 rounded bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 flex items-center justify-between">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 flex items-center justify-between">
             <div>
               <span className="text-[10px] font-mono text-slate-500 uppercase font-bold block">
                 Occupancy Gauge
@@ -93,6 +117,13 @@ export function InteractiveMapDemo({ className = '' }) {
           </div>
         </div>
       </div>
+
+      {/* WhatsApp Location Share Modal */}
+      <LocationShareModal
+        isOpen={shareModalOpen}
+        bus={demoBusObj}
+        onClose={() => setShareModalOpen(false)}
+      />
     </div>
   );
 }
