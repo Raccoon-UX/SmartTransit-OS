@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { Users, Navigation, Bus, Terminal, ChevronDown, Check } from 'lucide-react';
+import { Users, Navigation, Bus, Terminal, ChevronDown, Check, Sparkles } from 'lucide-react';
 import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
 import { cn } from '../../utils/index.js';
 
 export const AVAILABLE_ROLES = [
   {
-    id: 'passenger',
-    name: 'Passenger',
-    code: 'PASSENGER',
-    description: 'Live bus tracking, ETA countdowns, route schedules, favorites',
-    icon: Navigation,
-    color: 'text-sky-500 bg-sky-500/10 border-sky-500/30',
+    id: 'admin',
+    name: 'Transport Admin',
+    code: 'TRANSPORT_ADMIN',
+    description: 'Fleet orchestration, dispatch, driver rosters, analytics',
+    icon: Users,
+    color: 'text-[#B83E12] bg-[#B83E12]/10 border-[#B83E12]/30',
   },
   {
     id: 'driver',
@@ -21,20 +21,28 @@ export const AVAILABLE_ROLES = [
     color: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
   },
   {
-    id: 'admin',
-    name: 'Transport Admin',
-    code: 'TRANSPORT_ADMIN',
-    description: 'Fleet orchestration, dispatch, driver rosters, analytics',
-    icon: Users,
-    color: 'text-[#B83E12] bg-[#B83E12]/10 border-[#B83E12]/30',
+    id: 'passenger',
+    name: 'Daily Commuter',
+    code: 'PASSENGER',
+    description: 'Live bus tracking, ETA countdowns, route schedules, favorites',
+    icon: Navigation,
+    color: 'text-sky-500 bg-sky-500/10 border-sky-500/30',
   },
   {
-    id: 'systemAdmin',
-    name: 'System / SOC Admin',
+    id: 'soc',
+    name: 'SOC Infra Architect',
     code: 'SYSTEM_ADMIN',
     description: 'Infrastructure health, GPS ingestion streams, WebSocket cluster',
     icon: Terminal,
     color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/30',
+  },
+  {
+    id: 'ai',
+    name: 'AI Transit Engineer',
+    code: 'AI_ENGINEER',
+    description: 'Predictive ETA models, occupancy forecasting, demand intelligence',
+    icon: Sparkles,
+    color: 'text-purple-500 bg-purple-500/10 border-purple-500/30',
   },
 ];
 
@@ -42,11 +50,15 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
   const [isOpen, setIsOpen] = useState(false);
   const { t } = usePublicAccessibility();
 
-  const activeRoleData = AVAILABLE_ROLES.find((r) => r.id === currentRole) || AVAILABLE_ROLES[2];
+  const activeRoleData =
+    AVAILABLE_ROLES.find((r) => r.id === currentRole || (currentRole === 'systemAdmin' && r.id === 'soc')) ||
+    AVAILABLE_ROLES[0];
   const Icon = activeRoleData.icon;
 
   const handleSelect = (roleId) => {
-    onRoleChange(roleId);
+    if (onRoleChange) {
+      onRoleChange(roleId);
+    }
     setIsOpen(false);
   };
 
@@ -55,20 +67,22 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
       passenger: 'roleCommuter',
       driver: 'roleDriver',
       admin: 'roleAdmin',
+      soc: 'roleSoc',
       systemAdmin: 'roleSoc',
+      ai: 'roleAi',
     };
     const key = roleMap[roleId];
     return key ? t(key) : defaultName;
   };
 
   return (
-    <div className={cn('relative shrink-0', className)}>
+    <div className={cn('relative shrink-0 z-50', className)}>
       {/* Compact Stacked Vertical Button (Role: on Top, Transport Admin on Bottom) */}
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
-          'flex items-center space-x-1.5 px-2.5 py-1 rounded-lg border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-xs',
+          'flex items-center space-x-1.5 px-2.5 py-1 rounded-lg border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-xs cursor-pointer',
           'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700',
           'hover:border-[#B83E12] dark:hover:border-amber-400 focus:outline-none'
         )}
@@ -85,7 +99,7 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
         <ChevronDown className={cn('w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-150', isOpen && 'rotate-180')} />
       </button>
 
-      {/* Role Switcher Menu */}
+      {/* Role Switcher Menu (Opens clean dropdown with all 5 role options) */}
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
@@ -102,7 +116,7 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
             <div className="space-y-1">
               {AVAILABLE_ROLES.map((role) => {
                 const RoleIcon = role.icon;
-                const isCurrent = role.id === currentRole;
+                const isCurrent = role.id === activeRoleData.id;
 
                 return (
                   <button
@@ -110,7 +124,7 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
                     type="button"
                     onClick={() => handleSelect(role.id)}
                     className={cn(
-                      'w-full flex items-start space-x-3 p-2 rounded-xl text-left transition-colors',
+                      'w-full flex items-start space-x-3 p-2 rounded-xl text-left transition-colors cursor-pointer',
                       isCurrent
                         ? 'bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700'
                         : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 border border-transparent'

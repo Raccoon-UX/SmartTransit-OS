@@ -105,7 +105,7 @@ export function AppSidebar({
   return (
     <aside
       className={cn(
-        'hidden lg:flex flex-col justify-between h-[calc(100vh-5rem)] sticky top-18 sm:top-20 border-r transition-all duration-200 select-none text-left',
+        'hidden lg:flex flex-col justify-between h-[calc(100vh-5rem)] border-r transition-all duration-200 select-none text-left shrink-0',
         'bg-[#F7F5F0] dark:bg-navy-900 border-[#E5E0D8] dark:border-slate-800',
         collapsed ? 'w-16' : 'w-64',
         className
