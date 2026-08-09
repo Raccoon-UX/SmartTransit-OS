@@ -67,7 +67,7 @@ export function LoginPage({
         <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-xs" />
       </div>
 
-      {/* Foreground Content Container (Expanded Max Width for Full Table Visibility) */}
+      {/* Foreground Content Container */}
       <div className="relative z-10 max-w-6xl xl:max-w-7xl mx-auto w-full">
         {/* Top Bar Navigation */}
         <div className="w-full mb-4 flex items-center justify-between bg-slate-900/80 backdrop-blur-md p-3 rounded-lg border border-slate-700/60 text-white shadow-md">
@@ -90,10 +90,10 @@ export function LoginPage({
           {/* Top 3px Solid Institutional Accent Bar */}
           <div className="h-1.5 bg-[#0B3D91] w-full" />
 
-          {/* Portal Masthead Header with Stacked Subsystem Text + MSRTC Logo 1 on Right */}
+          {/* Portal Masthead Header with Larger Text & Larger MSRTC Logo 1 on Right */}
           <div className="p-5 sm:p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between gap-4">
             <div className="flex items-center space-x-4 shrink-0">
-              <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-12 w-auto max-w-[150px] object-contain shrink-0" />
+              <img src={logoImg} alt="SmartTransit OS Logo" className="h-12 sm:h-14 w-auto max-w-[160px] object-contain shrink-0" />
               <div className="border-l border-slate-300 dark:border-slate-700 pl-4 shrink-0">
                 <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white font-sans whitespace-nowrap">
                   SmartTransit OS Authorization Portal
@@ -104,21 +104,21 @@ export function LoginPage({
               </div>
             </div>
 
-            {/* Right Side: Stacked Authentication Subsystem Text + MSRTC Emblem Logo */}
-            <div className="flex items-center space-x-3 shrink-0">
-              <div className="text-right font-mono font-bold shrink-0 leading-tight">
-                <span className="block text-[11px] uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            {/* Right Side: Stacked Authentication Subsystem Text (Larger) + MSRTC Emblem Logo (Larger) */}
+            <div className="flex items-center space-x-3.5 shrink-0">
+              <div className="text-right shrink-0 leading-snug">
+                <span className="block text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-[#0B3D91] dark:text-sky-400">
                   Authentication
                 </span>
-                <span className="block text-xs text-slate-800 dark:text-slate-200">
+                <span className="block text-sm sm:text-base font-sans font-extrabold text-slate-900 dark:text-white">
                   Subsystem
                 </span>
               </div>
-              <span className="text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
+              <span className="text-slate-300 dark:text-slate-700 text-2xl sm:text-3xl font-mono shrink-0">|</span>
               <img
                 src={msrtcLogo1}
                 alt="MSRTC Official Emblem"
-                className="h-11 sm:h-13 w-auto max-w-[180px] object-contain shrink-0"
+                className="h-16 sm:h-20 w-auto max-w-[280px] object-contain shrink-0"
               />
             </div>
           </div>
