@@ -1,5 +1,7 @@
 import React from 'react';
+import { Eye } from 'lucide-react';
 import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
+import { cn } from '../../utils/index.js';
 
 import logoImg from '../../assets/logo.png';
 import msrtcLogo1 from '../../assets/msrtc logo1.png';
@@ -9,54 +11,43 @@ import msrtcLogo from '../../assets/msrtc logo.png';
 import tmtLogo from '../../assets/TMT_logo.png';
 
 export function PublicBrandHeader() {
-  const { t } = usePublicAccessibility();
+  const {
+    language,
+    toggleLanguage,
+    highContrast,
+    toggleHighContrast,
+    t,
+  } = usePublicAccessibility();
 
   return (
-    <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-3 px-4 sm:px-6 text-left select-none">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Left Side: Web App Logo + MSRTC Logo 1 + Title & Subtitle */}
+    <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-3.5 px-4 sm:px-6 text-left select-none font-sans">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
+        {/* Left Side: Dual Emblem Logos with Larger MSRTC Emblem (No Text Block) */}
         <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
-          {/* Dual Emblem Logos: SmartTransit OS logo + MSRTC Logo 1 */}
-          <div className="flex items-center space-x-2 shrink-0">
-            <img
-              src={logoImg}
-              alt="SmartTransit OS Logo"
-              className="h-10 sm:h-12 w-auto max-w-[130px] object-contain shrink-0"
-            />
-            <span className="text-slate-300 dark:text-slate-700 text-lg font-mono">|</span>
-            <img
-              src={msrtcLogo1}
-              alt="MSRTC Official Emblem"
-              className="h-9 sm:h-11 w-auto max-w-[120px] object-contain shrink-0"
-            />
-          </div>
-
-          {/* Title & Subtitle */}
-          <div className="border-l border-slate-300 dark:border-slate-700 pl-3 sm:pl-4">
-            <div className="flex items-center space-x-2">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight leading-none">
-                {t('platformTitle')}
-              </h1>
-              <span className="text-[9px] font-mono font-bold uppercase px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-sky-400 border border-slate-300 dark:border-slate-700 whitespace-nowrap">
-                GOVT PORTAL
-              </span>
-            </div>
-            <p className="text-xs text-slate-600 dark:text-slate-400 font-sans mt-0.5 leading-tight">
-              {t('platformSubtitle')}
-            </p>
-          </div>
+          <img
+            src={logoImg}
+            alt="SmartTransit OS Logo"
+            className="h-10 sm:h-12 w-auto max-w-[140px] object-contain shrink-0"
+          />
+          <span className="text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
+          <img
+            src={msrtcLogo1}
+            alt="MSRTC Official Emblem"
+            className="h-14 sm:h-16 w-auto max-w-[220px] object-contain shrink-0"
+          />
         </div>
 
-        {/* Right Side: Transit Network Partners Logos */}
-        <div className="hidden lg:flex items-center space-x-3 shrink-0 border-l border-slate-200 dark:border-slate-800 pl-4">
-          <div className="text-right">
-            <span className="block text-[10px] font-mono font-bold uppercase text-slate-500 tracking-wider">
-              {t('transitPartners')}
-            </span>
-            <span className="block text-[9px] text-slate-400 font-sans">Connected Transport Network</span>
-          </div>
-
-          <div className="flex items-center space-x-2.5 bg-slate-50 dark:bg-slate-800/60 p-1.5 rounded border border-slate-200 dark:border-slate-700">
+        {/* Right Side: Transit Network Partners + High Contrast + English/Marathi Switcher (Equal Spacing) */}
+        <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 sm:gap-4 shrink-0">
+          {/* Transit Network Partners Logo Box */}
+          <div className="flex items-center space-x-2.5 bg-slate-50 dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
+            <div className="text-right pr-1">
+              <span className="block text-[10px] font-mono font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider">
+                {t('transitPartners')}
+              </span>
+              <span className="block text-[9px] text-slate-400 font-sans">Connected Network</span>
+            </div>
+            <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
             <img
               src={bestLogo}
               alt="BEST Undertaking Logo"
@@ -77,6 +68,55 @@ export function PublicBrandHeader() {
               title="Thane Municipal Transport (TMT)"
               className="h-8 w-auto object-contain shrink-0 px-1"
             />
+          </div>
+
+          <span className="hidden sm:inline text-slate-300 dark:text-slate-700 text-sm font-mono shrink-0">|</span>
+
+          {/* High Contrast Toggle Button */}
+          <button
+            type="button"
+            onClick={toggleHighContrast}
+            className={cn(
+              'px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all flex items-center space-x-1.5 shrink-0 shadow-xs',
+              highContrast
+                ? 'bg-amber-400 text-slate-950 border-amber-300 font-black'
+                : 'border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
+            )}
+            title="Toggle High Contrast Mode"
+          >
+            <Eye className="w-4 h-4 text-[#B83E12] dark:text-amber-400 inline shrink-0" />
+            <span>{t('highContrast')}</span>
+          </button>
+
+          <span className="hidden sm:inline text-slate-300 dark:text-slate-700 text-sm font-mono shrink-0">|</span>
+
+          {/* Language Switcher (English | मराठी) */}
+          <div className="flex items-center space-x-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 font-mono text-xs">
+            <button
+              type="button"
+              onClick={() => toggleLanguage('en')}
+              className={cn(
+                'px-2.5 py-1 rounded-lg text-xs font-bold transition-colors leading-none',
+                language === 'en'
+                  ? 'bg-[#B83E12] text-white shadow-xs font-black'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              English
+            </button>
+            <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
+            <button
+              type="button"
+              onClick={() => toggleLanguage('mr')}
+              className={cn(
+                'px-2.5 py-1 rounded-lg text-xs font-bold transition-colors font-sans leading-none',
+                language === 'mr'
+                  ? 'bg-[#B83E12] text-white shadow-xs font-black'
+                  : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              )}
+            >
+              मराठी
+            </button>
           </div>
         </div>
       </div>
