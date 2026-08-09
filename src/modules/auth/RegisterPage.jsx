@@ -6,6 +6,7 @@ import { TextInput as Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { PasswordStrength } from '../../components/auth/PasswordStrength.jsx';
 import { cn } from '../../utils/index.js';
+import publicBusBg from '../../assets/PublicBus.webp';
 
 export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSuccess }) {
   const { register, isLoading, authError } = useAuth();
@@ -59,67 +60,56 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-50 dark:bg-navy-950 text-slate-900 dark:text-white flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen w-full text-slate-900 dark:text-white flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 bg-slate-950 overflow-hidden">
+      {/* Background Image PublicBus.webp */}
+      <div
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 scale-105 transition-transform duration-1000"
+        style={{ backgroundImage: `url(${publicBusBg})` }}
+      >
+        <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-xs" />
+      </div>
+
       {/* Top Bar */}
-      <div className="max-w-xl mx-auto w-full mb-4 flex items-center justify-between">
+      <div className="relative z-10 max-w-xl mx-auto w-full mb-4 flex items-center justify-between bg-slate-900/80 backdrop-blur-md p-3 rounded-lg border border-slate-700/60 text-white">
         <button
           type="button"
           onClick={onNavigateHome}
-          className="inline-flex items-center space-x-1.5 text-xs font-mono font-bold text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+          className="inline-flex items-center space-x-1.5 text-xs font-mono font-bold text-sky-400 hover:text-sky-300 transition-colors"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Landing Website</span>
+          <span>Return to Portal</span>
         </button>
 
-        <span className="text-xs font-mono text-transit-500 font-bold">
-          Passenger Registration
-        </span>
+        <div className="flex items-center space-x-2 text-xs font-mono text-slate-300 font-bold">
+          <span>Registration Protocol</span>
+        </div>
       </div>
 
-      <div className="max-w-xl mx-auto w-full bg-white dark:bg-navy-900 rounded-3xl border border-slate-200 dark:border-slate-800 p-6 sm:p-10 shadow-xl text-left space-y-6">
-        {/* Header */}
-        <div className="space-y-2">
-          <div className="flex items-center space-x-2.5">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-transit-500 to-transit-700 flex items-center justify-center text-white shadow-glow-sm">
-              <Activity className="w-5 h-5" />
-            </div>
-            <span className="font-extrabold text-xl tracking-tight text-slate-900 dark:text-white font-sans">
-              SmartTransit <span className="text-transit-500">OS</span>
-            </span>
-          </div>
-
-          <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight pt-2">
-            Create a Passenger Account
+      {/* Main Container */}
+      <div className="relative z-10 max-w-xl mx-auto w-full bg-white dark:bg-navy-900 rounded-xl border border-slate-300 dark:border-navy-700 shadow-2xl p-6 sm:p-8 space-y-6">
+        <div className="space-y-1">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-white font-sans">
+            Create Authorized Commuter Profile
           </h1>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
-            Sign up to track live city buses, save favorite routes, plan multi-hop journeys, and receive delay alerts.
+          <p className="text-xs text-slate-600 dark:text-slate-400">
+            Register for a single sign-on citizen mobility account.
           </p>
         </div>
 
-        {/* Security / Role Notice */}
-        <div className="p-3 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-1">
-          <div className="flex items-center space-x-1.5 font-bold text-slate-900 dark:text-slate-200">
-            <ShieldCheck className="w-4 h-4 text-emerald-500" />
-            <span>Role-Based Access Notice</span>
-          </div>
-          <p className="text-[11px] leading-relaxed">
-            Public registration creates a <strong>Passenger</strong> profile. Driver and Administrator accounts are provisioned directly by the Municipal Transport Authority.
-          </p>
-        </div>
-
-        {/* Error Banner */}
         {(localError || authError) && (
-          <Alert variant="danger" title="Registration Error">
-            {localError || authError}
-          </Alert>
+          <Alert
+            type="critical"
+            title="Registration Error"
+            message={localError || authError}
+            onClose={() => setLocalError(null)}
+          />
         )}
 
-        {/* Registration Form */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <Input
             label="Full Legal Name"
             type="text"
-            placeholder="e.g. Aarav Sharma"
+            placeholder="First and Last Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
             leftIcon={User}
@@ -130,17 +120,16 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
             <Input
               label="Email Address"
               type="email"
-              placeholder="aarav@gmail.com"
+              placeholder="commuter@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               leftIcon={Mail}
               required
             />
-
             <Input
               label="Mobile Number"
               type="tel"
-              placeholder="+91 98200 00000"
+              placeholder="+91 98765 43210"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               leftIcon={Phone}
@@ -148,33 +137,25 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
             />
           </div>
 
-          <div className="space-y-1 text-left">
-            <label className="text-xs font-semibold text-slate-700 dark:text-slate-300">Create Password</label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
-                <Lock className="w-4 h-4" />
-              </div>
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Minimum 8 characters"
-                className={cn(
-                  'w-full pl-10 pr-10 py-2.5 rounded-xl border text-sm transition-all focus:outline-none focus:ring-2',
-                  'bg-white dark:bg-navy-950 text-slate-900 dark:text-white border-slate-300 dark:border-slate-700 focus:ring-transit-500'
-                )}
-                required
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
-              >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-
-            {/* Reusable Password Strength Indicator */}
+          <div className="space-y-2">
+            <Input
+              label="Account Password"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Minimum 8 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              leftIcon={Lock}
+              rightIcon={
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              }
+              required
+            />
             <PasswordStrength password={password} />
           </div>
 
@@ -188,47 +169,38 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
             required
           />
 
-          {/* Terms Acceptance */}
-          <div className="flex items-start space-x-2 text-xs text-slate-600 dark:text-slate-400 pt-1">
+          <div className="flex items-start space-x-2 pt-2">
             <input
               type="checkbox"
               id="terms"
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
-              className="mt-0.5 rounded text-transit-500 focus:ring-transit-500"
+              className="mt-0.5 rounded border-slate-300 text-sky-600 focus:ring-sky-500"
             />
-            <label htmlFor="terms" className="cursor-pointer leading-relaxed">
-              I agree to the SmartTransit OS{' '}
-              <a href="#" className="text-transit-500 underline font-semibold">
-                Terms of Service
-              </a>{' '}
-              and Privacy Policy for smart urban mobility.
+            <label htmlFor="terms" className="text-xs text-slate-600 dark:text-slate-400">
+              I accept the SmartTransit OS Terms of Service and Privacy Policy.
             </label>
           </div>
 
-          {/* Submit Button */}
           <Button
             type="submit"
             variant="primary"
-            size="lg"
             fullWidth
             isLoading={isLoading}
-            rightIcon={ArrowRight}
-            className="mt-4 shadow-glow"
+            className="font-bold py-2.5"
           >
-            Create Passenger Account
+            Complete Registration
           </Button>
         </form>
 
-        {/* Existing User Login Link */}
-        <div className="pt-2 text-center text-xs text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
-          Already have an account?{' '}
+        <div className="text-center text-xs text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-navy-800 pt-4">
+          Already have an authorized profile?{' '}
           <button
             type="button"
             onClick={onNavigateLogin}
-            className="text-transit-500 hover:text-transit-600 font-bold ml-1"
+            className="text-sky-600 dark:text-sky-400 font-semibold hover:underline"
           >
-            Sign In Here
+            Sign in here
           </button>
         </div>
       </div>
