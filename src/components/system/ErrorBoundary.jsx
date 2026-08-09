@@ -1,5 +1,6 @@
 import React from 'react';
-import { Shield, RotateCcw, Home, PhoneCall } from 'lucide-react';
+import { RotateCcw, Home, PhoneCall } from 'lucide-react';
+import logoImg from '../../assets/logo.png';
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -31,9 +32,7 @@ export class ErrorBoundary extends React.Component {
 
             <div className="p-6 sm:p-8 space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded bg-[#B91C1C] flex items-center justify-center text-white shrink-0 font-bold">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
+                <img src={logoImg} alt="SmartTransit OS Logo" className="w-10 h-10 object-contain shrink-0" />
                 <div>
                   <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-rose-100 text-rose-900 border border-rose-300 uppercase">
                     SERVICE TEMPORARILY UNAVAILABLE

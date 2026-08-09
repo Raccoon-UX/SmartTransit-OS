@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Shield, Lock, Mail, ArrowLeft, AlertCircle } from 'lucide-react';
+import { Lock, Mail, ArrowLeft, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { Button } from '../../components/ui/Button.jsx';
 import { TextInput as Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { DemoLoginPills } from '../../components/auth/DemoLoginPills.jsx';
+import logoImg from '../../assets/logo.png';
 
 export function LoginPage({
   onNavigateRegister,
@@ -80,9 +81,7 @@ export function LoginPage({
         {/* Portal Masthead Header */}
         <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded bg-[#0B3D91] flex items-center justify-center text-white font-bold shrink-0">
-              <Shield className="w-6 h-6 text-white" />
-            </div>
+            <img src={logoImg} alt="SmartTransit OS Logo" className="w-10 h-10 object-contain shrink-0" />
             <div>
               <h1 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans">
                 SmartTransit OS Authorization Portal

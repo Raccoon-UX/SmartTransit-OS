@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Activity, Sun, Moon, Menu, X, ArrowRight, Shield, User, LogOut, Layout } from 'lucide-react';
+import { Sun, Moon, Menu, X, ArrowRight, User, LogOut, Layout } from 'lucide-react';
 import { useTheme } from '../design-system/context/ThemeContext.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { Button } from '../components/ui/Button.jsx';
 import { Badge } from '../components/ui/Badge.jsx';
 import { cn } from '../utils/index.js';
+import logoImg from '../assets/logo.png';
 
 export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
   const { isDark, toggleTheme } = useTheme();
@@ -28,7 +29,6 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
     { label: 'Technology', href: '#technology' },
   ];
 
-
   const handleNavClick = (e, href) => {
     e.preventDefault();
     setMobileMenuOpen(false);
@@ -41,24 +41,22 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
   return (
     <header
       className={cn(
-        'sticky top-0 z-50 w-full transition-all duration-300',
+        'sticky top-0 z-50 w-full transition-all duration-200 text-left',
         isScrolled
-          ? 'bg-white/90 dark:bg-navy-900/90 backdrop-blur-md shadow-sm dark:shadow-card border-b border-slate-200/80 dark:border-slate-800/80 py-3'
-          : 'bg-transparent border-b border-transparent py-4'
+          ? 'bg-white/95 dark:bg-slate-900/95 shadow-subtle border-b border-slate-300 dark:border-slate-800 py-3'
+          : 'bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 py-4'
       )}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Brand Logo & Wordmark */}
-        <a href="#" className="flex items-center space-x-2.5 group">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-transit-500 to-transit-700 flex items-center justify-center shadow-glow-sm transition-transform duration-200 group-hover:scale-105">
-            <Activity className="w-5 h-5 text-white" />
-          </div>
+        <a href="#" className="flex items-center space-x-3 group">
+          <img src={logoImg} alt="SmartTransit OS Logo" className="w-9 h-9 object-contain shrink-0" />
           <div>
             <span className="font-extrabold text-lg sm:text-xl tracking-tight text-slate-900 dark:text-white font-sans">
-              SmartTransit <span className="text-transit-500 font-semibold">OS</span>
+              SmartTransit <span className="text-[#0B3D91] dark:text-sky-400 font-semibold">OS</span>
             </span>
-            <span className="hidden sm:inline-block ml-2 text-[9px] font-mono font-bold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-navy-800 text-transit-600 dark:text-transit-400 border border-slate-200 dark:border-slate-700">
-              Smart City OS
+            <span className="hidden sm:inline-block ml-2 text-[9px] font-mono font-bold uppercase px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700">
+              GOVT PORTAL
             </span>
           </div>
         </a>
@@ -70,26 +68,24 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
               key={link.label}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className="px-3.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/80 dark:hover:bg-navy-800/80 transition-colors"
+              className="px-3.5 py-1.5 rounded text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               {link.label}
             </a>
           ))}
         </nav>
 
-        {/* Right Actions: Theme Toggle, Auth Aware Actions */}
+        {/* Right Actions */}
         <div className="hidden sm:flex items-center space-x-3">
-          {/* Theme Switcher */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2 rounded-xl text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-navy-800 transition-colors focus:outline-none"
+            className="p-2 rounded text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700"
             aria-label="Toggle Light and Dark Mode"
           >
             {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
           </button>
 
-          {/* Contextual Auth Buttons */}
           {isAuthenticated && user ? (
             <div className="flex items-center space-x-2">
               <Button
@@ -97,42 +93,37 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
                 size="sm"
                 leftIcon={Layout}
                 onClick={onSwitchToShell}
+                className="text-xs font-bold"
+              >
+                Go to Operations Shell ({user.roleTitle})
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={logout}
                 className="text-xs"
               >
-                Dashboard ({user.name.split(' ')[0]})
+                Sign Out
               </Button>
-
-              <button
-                type="button"
-                onClick={logout}
-                className="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors"
-                title="Sign Out"
-              >
-                <LogOut className="w-4 h-4" />
-              </button>
             </div>
           ) : (
             <div className="flex items-center space-x-2">
-              {/* Sign In Trigger */}
-              <button
-                type="button"
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={onOpenSignIn}
-                className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-transit-500 px-3 py-1.5 rounded-lg transition-colors"
+                className="text-xs font-bold"
               >
-                Sign In
-              </button>
-
-              {/* Primary CTA */}
+                Authorized Sign In
+              </Button>
               <Button
                 variant="primary"
                 size="sm"
                 rightIcon={ArrowRight}
-                onClick={() => {
-                  const target = document.querySelector('#live-tracking');
-                  if (target) target.scrollIntoView({ behavior: 'smooth' });
-                }}
+                onClick={onOpenDemo}
+                className="text-xs font-bold shadow-subtle"
               >
-                Explore Live Transit
+                Demo Sandbox
               </Button>
             </div>
           )}
@@ -143,62 +134,45 @@ export function PublicNavbar({ onOpenDemo, onOpenSignIn, onSwitchToShell }) {
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2 text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white focus:outline-none"
+            className="p-2 rounded text-slate-600 dark:text-slate-300 border border-slate-300 dark:border-slate-700"
           >
-            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
+            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4" />}
           </button>
-
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-xl text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-navy-800 focus:outline-none"
+            className="p-2 rounded text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Slide-in Menu */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="sm:hidden px-4 pt-3 pb-6 bg-white dark:bg-navy-900 border-b border-slate-200 dark:border-slate-800 shadow-xl space-y-3">
-          <nav className="flex flex-col space-y-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="px-3 py-2 rounded-lg text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-navy-800"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2">
+        <div className="lg:hidden border-t border-slate-300 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 py-4 space-y-3 text-left">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="block py-2 text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#0B3D91]"
+            >
+              {link.label}
+            </a>
+          ))}
+          <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
             {isAuthenticated ? (
-              <>
-                <Button variant="primary" size="sm" fullWidth onClick={onSwitchToShell}>
-                  Go to {user?.roleTitle || 'Dashboard'}
-                </Button>
-                <Button variant="outline" size="sm" fullWidth onClick={logout}>
-                  Sign Out
-                </Button>
-              </>
+              <Button variant="primary" size="md" fullWidth onClick={onSwitchToShell}>
+                Go to Operations Shell
+              </Button>
             ) : (
               <>
-                <Button variant="outline" size="sm" fullWidth onClick={onOpenSignIn}>
-                  Sign In to SmartTransit
+                <Button variant="primary" size="md" fullWidth onClick={onOpenSignIn}>
+                  Authorized Sign In
                 </Button>
-                <Button
-                  variant="primary"
-                  size="sm"
-                  fullWidth
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    const target = document.querySelector('#live-tracking');
-                    if (target) target.scrollIntoView({ behavior: 'smooth' });
-                  }}
-                >
-                  Explore Live Transit
+                <Button variant="outline" size="md" fullWidth onClick={onOpenDemo}>
+                  Demo Sandbox
                 </Button>
               </>
             )}

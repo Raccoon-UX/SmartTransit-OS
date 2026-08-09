@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { 
-  Activity, 
   Menu, 
   Search, 
   Sun, 
@@ -8,8 +7,7 @@ import {
   Command, 
   ChevronLeft, 
   ChevronRight,
-  Sliders,
-  Shield
+  Sliders
 } from 'lucide-react';
 import { useTheme } from '../design-system/context/ThemeContext.jsx';
 import { Button } from '../components/ui/Button.jsx';
@@ -19,6 +17,7 @@ import { NotificationCenter } from '../components/notifications/NotificationCent
 import { ProfileMenu } from '../components/profile/ProfileMenu.jsx';
 import { DemoControlModal } from '../components/system/DemoControlModal.jsx';
 import { cn } from '../utils/index.js';
+import logoImg from '../assets/logo.png';
 
 export function AppHeader({
   sidebarCollapsed,
@@ -63,11 +62,9 @@ export function AppHeader({
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Official Emblem & Platform Name */}
+          {/* Official Logo Image & Platform Name */}
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded bg-[#0B3D91] flex items-center justify-center text-white font-bold flex-shrink-0 shadow-subtle">
-              <Shield className="w-5 h-5 text-white" />
-            </div>
+            <img src={logoImg} alt="SmartTransit OS Logo" className="w-9 h-9 object-contain shrink-0" />
             <div className="hidden sm:block">
               <div className="flex items-center space-x-2">
                 <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans">

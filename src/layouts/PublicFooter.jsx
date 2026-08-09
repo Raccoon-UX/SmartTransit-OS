@@ -1,5 +1,6 @@
 import React from 'react';
-import { Shield, PhoneCall, HelpCircle, FileText, CheckCircle2 } from 'lucide-react';
+import { PhoneCall } from 'lucide-react';
+import logoImg from '../assets/logo.png';
 
 export function PublicFooter() {
   return (
@@ -11,10 +12,8 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-300 dark:border-slate-800">
           {/* Masthead Attribution */}
           <div className="md:col-span-2 space-y-3">
-            <div className="flex items-center space-x-2.5">
-              <div className="w-8 h-8 rounded bg-[#0B3D91] flex items-center justify-center text-white font-bold">
-                <Shield className="w-4 h-4 text-white" />
-              </div>
+            <div className="flex items-center space-x-3">
+              <img src={logoImg} alt="SmartTransit OS Logo" className="w-8 h-8 object-contain shrink-0" />
               <div>
                 <span className="font-extrabold text-base text-slate-900 dark:text-white font-sans">
                   SmartTransit OS Portal
