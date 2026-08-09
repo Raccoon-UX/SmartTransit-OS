@@ -20,53 +20,53 @@ export function PublicBrandHeader() {
   } = usePublicAccessibility();
 
   return (
-    <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-3.5 px-4 sm:px-6 text-left select-none font-sans">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-4">
-        {/* Left Side: Dual Emblem Logos with Larger MSRTC Emblem (No Text Block) */}
+    <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-1.5 sm:py-2 px-4 sm:px-6 text-left select-none font-sans leading-none">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4">
+        {/* Left Side: Dual Emblem Logos with Larger Images (Compact Vertical Height) */}
         <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
           <img
             src={logoImg}
             alt="SmartTransit OS Logo"
-            className="h-10 sm:h-12 w-auto max-w-[140px] object-contain shrink-0"
+            className="h-11 sm:h-13 w-auto max-w-[160px] object-contain shrink-0"
           />
           <span className="text-slate-300 dark:text-slate-700 text-xl font-mono shrink-0">|</span>
           <img
             src={msrtcLogo1}
             alt="MSRTC Official Emblem"
-            className="h-14 sm:h-16 w-auto max-w-[220px] object-contain shrink-0"
+            className="h-16 sm:h-18 w-auto max-w-[260px] object-contain shrink-0"
           />
         </div>
 
         {/* Right Side: Transit Network Partners + High Contrast + English/Marathi Switcher (Equal Spacing) */}
         <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 sm:gap-4 shrink-0">
-          {/* Transit Network Partners Logo Box */}
-          <div className="flex items-center space-x-2.5 bg-slate-50 dark:bg-slate-800/80 p-2 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
+          {/* Transit Network Partners Logo Box with Slightly Larger Partner Logos */}
+          <div className="flex items-center space-x-3 bg-slate-50 dark:bg-slate-800/80 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
             <div className="text-right pr-1">
-              <span className="block text-[10px] font-mono font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider">
+              <span className="block text-[10px] font-mono font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider leading-none">
                 {t('transitPartners')}
               </span>
-              <span className="block text-[9px] text-slate-400 font-sans">Connected Network</span>
+              <span className="block text-[9px] text-slate-400 font-sans mt-0.5 leading-none">Connected Network</span>
             </div>
             <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
             <img
               src={bestLogo}
               alt="BEST Undertaking Logo"
               title="BEST Undertaking"
-              className="h-8 w-auto object-contain shrink-0 px-1"
+              className="h-9 sm:h-10 w-auto object-contain shrink-0 px-0.5"
             />
             <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
             <img
               src={msrtcLogo}
               alt="MSRTC Corporation Logo"
               title="MSRTC Transport Corporation"
-              className="h-8 w-auto object-contain shrink-0 px-1"
+              className="h-9 sm:h-10 w-auto object-contain shrink-0 px-0.5"
             />
             <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
             <img
               src={tmtLogo}
               alt="TMT Transport Logo"
               title="Thane Municipal Transport (TMT)"
-              className="h-8 w-auto object-contain shrink-0 px-1"
+              className="h-9 sm:h-10 w-auto object-contain shrink-0 px-0.5"
             />
           </div>
 
@@ -77,7 +77,7 @@ export function PublicBrandHeader() {
             type="button"
             onClick={toggleHighContrast}
             className={cn(
-              'px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all flex items-center space-x-1.5 shrink-0 shadow-xs',
+              'px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all flex items-center space-x-1.5 shrink-0 shadow-xs leading-none',
               highContrast
                 ? 'bg-amber-400 text-slate-950 border-amber-300 font-black'
                 : 'border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
