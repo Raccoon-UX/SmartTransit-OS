@@ -70,7 +70,7 @@ export function DriverDashboard({ onNavigate }) {
         </div>
       )}
 
-      {/* C. Quick Operational Actions Bar (Large Touch Controls) */}
+      {/* C. Quick Operational Actions Bar (Large Touch Controls - Light & Dark Theme High Contrast) */}
       <div className="p-5 rounded-3xl bg-slate-900 text-white border border-slate-700 shadow-xl space-y-3">
         <div className="text-xs font-mono font-bold uppercase text-slate-400">Primary Cockpit Quick Actions</div>
         <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs font-mono font-bold">
@@ -84,35 +84,32 @@ export function DriverDashboard({ onNavigate }) {
             {tripState.status === 'ACTIVE' ? 'Live Trip Control' : 'Start Trip'}
           </Button>
 
-          <Button
-            variant="outline"
-            size="md"
-            leftIcon={Navigation}
+          <button
+            type="button"
             onClick={() => onNavigate && onNavigate('/driver/navigation')}
-            className="text-white border-slate-700 hover:bg-slate-800"
+            className="flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors shadow-xs cursor-pointer font-mono font-bold text-xs sm:text-sm"
           >
-            Route Navigation
-          </Button>
+            <Navigation className="w-4 h-4 text-amber-400 shrink-0" />
+            <span className="text-white">Route Navigation</span>
+          </button>
 
-          <Button
-            variant="outline"
-            size="md"
-            leftIcon={Users}
+          <button
+            type="button"
             onClick={() => onNavigate && onNavigate('/driver/occupancy')}
-            className="text-white border-slate-700 hover:bg-slate-800"
+            className="flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors shadow-xs cursor-pointer font-mono font-bold text-xs sm:text-sm"
           >
-            Occupancy
-          </Button>
+            <Users className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-white">Occupancy</span>
+          </button>
 
-          <Button
-            variant="outline"
-            size="md"
-            leftIcon={FileText}
+          <button
+            type="button"
             onClick={() => setShowIncidentModal(true)}
-            className="text-white border-slate-700 hover:bg-slate-800"
+            className="flex items-center justify-center space-x-2 px-4 py-2.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-colors shadow-xs cursor-pointer font-mono font-bold text-xs sm:text-sm"
           >
-            Report Issue
-          </Button>
+            <FileText className="w-4 h-4 text-cyan-400 shrink-0" />
+            <span className="text-white">Report Issue</span>
+          </button>
 
           <Button
             variant="danger"
@@ -128,103 +125,73 @@ export function DriverDashboard({ onNavigate }) {
 
       {/* Main Grid: A. Current Assignment & B. Trip Status */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left 6 Cols: A. Current Assignment */}
-        <div className="lg:col-span-6 space-y-4">
+        {/* Left Column: Shift Assignment Details & Bus Vehicle Card */}
+        <div className="lg:col-span-5 space-y-6">
           <div className="flex items-center justify-between">
-            <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans">
-              A. Shift & Vehicle Assignment
-            </h3>
-            <StatusBadge status={assignment?.operationalStatus || 'READY'} size="sm" />
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white font-sans flex items-center space-x-2">
+              <Bus className="w-5 h-5 text-transit-500" />
+              <span>A. Shift & Vehicle Assignment</span>
+            </h2>
+            <StatusBadge status="ONLINE" label="ASSIGNED" size="sm" />
           </div>
 
-          <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
-              <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-transit-500 to-transit-700 text-white flex items-center justify-center font-bold text-lg shadow-glow-sm">
-                  <Bus className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-lg font-bold text-slate-900 dark:text-white font-sans">
-                    {assignment?.busNumber || 'Bus 245'}
-                  </h4>
-                  <span className="text-xs font-mono text-slate-400">
-                    Serial: {assignment?.busSerial || 'NY-TR-8042'} • {assignment?.vehicleType}
-                  </span>
-                </div>
-              </div>
+          <VehicleStatusCard
+            assignment={assignment}
+            onToggleDoors={(doorsOpen) => {
+              setToast(doorsOpen ? 'Bus passenger doors OPENED' : 'Bus passenger doors CLOSED');
+              setTimeout(() => setToast(null), 3000);
+            }}
+          />
 
-              <div className="text-right font-mono">
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Scheduled Departure</span>
-                <span className="text-xs font-bold text-slate-900 dark:text-white">{assignment?.scheduledDeparture || '10:15 AM'}</span>
-              </div>
+          {/* Incident Reporter Action */}
+          <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs font-mono">
+            <div className="space-y-0.5">
+              <div className="font-bold text-amber-600 dark:text-amber-400 uppercase">Encountered an Issue?</div>
+              <div className="text-slate-600 dark:text-slate-400">Log mechanical defect, delay, or route blockage directly to SOC.</div>
             </div>
-
-            {/* Route Details */}
-            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800 space-y-1 text-xs">
-              <span className="text-[10px] uppercase font-bold text-slate-400 block font-mono">Assigned Route Corridor</span>
-              <div className="font-bold text-slate-900 dark:text-white font-sans text-sm">
-                Line {assignment?.routeCode} — {assignment?.routeName}
-              </div>
-              <span className="text-[11px] font-mono text-slate-500 dark:text-slate-400 block mt-0.5">
-                {assignment?.origin} → {assignment?.destination}
-              </span>
-            </div>
-
-            {/* Shift Timings */}
-            <div className="flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-300">
-              <span>Shift Timing: <strong>{assignment?.shiftTiming}</strong></span>
-              <span className="text-emerald-500 font-bold">Total Stops: {assignment?.totalStops}</span>
-            </div>
-
-            {/* Primary Action Button */}
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              rightIcon={ArrowRight}
-              onClick={handleStartTrip}
-              className="shadow-glow font-bold"
-            >
-              {tripState.status === 'ACTIVE' ? 'Manage Active Trip' : 'Start Scheduled Trip'}
+            <Button variant="outline" size="sm" onClick={() => setShowIncidentModal(true)}>
+              Report
             </Button>
           </div>
         </div>
 
-        {/* Right 6 Cols: B. Active Trip Status */}
-        <div className="lg:col-span-6 space-y-4">
-          <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans">
-            B. Active Trip Progress & Telemetry
-          </h3>
+        {/* Right Column: Live Trip Progress & Telemetry */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-slate-900 dark:text-white font-sans flex items-center space-x-2">
+              <Navigation className="w-5 h-5 text-transit-500" />
+              <span>B. Active Trip Progress & Telemetry</span>
+            </h2>
+            <span className="text-xs font-mono text-slate-400">Schedule Sync 100%</span>
+          </div>
 
-          <TripStatusCard trip={tripState} />
-
-          {/* E. Vehicle Diagnostics Pill Strip */}
-          <VehicleStatusCard diagnostics={assignment?.vehicleDiagnostics} />
+          <TripStatusCard
+            tripState={tripState}
+            onStartTrip={handleStartTrip}
+            onEndTrip={() => tripService.endTrip()}
+          />
         </div>
       </div>
 
-      {/* D. Service Alerts */}
-      <div className="space-y-3 pt-2">
+      {/* Driver Urgent Alerts & Notices */}
+      <div className="space-y-4 pt-4 border-t border-slate-200 dark:border-slate-800">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <Bell className="w-4 h-4 text-rose-500" />
-            <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans">
-              D. Operational Driver Advisories & Dispatch Alerts
-            </h3>
-          </div>
-          <span className="text-xs font-mono text-slate-400">Driver Dispatch Sync</span>
+          <h2 className="text-lg font-bold text-slate-900 dark:text-white font-sans flex items-center space-x-2">
+            <Bell className="w-5 h-5 text-amber-500" />
+            <span>Driver Service Alerts ({alerts.length})</span>
+          </h2>
+          <span className="text-xs font-mono text-slate-400">Dispatched from SOC Command</span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {alerts.slice(0, 2).map((alert) => (
+        <div className="space-y-3">
+          {alerts.map((alert) => (
             <AlertCard
               key={alert.id}
-              type={alert.type}
-              severity={alert.severity}
               title={alert.title}
-              description={alert.message}
+              message={alert.message}
+              severity={alert.severity}
               timestamp={alert.timestamp}
-              affectedRoutes={[alert.affectedStop]}
+              source={alert.source}
             />
           ))}
         </div>
@@ -234,9 +201,9 @@ export function DriverDashboard({ onNavigate }) {
       <IncidentReportModal
         isOpen={showIncidentModal}
         onClose={() => setShowIncidentModal(false)}
-        onSubmitted={() => {
-          setToast('Operational issue report submitted.');
-          setTimeout(() => setToast(null), 3000);
+        onSubmit={(incidentData) => {
+          setToast(`Incident report #${Date.now().toString().slice(-4)} submitted to SOC Dispatch.`);
+          setTimeout(() => setToast(null), 4000);
         }}
       />
     </div>
