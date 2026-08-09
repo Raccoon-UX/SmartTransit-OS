@@ -16,17 +16,19 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
+    const startTime = Date.now();
+    const TARGET_DURATION_MS = 5500; // 5.5 Seconds total preloader duration
+
     const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(timer);
-          return 100;
-        }
-        const diff = Math.random() * 12 + 8;
-        const next = Math.min(prev + diff, 100);
-        return Math.floor(next);
-      });
-    }, 100);
+      const elapsed = Date.now() - startTime;
+      const calculatedProgress = Math.min(100, (elapsed / TARGET_DURATION_MS) * 100);
+
+      setProgress(Math.floor(calculatedProgress));
+
+      if (calculatedProgress >= 100) {
+        clearInterval(timer);
+      }
+    }, 40);
 
     return () => clearInterval(timer);
   }, []);
@@ -37,8 +39,8 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
         setIsExiting(true);
         setTimeout(() => {
           if (onComplete) onComplete();
-        }, 350);
-      }, 250);
+        }, 400);
+      }, 350);
       return () => clearTimeout(exitTimer);
     }
   }, [progress, isExiting, onComplete]);
@@ -46,7 +48,7 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
   return (
     <div
       className={cn(
-        'fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-300',
+        'fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-500',
         'bg-slate-950 bg-cover bg-center bg-no-repeat text-white',
         isExiting ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100',
         className
@@ -81,7 +83,7 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
 
           <div className="h-2.5 w-full bg-slate-800 rounded-full overflow-hidden p-0.5 border border-slate-700">
             <div
-              className="h-full bg-gradient-to-r from-[#B83E12] via-amber-500 to-amber-400 rounded-full transition-all duration-150 ease-out"
+              className="h-full bg-gradient-to-r from-[#B83E12] via-amber-500 to-amber-400 rounded-full transition-all duration-75 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -109,7 +111,7 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
         {/* Action prompt if completed */}
         {progress >= 100 && (
           <div className="inline-flex items-center space-x-2 text-xs font-mono font-bold text-emerald-400 animate-pulse pt-2">
-            <span>Ready. Launching System...</span>
+            <span>System Ready. Launching Workspace...</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </div>
         )}
