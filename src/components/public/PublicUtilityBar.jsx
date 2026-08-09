@@ -37,7 +37,7 @@ export function PublicUtilityBar() {
           </div>
         </div>
 
-        {/* Right Side: Media Links & Text Resize Controls (Equal Alignment, No Repeated Contrast or Language) */}
+        {/* Right Side: Media Links & Text Resize Controls (Equal Alignment, Exact Official Links) */}
         <div className="flex flex-nowrap items-center space-x-4 ml-auto text-xs leading-none shrink-0">
           {/* Skip to Main Content */}
           <a
@@ -48,22 +48,42 @@ export function PublicUtilityBar() {
           </a>
 
           {/* Official Media Portals */}
-          <div className="hidden xl:flex items-center space-x-3 text-amber-200 shrink-0">
-            <a href={CONTACT_CONFIG.SOCIAL_LINKS.FACEBOOK} target="_blank" rel="noreferrer" title="Official Portal" className="hover:text-white flex items-center space-x-1">
-              <Globe className="w-3.5 h-3.5" />
+          <div className="flex items-center space-x-3 text-amber-200 shrink-0">
+            <a
+              href={CONTACT_CONFIG.SOCIAL_LINKS.PORTAL}
+              target="_blank"
+              rel="noreferrer"
+              title="Official MSRTC Portal"
+              className="hover:text-white flex items-center space-x-1 font-bold"
+            >
+              <Globe className="w-3.5 h-3.5 text-amber-300" />
               <span className="text-xs">Portal</span>
             </a>
-            <a href={CONTACT_CONFIG.SOCIAL_LINKS.TWITTER} target="_blank" rel="noreferrer" title="Public Broadcast" className="hover:text-white flex items-center space-x-1">
-              <Radio className="w-3.5 h-3.5" />
+
+            <a
+              href={CONTACT_CONFIG.SOCIAL_LINKS.BROADCAST}
+              target="_blank"
+              rel="noreferrer"
+              title="Ministry of Information & Broadcasting"
+              className="hover:text-white flex items-center space-x-1 font-bold"
+            >
+              <Radio className="w-3.5 h-3.5 text-amber-300" />
               <span className="text-xs">Broadcast</span>
             </a>
-            <a href={CONTACT_CONFIG.SOCIAL_LINKS.YOUTUBE} target="_blank" rel="noreferrer" title="Media & TV" className="hover:text-white flex items-center space-x-1">
-              <Tv className="w-3.5 h-3.5" />
+
+            <a
+              href={CONTACT_CONFIG.SOCIAL_LINKS.MEDIA}
+              target="_blank"
+              rel="noreferrer"
+              title="Official Media Stream"
+              className="hover:text-white flex items-center space-x-1 font-bold"
+            >
+              <Tv className="w-3.5 h-3.5 text-amber-300" />
               <span className="text-xs">Media</span>
             </a>
           </div>
 
-          <span className="hidden xl:inline text-[#E87A50] shrink-0 font-light">|</span>
+          <span className="text-[#E87A50] shrink-0 font-light">|</span>
 
           {/* Text Resize Controls (A- / A / A+) */}
           <div className="flex items-center space-x-1 font-bold text-xs shrink-0">
