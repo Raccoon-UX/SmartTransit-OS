@@ -17,7 +17,9 @@ import { NotificationCenter } from '../components/notifications/NotificationCent
 import { ProfileMenu } from '../components/profile/ProfileMenu.jsx';
 import { DemoControlModal } from '../components/system/DemoControlModal.jsx';
 import { cn } from '../utils/index.js';
+
 import logoImg from '../assets/logo.png';
+import msrtcLogo1 from '../assets/msrtc logo1.png';
 
 export function AppHeader({
   sidebarCollapsed,
@@ -39,10 +41,10 @@ export function AppHeader({
       )}
     >
       {/* Top 3px Solid Institutional Accent Line */}
-      <div className="h-1 bg-[#0B3D91] w-full" />
+      <div className="h-1 bg-[#B83E12] w-full" />
 
       <div className="h-16 px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4 max-w-full">
-        {/* Left: Official Masthead Identity */}
+        {/* Left: Official Masthead Identity (Dual Emblem: logo.png + msrtc logo1.png) */}
         <div className="flex items-center space-x-2 sm:space-x-3 shrink-0 min-w-0">
           <button
             type="button"
@@ -62,14 +64,19 @@ export function AppHeader({
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Official Logo Image & Platform Name (Single Row, Non-wrapping) */}
+          {/* Official Dual Emblem Logos (logo.png + msrtc logo1.png) & Title */}
           <div className="flex items-center space-x-2.5 shrink-0 min-w-0">
-            <img src={logoImg} alt="SmartTransit OS Logo" className="h-9 sm:h-10 w-auto max-w-[130px] object-contain shrink-0" />
+            <div className="flex items-center space-x-2 shrink-0">
+              <img src={logoImg} alt="SmartTransit OS Logo" className="h-8 sm:h-9 w-auto max-w-[110px] object-contain shrink-0" />
+              <span className="text-slate-300 dark:text-slate-700 text-sm font-mono">|</span>
+              <img src={msrtcLogo1} alt="MSRTC Official Emblem" className="h-7 sm:h-8 w-auto max-w-[100px] object-contain shrink-0" />
+            </div>
+
             <div className="hidden sm:flex items-center space-x-2 border-l border-slate-300 dark:border-slate-700 pl-3 shrink-0 whitespace-nowrap">
               <span className="font-extrabold text-base tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
-                SmartTransit <span className="text-[#0B3D91] dark:text-sky-400">OS</span>
+                SmartTransit <span className="text-[#B83E12] dark:text-amber-400">OS</span>
               </span>
-              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-700 shrink-0 whitespace-nowrap">
+              <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-amber-400 border border-slate-300 dark:border-slate-700 shrink-0 whitespace-nowrap">
                 GOVT PORTAL
               </span>
             </div>
@@ -84,7 +91,7 @@ export function AppHeader({
             className={cn(
               'w-full flex items-center justify-between px-3 py-1.5 rounded border text-xs transition-colors',
               'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400',
-              'hover:border-[#0B3D91] dark:hover:border-slate-600 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
+              'hover:border-[#B83E12] dark:hover:border-amber-400 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
             )}
           >
             <div className="flex items-center space-x-2 truncate">
@@ -98,38 +105,40 @@ export function AppHeader({
           </button>
         </div>
 
-        {/* Right: Operational Status, Role Switcher, Notifications, Theme & Profile */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0">
-          <div className="hidden lg:block shrink-0">
+        {/* Right: Operational Controls & Status */}
+        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0">
+          <div className="hidden xl:block">
             <LiveSystemIndicator />
           </div>
 
           <Button
             variant="outline"
             size="sm"
-            onClick={() => setDemoModalOpen(true)}
-            className="hidden xl:inline-flex text-xs font-mono text-slate-700 dark:text-slate-300 border-slate-300 dark:border-slate-700 rounded shrink-0"
             leftIcon={Sliders}
+            onClick={() => setDemoModalOpen(true)}
+            className="hidden md:inline-flex text-xs font-mono font-bold"
           >
             Sandbox Controls
           </Button>
 
           <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
+
           <NotificationCenter />
 
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-1.5 rounded text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0"
-            aria-label="Toggle Theme"
+            className="p-2 rounded text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0"
+            aria-label="Toggle Light and Dark Mode"
           >
-            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-600" />}
+            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
           </button>
 
-          <ProfileMenu currentRole={currentRole} />
+          <ProfileMenu />
         </div>
       </div>
 
+      {/* Interactive Demo Simulator Modal */}
       <DemoControlModal isOpen={demoModalOpen} onClose={() => setDemoModalOpen(false)} />
     </header>
   );
