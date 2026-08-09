@@ -1,51 +1,52 @@
 import React from 'react';
-import { Radio, Server, Cpu, Smartphone, Users, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Radio, Server, Cpu, Smartphone, ArrowRight, Shield } from 'lucide-react';
 import { cn } from '../../../utils/index.js';
 
 export function ArchitecturalFlow({ className = '' }) {
   const nodes = [
-    { id: '1', label: 'Vehicle GPS & Telemetry', sub: 'Edge Sensors (2s ping)', icon: Radio, color: 'text-transit-500 bg-transit-500/10 border-transit-500/30' },
-    { id: '2', label: 'Real-Time Ingestion Mesh', sub: 'Redis / WebSocket Broker', icon: Server, color: 'text-cyan-500 bg-cyan-500/10 border-cyan-500/30' },
-    { id: '3', label: 'ETA & Occupancy Intelligence', sub: 'Predictive Transit Engine', icon: Cpu, color: 'text-emerald-500 bg-emerald-500/10 border-emerald-500/30' },
-    { id: '4', label: 'Passenger & Authority Screens', sub: 'Digital Bus Stops & Web Apps', icon: Smartphone, color: 'text-amber-500 bg-amber-500/10 border-amber-500/30' },
+    { id: '1', label: 'Vehicle GPS Telemetry', sub: 'Edge Sensors (2s ping)', icon: Radio },
+    { id: '2', label: 'Ingestion Mesh Broker', sub: 'WebSocket / Redis Broker', icon: Server },
+    { id: '3', label: 'ETA Prediction Engine', sub: 'Predictive Transit Service', icon: Cpu },
+    { id: '4', label: 'Public Display Terminals', sub: 'Bus Stop Kiosks & Portal', icon: Smartphone },
   ];
 
   return (
-    <div className={cn('p-6 sm:p-8 rounded-3xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm text-left', className)}>
-      <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-100 dark:border-slate-800/80">
+    <div className={cn('p-5 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 text-left space-y-4 shadow-subtle', className)}>
+      <div className="flex items-center justify-between pb-3 border-b border-slate-300 dark:border-slate-800">
         <div>
-          <span className="text-[10px] font-mono font-bold uppercase text-transit-500 tracking-wider">
-            Architecture Topology
-          </span>
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white font-sans">
-            End-to-End Real-Time Transit Data Flow
+          <div className="flex items-center space-x-1.5 text-xs font-mono font-bold text-[#0B3D91] dark:text-sky-400">
+            <Shield className="w-3.5 h-3.5" />
+            <span>TECHNICAL ARCHITECTURE SPECIFICATION</span>
+          </div>
+          <h3 className="text-base font-extrabold text-slate-900 dark:text-white font-sans mt-0.5">
+            End-to-End Real-Time Transit Data Pipeline
           </h3>
         </div>
-        <span className="text-xs font-mono text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
+        <span className="text-xs font-mono text-emerald-700 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-300 dark:border-emerald-800">
           Sub-50ms Pipeline
         </span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-3 relative">
         {nodes.map((node, idx) => {
           const Icon = node.icon;
           const isLast = idx === nodes.length - 1;
 
           return (
-            <div key={node.id} className="relative flex flex-col justify-between p-5 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800">
-              <div>
-                <div className="flex items-center justify-between mb-3">
-                  <div className={cn('p-2.5 rounded-xl border', node.color)}>
-                    <Icon className="w-5 h-5" />
+            <div key={node.id} className="relative flex flex-col justify-between p-4 rounded bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="p-2 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-[#0B3D91] dark:text-sky-400">
+                    <Icon className="w-4 h-4" />
                   </div>
-                  <span className="text-[10px] font-mono font-bold text-slate-400">STAGE 0{idx + 1}</span>
+                  <span className="text-[10px] font-mono font-bold text-slate-500 uppercase">STAGE 0{idx + 1}</span>
                 </div>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1 font-sans">{node.label}</h4>
-                <p className="text-xs text-slate-500 dark:text-slate-400">{node.sub}</p>
+                <h4 className="text-xs font-bold text-slate-900 dark:text-white font-sans">{node.label}</h4>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-tight">{node.sub}</p>
               </div>
 
               {!isLast && (
-                <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 p-1 rounded-full bg-white dark:bg-navy-900 border border-slate-300 dark:border-slate-700 text-slate-400 shadow-sm">
+                <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 p-1 rounded bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-500 shadow-subtle">
                   <ArrowRight className="w-3.5 h-3.5" />
                 </div>
               )}
