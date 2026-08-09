@@ -87,9 +87,9 @@
     <div class="h-1 bg-[#B83E12] w-full"></div>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
       
-      <!-- Brand & Partner Badges -->
-      <div class="flex items-center space-x-4">
-        <a href="#hero" class="flex items-center space-x-3">
+      <!-- Brand & Partner Badges & Live Portal in Continuous Evenly-Spaced Flow -->
+      <div class="flex items-center space-x-4 overflow-x-auto py-1">
+        <a href="#hero" class="flex items-center space-x-3 shrink-0">
           <img src="./img/1logo.png" alt="SmartTransit OS" class="h-11 sm:h-12 w-auto max-w-[180px] object-contain">
           <div class="border-l border-slate-300 dark:border-slate-700 pl-3">
             <span class="font-extrabold text-base text-slate-900 dark:text-white block leading-none">SmartTransit OS</span>
@@ -97,21 +97,21 @@
           </div>
         </a>
 
-        <div class="hidden md:flex items-center space-x-4 pl-4 border-l border-slate-300 dark:border-slate-700">
+        <div class="hidden md:flex items-center space-x-4 pl-4 border-l border-slate-300 dark:border-slate-700 shrink-0">
           <img src="./img/1msrtc logo1.png" alt="MSRTC" class="h-9 w-auto object-contain">
           <img src="./img/1BEST Bus_logo.png" alt="BEST" class="h-8 w-auto object-contain">
           <img src="./img/1TMT_logo.png" alt="TMT" class="h-8 w-auto object-contain">
           <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-mono font-bold whitespace-nowrap border border-emerald-500/30">
             v1.0.0 Stable
           </span>
+          <a href="https://smarttransit-os.vercel.app/" target="_blank" rel="noreferrer" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs font-mono transition-colors flex items-center space-x-1.5 shadow-xs border border-emerald-500 whitespace-nowrap">
+            <span>🌐 Live Portal ↗</span>
+          </a>
         </div>
       </div>
 
       <!-- Right Header Actions -->
-      <div class="flex items-center space-x-3 text-xs font-mono">
-        <a href="https://smarttransit-os.vercel.app/" target="_blank" rel="noreferrer" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition-colors flex items-center space-x-1.5 shadow-xs border border-emerald-500 whitespace-nowrap">
-          <span>🌐 Live Portal ↗</span>
-        </a>
+      <div class="flex items-center space-x-3 text-xs font-mono shrink-0">
         <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 border border-slate-200 dark:border-slate-700 transition-colors cursor-pointer" title="Toggle Dark/Light Theme">
           🌙 / ☀️
         </button>
