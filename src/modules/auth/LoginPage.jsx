@@ -57,7 +57,7 @@ export function LoginPage({
   };
 
   return (
-    <div className="relative min-h-screen w-full text-slate-900 dark:text-white flex flex-col justify-center py-8 px-4 sm:px-6 lg:px-8 text-left overflow-hidden bg-slate-950">
+    <div className="relative min-h-screen w-full text-slate-900 dark:text-white flex flex-col justify-center py-6 sm:py-8 px-4 sm:px-6 lg:px-8 text-left overflow-x-hidden bg-slate-950">
       {/* Full-Screen Background Image (PublicBus.webp) with Dark Contrast Overlay */}
       <div
         className="fixed inset-0 bg-cover bg-center bg-no-repeat z-0 scale-105 transition-transform duration-1000"
@@ -66,10 +66,10 @@ export function LoginPage({
         <div className="absolute inset-0 bg-slate-950/75 backdrop-blur-xs" />
       </div>
 
-      {/* Foreground Content Container */}
-      <div className="relative z-10 max-w-5xl mx-auto w-full">
+      {/* Foreground Content Container (Expanded Max Width for Full Table Visibility) */}
+      <div className="relative z-10 max-w-6xl xl:max-w-7xl mx-auto w-full">
         {/* Top Bar Navigation */}
-        <div className="w-full mb-4 flex items-center justify-between bg-slate-900/80 backdrop-blur-md p-3 rounded-lg border border-slate-700/60 text-white">
+        <div className="w-full mb-4 flex items-center justify-between bg-slate-900/80 backdrop-blur-md p-3 rounded-lg border border-slate-700/60 text-white shadow-md">
           <button
             type="button"
             onClick={onNavigateHome}
@@ -90,11 +90,11 @@ export function LoginPage({
           <div className="h-1.5 bg-[#0B3D91] w-full" />
 
           {/* Portal Masthead Header */}
-          <div className="p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between">
+          <div className="p-5 sm:p-6 bg-slate-50 dark:bg-slate-900 border-b border-slate-300 dark:border-slate-800 flex items-center justify-between">
             <div className="flex items-center space-x-4 shrink-0">
-              <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-11 w-auto max-w-[140px] object-contain shrink-0" />
+              <img src={logoImg} alt="SmartTransit OS Logo" className="h-10 sm:h-12 w-auto max-w-[150px] object-contain shrink-0" />
               <div className="border-l border-slate-300 dark:border-slate-700 pl-4 shrink-0">
-                <h1 className="text-xl font-extrabold text-slate-900 dark:text-white font-sans whitespace-nowrap">
+                <h1 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white font-sans whitespace-nowrap">
                   SmartTransit OS Authorization Portal
                 </h1>
                 <p className="text-xs text-slate-600 dark:text-slate-400 font-sans">
@@ -116,8 +116,8 @@ export function LoginPage({
           </div>
 
           <div className="p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left Column: Official Form */}
-            <div className="lg:col-span-6 space-y-6">
+            {/* Left Column: Official Form (5/12 cols) */}
+            <div className="lg:col-span-5 space-y-6">
               <div className="space-y-1">
                 <h2 className="text-lg font-bold text-slate-900 dark:text-white font-sans">
                   Sign In to Authorized Account
@@ -190,8 +190,8 @@ export function LoginPage({
               </form>
             </div>
 
-            {/* Right Column: Structured Sandbox Role Profiles List */}
-            <div className="lg:col-span-6 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-300 dark:border-slate-700 space-y-4">
+            {/* Right Column: Structured Sandbox Role Profiles List (Expanded 7/12 cols for Full Un-truncated Table) */}
+            <div className="lg:col-span-7 bg-slate-50 dark:bg-slate-800/50 p-5 rounded-xl border border-slate-300 dark:border-slate-700 space-y-4">
               <h3 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 font-mono border-b border-slate-300 dark:border-slate-700 pb-2">
                 Select Demo Role Profile (Instant Access)
               </h3>
