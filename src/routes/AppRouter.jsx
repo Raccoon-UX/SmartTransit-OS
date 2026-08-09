@@ -553,12 +553,23 @@ export function AppRouter() {
       onNavigateToUnauthorized={() => navigateTo('/unauthorized')}
     >
       <AppShell
-        currentRole={role || 'systemAdmin'}
+        currentRole={role || 'admin'}
         activeItemId={getActiveNavItem()}
         onSelectItem={(navItem) => {
           if (navItem.path) {
             navigateTo(navItem.path);
           }
+        }}
+        onRoleChange={(newRole) => {
+          const routeMap = {
+            passenger: '/passenger/dashboard',
+            driver: '/driver/dashboard',
+            admin: '/admin/dashboard',
+            systemAdmin: '/soc',
+            soc: '/soc',
+          };
+          const targetRoute = routeMap[newRole] || '/admin/dashboard';
+          navigateTo(targetRoute);
         }}
       >
         <ErrorBoundary>

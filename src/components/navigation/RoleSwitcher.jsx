@@ -1,148 +1,144 @@
 import React, { useState } from 'react';
-import { Users, Navigation, Bus, Terminal, ChevronDown, Check, Sparkles } from 'lucide-react';
-import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
+import { User, Bus, Shield, Settings, ChevronDown, Check, ArrowRight } from 'lucide-react';
 import { cn } from '../../utils/index.js';
 
-export const AVAILABLE_ROLES = [
+export const REQUIRED_ROLE_OPTIONS = [
   {
-    id: 'admin',
-    name: 'Transport Admin',
-    code: 'TRANSPORT_ADMIN',
-    description: 'Fleet orchestration, dispatch, driver rosters, analytics',
-    icon: Users,
-    color: 'text-[#B83E12] bg-[#B83E12]/10 border-[#B83E12]/30',
+    id: 'passenger',
+    title: 'Passenger',
+    subtitle: 'Passenger Portal',
+    headerLabel: 'Passenger',
+    icon: User,
+    defaultRoute: '/passenger/dashboard',
   },
   {
     id: 'driver',
-    name: 'Driver / Operator',
-    code: 'DRIVER',
-    description: 'Driver cockpit, route waypoints, passenger count, SOS alerts',
+    title: 'Driver',
+    subtitle: 'Driver Operations',
+    headerLabel: 'Driver',
     icon: Bus,
-    color: 'text-amber-500 bg-amber-500/10 border-amber-500/30',
+    defaultRoute: '/driver/dashboard',
   },
   {
-    id: 'passenger',
-    name: 'Daily Commuter',
-    code: 'PASSENGER',
-    description: 'Live bus tracking, ETA countdowns, route schedules, favorites',
-    icon: Navigation,
-    color: 'text-sky-500 bg-sky-500/10 border-sky-500/30',
+    id: 'admin',
+    title: 'Transport Admin',
+    subtitle: 'Fleet & Transit Operations',
+    headerLabel: 'Chief Dispatch Officer',
+    icon: Shield,
+    defaultRoute: '/admin/dashboard',
   },
   {
-    id: 'soc',
-    name: 'SOC Infra Architect',
-    code: 'SYSTEM_ADMIN',
-    description: 'Infrastructure health, GPS ingestion streams, WebSocket cluster',
-    icon: Terminal,
-    color: 'text-indigo-500 bg-indigo-500/10 border-indigo-500/30',
-  },
-  {
-    id: 'ai',
-    name: 'AI Transit Engineer',
-    code: 'AI_ENGINEER',
-    description: 'Predictive ETA models, occupancy forecasting, demand intelligence',
-    icon: Sparkles,
-    color: 'text-purple-500 bg-purple-500/10 border-purple-500/30',
+    id: 'systemAdmin',
+    title: 'System Operations',
+    subtitle: 'SOC & Infrastructure',
+    headerLabel: 'System Operations',
+    icon: Settings,
+    defaultRoute: '/soc',
   },
 ];
 
 export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = '' }) {
   const [isOpen, setIsOpen] = useState(false);
-  const { t } = usePublicAccessibility();
 
-  const activeRoleData =
-    AVAILABLE_ROLES.find((r) => r.id === currentRole || (currentRole === 'systemAdmin' && r.id === 'soc')) ||
-    AVAILABLE_ROLES[0];
-  const Icon = activeRoleData.icon;
+  // Normalize currentRole so 'soc' maps to 'systemAdmin'
+  const normalizedRole = currentRole === 'soc' ? 'systemAdmin' : currentRole;
 
-  const handleSelect = (roleId) => {
-    if (onRoleChange) {
-      onRoleChange(roleId);
-    }
+  const activeOption =
+    REQUIRED_ROLE_OPTIONS.find((r) => r.id === normalizedRole) || REQUIRED_ROLE_OPTIONS[2];
+
+  const ActiveIcon = activeOption.icon;
+
+  const handleSelectRole = (option) => {
     setIsOpen(false);
-  };
-
-  const getRoleTitle = (roleId, defaultName) => {
-    const roleMap = {
-      passenger: 'roleCommuter',
-      driver: 'roleDriver',
-      admin: 'roleAdmin',
-      soc: 'roleSoc',
-      systemAdmin: 'roleSoc',
-      ai: 'roleAi',
-    };
-    const key = roleMap[roleId];
-    return key ? t(key) : defaultName;
+    if (onRoleChange) {
+      onRoleChange(option.id);
+    }
   };
 
   return (
-    <div className={cn('relative shrink-0 z-50', className)}>
-      {/* Compact Stacked Vertical Button (Role: on Top, Transport Admin on Bottom) */}
+    <div className={cn('relative shrink-0 z-50 text-left select-none', className)}>
+      {/* Role Header Button Trigger */}
       <button
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
-          'flex items-center space-x-1.5 px-2.5 py-1 rounded-lg border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-xs cursor-pointer',
-          'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700',
-          'hover:border-[#B83E12] dark:hover:border-amber-400 focus:outline-none'
+          'flex items-center space-x-2 px-3 py-1.5 rounded-xl border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-xs cursor-pointer',
+          'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700/80',
+          'hover:border-[#B83E12] dark:hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-[#B83E12]/30'
         )}
+        aria-expanded={isOpen}
+        aria-haspopup="true"
       >
-        <Icon className="w-4 h-4 text-[#B83E12] dark:text-amber-400 shrink-0" />
-        <div className="flex flex-col justify-center min-w-0 leading-none">
-          <span className="text-[9px] font-mono font-bold uppercase text-slate-500 dark:text-slate-400 leading-none">
-            Role
+        <ActiveIcon className="w-4 h-4 text-[#B83E12] dark:text-amber-400 shrink-0" />
+        <div className="flex flex-col justify-center leading-none">
+          <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            ROLE
           </span>
-          <span className="text-xs font-extrabold text-slate-900 dark:text-white truncate leading-none mt-0.5">
-            {getRoleTitle(activeRoleData.id, activeRoleData.name)}
+          <span className="text-xs font-extrabold text-slate-900 dark:text-white truncate mt-0.5">
+            {activeOption.headerLabel}
           </span>
         </div>
         <ChevronDown className={cn('w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-150', isOpen && 'rotate-180')} />
       </button>
 
-      {/* Role Switcher Menu (Opens clean dropdown with all 5 role options) */}
+      {/* Role Switcher Menu Popover */}
       {isOpen && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setIsOpen(false)} />
-          <div className="absolute right-0 mt-2 w-72 p-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl z-50 text-left space-y-2">
-            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-              <span className="text-[10px] font-mono uppercase font-bold text-slate-400">
-                Development Role Simulator
-              </span>
-              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
-                DEV ONLY
-              </span>
+          <div
+            className={cn(
+              'absolute right-0 mt-2 w-72 p-2.5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl z-50 text-left space-y-1',
+              'transition-all duration-150 ease-out'
+            )}
+          >
+            <div className="px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100 dark:border-slate-800 pb-1.5 mb-1">
+              ROLE
             </div>
 
             <div className="space-y-1">
-              {AVAILABLE_ROLES.map((role) => {
-                const RoleIcon = role.icon;
-                const isCurrent = role.id === activeRoleData.id;
+              {REQUIRED_ROLE_OPTIONS.map((option) => {
+                const OptionIcon = option.icon;
+                const isSelected = activeOption.id === option.id;
 
                 return (
                   <button
-                    key={role.id}
+                    key={option.id}
                     type="button"
-                    onClick={() => handleSelect(role.id)}
+                    onClick={() => handleSelectRole(option)}
                     className={cn(
-                      'w-full flex items-start space-x-3 p-2 rounded-xl text-left transition-colors cursor-pointer',
-                      isCurrent
-                        ? 'bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700'
-                        : 'hover:bg-slate-50 dark:hover:bg-slate-800/40 border border-transparent'
+                      'w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all duration-150 cursor-pointer group',
+                      isSelected
+                        ? 'bg-slate-100 dark:bg-slate-800/90 border border-slate-300 dark:border-slate-700 shadow-xs'
+                        : 'hover:bg-slate-50 dark:hover:bg-slate-800/50 border border-transparent'
                     )}
                   >
-                    <div className={cn('p-1.5 rounded-lg border shrink-0 mt-0.5', role.color)}>
-                      <RoleIcon className="w-4 h-4" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-900 dark:text-white">
-                          {getRoleTitle(role.id, role.name)}
-                        </span>
-                        {isCurrent && <Check className="w-3.5 h-3.5 text-[#B83E12] dark:text-amber-400" />}
+                    <div className="flex items-center space-x-3 min-w-0">
+                      <div
+                        className={cn(
+                          'p-2 rounded-lg border shrink-0 transition-colors',
+                          isSelected
+                            ? 'bg-[#B83E12]/10 border-[#B83E12]/30 text-[#B83E12] dark:text-amber-400'
+                            : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white'
+                        )}
+                      >
+                        <OptionIcon className="w-4 h-4" />
                       </div>
-                      <p className="text-[10px] text-slate-500 dark:text-slate-400 truncate mt-0.5 font-sans">
-                        {role.description}
-                      </p>
+                      <div className="min-w-0">
+                        <div className="text-xs font-extrabold text-slate-900 dark:text-white truncate">
+                          {option.title}
+                        </div>
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate font-sans">
+                          {option.subtitle}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="shrink-0 pl-2">
+                      {isSelected ? (
+                        <Check className="w-4 h-4 text-[#B83E12] dark:text-amber-400" />
+                      ) : (
+                        <ArrowRight className="w-3.5 h-3.5 text-slate-300 dark:text-slate-600 group-hover:text-slate-500 dark:group-hover:text-slate-300 transition-colors" />
+                      )}
                     </div>
                   </button>
                 );

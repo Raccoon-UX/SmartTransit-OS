@@ -126,26 +126,29 @@ export const NAVIGATION_CONFIG = {
       {
         title: 'Infrastructure & Telemetry',
         items: [
-          { id: 'overview', label: 'SOC Overview', icon: Activity, path: '/system/overview' },
-          { id: 'infrastructure', label: 'Cluster Infrastructure', icon: Server, path: '/system/infrastructure' },
-          { id: 'server-health', label: 'Server Health', icon: Cpu, path: '/system/health' },
-          { id: 'api-monitoring', label: 'API Gateway & Latency', icon: Radio, path: '/system/api' },
-          { id: 'active-users', label: 'Active Sessions & Mesh', icon: Users, path: '/system/users' },
-          { id: 'gps-stream', label: 'GPS Ingestion Stream', icon: Wifi, path: '/system/gps' },
+          { id: 'overview', label: 'SOC Overview', icon: Activity, path: '/soc/overview' },
+          { id: 'infrastructure', label: 'Cluster Infrastructure', icon: Server, path: '/soc/infrastructure' },
+          { id: 'server-health', label: 'Server Health', icon: Cpu, path: '/soc/servers' },
+          { id: 'api-monitoring', label: 'API Gateway & Latency', icon: Radio, path: '/soc/api-monitoring' },
+          { id: 'active-users', label: 'Active Sessions & Mesh', icon: Users, path: '/soc/sessions' },
+          { id: 'gps-stream', label: 'GPS Ingestion Stream', icon: Wifi, path: '/soc/gps-monitoring' },
         ],
       },
       {
         title: 'Security & Maintenance',
         items: [
-          { id: 'database', label: 'Database & Cache', icon: Database, path: '/system/database' },
-          { id: 'backups', label: 'Disaster Backups', icon: HardDrive, path: '/system/backups' },
-          { id: 'security', label: 'Security & Access Audits', icon: ShieldCheck, path: '/system/security' },
-          { id: 'incidents', label: 'Incident Log', icon: AlertTriangle, path: '/system/incidents', badge: '1', badgeVariant: 'critical' },
+          { id: 'database', label: 'Database & Cache', icon: Database, path: '/soc/database' },
+          { id: 'backups', label: 'Disaster Backups', icon: HardDrive, path: '/soc/backups' },
+          { id: 'security', label: 'Security & Access Audits', icon: ShieldCheck, path: '/soc/security' },
+          { id: 'incidents', label: 'Incident Log', icon: AlertTriangle, path: '/soc/incidents', badge: '1', badgeVariant: 'critical' },
           { id: 'ai-overview', label: 'AI Intelligence Engine', icon: Sparkles, path: '/ai/overview' },
         ],
       },
     ],
   },
 };
+
+// Map alias 'soc' to systemAdmin
+NAVIGATION_CONFIG.soc = NAVIGATION_CONFIG.systemAdmin;
 
 export default NAVIGATION_CONFIG;
