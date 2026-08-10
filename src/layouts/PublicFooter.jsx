@@ -10,7 +10,8 @@ import {
   FileText, 
   Globe, 
   User, 
-  Phone 
+  Phone,
+  BookOpen
 } from 'lucide-react';
 import { cn } from '../utils/index.js';
 
@@ -128,7 +129,7 @@ export function PublicFooter({ className = '' }) {
               Published by the Municipal Transport Corporation in coordination with City Urban Mobility Department. Provided as a public civic digital service for real-time bus tracking, route schedules, and transit operational oversight.
             </p>
 
-            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-mono space-y-2 w-fit shadow-xs">
+            <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-xs font-mono space-y-2.5 w-fit shadow-xs">
               <div className="flex items-center space-x-3">
                 <PhoneCall className="w-4 h-4 text-[#B83E12] dark:text-amber-400 shrink-0" />
                 <div>
@@ -147,6 +148,19 @@ export function PublicFooter({ className = '' }) {
                   <span>Gmail: vsujal956@gmail.com</span>
                 </span>
               </div>
+
+              <div className="pt-2 border-t border-slate-200 dark:border-slate-700/80 flex items-center justify-between gap-3">
+                <a 
+                  href="https://raccoon-ux.github.io/SmartTransit-OS-Documentation/" 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-mono text-[11px] font-bold transition-colors shadow-xs border border-emerald-500"
+                >
+                  <BookOpen className="w-3.5 h-3.5 shrink-0" />
+                  <span>Documentation ↗</span>
+                </a>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">v1.0.0 Stable</span>
+              </div>
             </div>
           </div>
 
@@ -159,6 +173,7 @@ export function PublicFooter({ className = '' }) {
               <li><a href="#live-map" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Live Bus Map & Search</a></li>
               <li><a href="#planner" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Journey Route Planner</a></li>
               <li><a href="#smart-stops" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Smart Bus Stop Kiosks</a></li>
+              <li><a href="https://raccoon-ux.github.io/SmartTransit-OS-Documentation/" target="_blank" rel="noreferrer" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline font-bold flex items-center space-x-1 text-emerald-700 dark:text-emerald-400"><span>Documentation</span><ExternalLink className="w-3 h-3 inline" /></a></li>
               <li><a href="#advisories" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Public Service Advisories</a></li>
               <li><a href="#grievances" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Grievance Redressal Desk</a></li>
             </ul>
@@ -172,6 +187,7 @@ export function PublicFooter({ className = '' }) {
             <ul className="space-y-1.5 text-slate-700 dark:text-slate-300 font-sans">
               <li><a href="https://msrtc.maharashtra.gov.in/GeneralPages/Home.aspx" target="_blank" rel="noreferrer" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline flex items-center space-x-1"><span>MSRTC Portal</span><ExternalLink className="w-3 h-3 inline" /></a></li>
               <li><a href="https://mib.gov.in/en/node/1326" target="_blank" rel="noreferrer" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline flex items-center space-x-1"><span>MIB Advisory</span><ExternalLink className="w-3 h-3 inline" /></a></li>
+              <li><a href="https://raccoon-ux.github.io/SmartTransit-OS-Documentation/" target="_blank" rel="noreferrer" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline flex items-center space-x-1"><span>Technical Docs</span><ExternalLink className="w-3 h-3 inline" /></a></li>
               <li><a href="#" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Right to Information (RTI)</a></li>
               <li><a href="#" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Accessibility Statement</a></li>
               <li><a href="#" className="hover:text-[#B83E12] dark:hover:text-amber-400 underline">Open Transit Data (GTFS)</a></li>
@@ -276,6 +292,10 @@ export function PublicFooter({ className = '' }) {
             <span>© 2026 Government Transit Operations & Municipal Transport Authority. All rights reserved.</span>
           </div>
           <div className="flex items-center space-x-3 text-[11px]">
+            <a href="https://raccoon-ux.github.io/SmartTransit-OS-Documentation/" target="_blank" rel="noreferrer" className="text-emerald-700 dark:text-emerald-400 hover:underline font-bold flex items-center space-x-1">
+              <span>Documentation ↗</span>
+            </a>
+            <span>•</span>
             <span>Last Updated: 09 Aug 2026</span>
             <span>•</span>
             <span>GTFS-RT Standard v2.0</span>
@@ -287,3 +307,4 @@ export function PublicFooter({ className = '' }) {
 }
 
 export default PublicFooter;
+
