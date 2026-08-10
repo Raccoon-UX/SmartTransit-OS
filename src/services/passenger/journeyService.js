@@ -1,11 +1,16 @@
 /**
- * SmartTransit OS — Journey Planner & Active Commute Service
+ * SmartTransit OS — Journey Planner & Multimodal State Machine Service
  */
 
-import { MOCK_JOURNEY_PLANS } from '../../data/passenger/mockJourneys.js';
+import { multimodalRouteService } from './multimodalRouteService.js';
 import { INITIAL_ACTIVE_TRIP } from '../../data/passenger/mockActiveTrip.js';
 
-let activeTripState = { ...INITIAL_ACTIVE_TRIP };
+let activeTripState = {
+  ...INITIAL_ACTIVE_TRIP,
+  currentSegmentIndex: 0,
+  stepState: 'IDLE', // IDLE | WALKING_TO_STOP | WAITING_FOR_BUS | ON_BUS | TRANSFER | FINAL_WALK | ARRIVED
+};
+
 let activeTripListeners = [];
 
 function notifyActiveTrip() {
@@ -14,11 +19,10 @@ function notifyActiveTrip() {
 
 export const journeyService = {
   /**
-   * Calculates multi-option journey plans from origin to destination
+   * Calculates multi-option journey plans from origin to destination using generic routing engine
    */
-  async planJourney({ from, to, preference = 'fastest' }) {
-    await new Promise((res) => setTimeout(res, 350)); // realistic transit calculation latency
-    return [...MOCK_JOURNEY_PLANS];
+  async planJourney({ from, to, preference = 'best_overall' }) {
+    return await multimodalRouteService.planJourney({ from, to, preference });
   },
 
   /**
@@ -29,14 +33,61 @@ export const journeyService = {
   },
 
   /**
-   * Starts a new active trip
+   * Starts a new active trip from a selected plan
    */
-  startJourney(planId = 'jp-opt-1') {
+  startJourney(plan) {
+    const firstSegment = plan?.segments?.[0];
+    const initialStepState = firstSegment?.type === 'WALK' ? 'WALKING_TO_STOP' : 'ON_BUS';
+
     activeTripState = {
       ...INITIAL_ACTIVE_TRIP,
       isActive: true,
+      planId: plan?.id || 'jp-opt-1',
+      planTitle: plan?.title || 'Selected Multimodal Journey',
+      activePlan: plan,
+      currentSegmentIndex: 0,
+      stepState: initialStepState,
       startedAt: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
+
+    notifyActiveTrip();
+    return activeTripState;
+  },
+
+  /**
+   * Advances the active journey to the next step
+   */
+  advanceStep() {
+    if (!activeTripState.isActive || !activeTripState.activePlan) return activeTripState;
+
+    const segments = activeTripState.activePlan.segments || [];
+    const nextIdx = activeTripState.currentSegmentIndex + 1;
+
+    if (nextIdx < segments.length) {
+      const nextSeg = segments[nextIdx];
+      let nextStepState = 'ON_BUS';
+
+      if (nextSeg.type === 'WALK') {
+        nextStepState = nextIdx === segments.length - 1 ? 'FINAL_WALK' : 'WALKING_TO_STOP';
+      } else if (nextSeg.type === 'TRANSFER') {
+        nextStepState = 'TRANSFER';
+      } else if (nextSeg.type === 'BUS') {
+        nextStepState = 'ON_BUS';
+      }
+
+      activeTripState = {
+        ...activeTripState,
+        currentSegmentIndex: nextIdx,
+        stepState: nextStepState,
+      };
+    } else {
+      activeTripState = {
+        ...activeTripState,
+        stepState: 'ARRIVED',
+        isActive: false,
+      };
+    }
+
     notifyActiveTrip();
     return activeTripState;
   },
@@ -48,6 +99,8 @@ export const journeyService = {
     activeTripState = {
       ...activeTripState,
       isActive: false,
+      stepState: 'IDLE',
+      activePlan: null,
     };
     notifyActiveTrip();
     return activeTripState;
