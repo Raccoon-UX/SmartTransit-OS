@@ -135,23 +135,23 @@ export function JourneyRouteMap({ plan, className = '' }) {
       {/* Bottom Map Legend */}
       <div className="absolute bottom-3 left-3 right-3 z-20 p-2.5 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-xs font-mono flex flex-wrap items-center justify-between gap-2 shadow-md">
         <div className="flex items-center space-x-4 text-[11px]">
-          <span className="flex items-center space-x-1 text-emerald-700 dark:text-emerald-400 font-bold">
-            <span className="w-3 h-0.5 border-b-2 border-dashed border-emerald-600 inline-block" />
-            <span>🚶 Walk</span>
+          <span className="flex items-center space-x-1.5 text-emerald-700 dark:text-emerald-400 font-bold">
+            <Footprints className="w-3 h-3" />
+            <span>Walk</span>
           </span>
-          <span className="flex items-center space-x-1 text-blue-600 dark:text-sky-400 font-bold">
-            <span className="w-3 h-1 bg-blue-600 inline-block rounded-full" />
-            <span>🚌 Bus 1</span>
+          <span className="flex items-center space-x-1.5 text-blue-600 dark:text-sky-400 font-bold">
+            <Bus className="w-3 h-3 text-blue-600" />
+            <span>Bus 1</span>
           </span>
           {isTransfer && (
             <>
-              <span className="flex items-center space-x-1 text-amber-600 dark:text-amber-400 font-bold">
-                <span className="w-2 h-2 bg-amber-500 inline-block rounded-full" />
-                <span>🔄 Transfer</span>
+              <span className="flex items-center space-x-1.5 text-amber-600 dark:text-amber-400 font-bold">
+                <Repeat className="w-3 h-3 text-amber-500" />
+                <span>Transfer</span>
               </span>
-              <span className="flex items-center space-x-1 text-[#B83E12] dark:text-amber-500 font-bold">
-                <span className="w-3 h-1 bg-[#B83E12] inline-block rounded-full" />
-                <span>🚌 Bus 2</span>
+              <span className="flex items-center space-x-1.5 text-[#B83E12] dark:text-amber-500 font-bold">
+                <Bus className="w-3 h-3 text-[#B83E12]" />
+                <span>Bus 2</span>
               </span>
             </>
           )}

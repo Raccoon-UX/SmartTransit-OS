@@ -269,9 +269,9 @@ export const multimodalRouteService = {
       occupancyStatus: activeBus.occupancyStatus,
       feasibility,
       whyRecommend: [
-        '✓ Direct zero-transfer express service',
-        `✓ Total walking only ${oStop.walkMeters + dStop.walkMeters}m`,
-        `✓ ${activeBus.busNumber} operating on-schedule`,
+        'Direct zero-transfer express service',
+        `Total walking only ${oStop.walkMeters + dStop.walkMeters}m`,
+        `${activeBus.busNumber} operating on-schedule`,
       ],
       segments: [
         {
@@ -349,9 +349,9 @@ export const multimodalRouteService = {
       feasibility: feasibility1,
       transferHub: hub,
       whyRecommend: [
-        `✓ Best continuous connection via ${hub.name}`,
-        `✓ Fast transfer buffer (${hub.averageTransferMinutes} min sync)`,
-        `✓ Connects ${bus1.busNumber} to ${bus2.busNumber}`,
+        `Best continuous connection via ${hub.name}`,
+        `Fast transfer buffer (${hub.averageTransferMinutes} min sync)`,
+        `Connects ${bus1.busNumber} to ${bus2.busNumber}`,
       ],
       segments: [
         {
@@ -446,9 +446,9 @@ export const multimodalRouteService = {
       occupancyStatus: 'LOW',
       feasibility: { isTight: false, warning: null },
       whyRecommend: [
-        '✓ AI Recommendation: 42% lower occupancy than peak routes',
-        '✓ Guaranteed seating availability',
-        '✓ Air-conditioned electric coach (Bus 312)',
+        'AI Recommendation: 42% lower occupancy than peak routes',
+        'Guaranteed seating availability',
+        'Air-conditioned electric coach (Bus 312)',
       ],
       segments: [
         {

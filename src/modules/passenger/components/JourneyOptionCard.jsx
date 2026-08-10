@@ -1,5 +1,4 @@
-import React from 'react';
-import { Bus, Clock, Users, ArrowRight, Footprints, Repeat, Sparkles, AlertTriangle } from 'lucide-react';
+import { Bus, Clock, Users, ArrowRight, Footprints, Repeat, Sparkles, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { OccupancyIndicator } from './OccupancyIndicator.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { cn } from '../../../utils/index.js';
@@ -86,7 +85,10 @@ export function JourneyOptionCard({
       {/* Key Stats Strip */}
       <div className="flex items-center justify-between text-xs font-mono text-slate-600 dark:text-slate-400 pt-1 border-t border-slate-100 dark:border-slate-800">
         <div className="flex items-center space-x-3 text-[11px]">
-          <span>🚶 {plan.walkingDuration} walk</span>
+          <span className="inline-flex items-center space-x-1">
+            <Footprints className="w-3 h-3 text-slate-500" />
+            <span>{plan.walkingDuration} walk</span>
+          </span>
           <span>•</span>
           <span>{plan.transfersCount === 0 ? '0 Transfers' : `${plan.transfersCount} Transfer`}</span>
         </div>
@@ -106,7 +108,14 @@ export function JourneyOptionCard({
           }}
           className="w-full justify-center shadow-xs font-mono font-bold"
         >
-          {isSelected ? '✓ Selected Route (View Details)' : 'Select This Route'}
+          {isSelected ? (
+            <span className="inline-flex items-center space-x-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5" />
+              <span>Selected Route (View Details)</span>
+            </span>
+          ) : (
+            'Select This Route'
+          )}
         </Button>
       </div>
     </div>

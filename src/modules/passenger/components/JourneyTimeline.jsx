@@ -11,7 +11,9 @@ import {
   ChevronDown, 
   ChevronUp, 
   Sparkles,
-  Navigation
+  Navigation,
+  CheckCircle2,
+  Flag
 } from 'lucide-react';
 import { cn } from '../../../utils/index.js';
 
@@ -82,7 +84,10 @@ export function JourneyTimeline({ plan, className = '' }) {
           </div>
           <ul className="space-y-1 text-[11px] text-slate-700 dark:text-slate-300 font-sans">
             {plan.whyRecommend.map((reason, i) => (
-              <li key={i}>{reason}</li>
+              <li key={i} className="flex items-center space-x-1.5">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                <span>{reason.replace(/^✓\s*/, '')}</span>
+              </li>
             ))}
           </ul>
         </div>
@@ -91,8 +96,6 @@ export function JourneyTimeline({ plan, className = '' }) {
       {/* Vertical Step-by-Step Itinerary */}
       <div className="relative pl-6 space-y-6 before:absolute before:left-3 before:top-3 before:bottom-3 before:w-0.5 before:bg-slate-200 dark:before:bg-slate-700">
         {segments.map((seg, idx) => {
-          const isExpanded = expandedSegments[idx];
-
           if (seg.type === 'WALK') {
             return (
               <div key={idx} className="relative group">
@@ -104,8 +107,9 @@ export function JourneyTimeline({ plan, className = '' }) {
                 <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 space-y-1.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono font-bold uppercase">
-                        🚶 WALK
+                      <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-[10px] font-mono font-bold uppercase">
+                        <Footprints className="w-2.5 h-2.5" />
+                        <span>WALK</span>
                       </span>
                       <h4 className="font-bold text-xs text-slate-900 dark:text-white font-sans">
                         {seg.title}
@@ -135,8 +139,9 @@ export function JourneyTimeline({ plan, className = '' }) {
                 <div className="p-4 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/60 space-y-2">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <span className="px-2 py-0.5 rounded bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[10px] font-mono font-bold uppercase">
-                        🔄 TRANSFER INTERCHANGE
+                      <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded bg-amber-500/20 text-amber-800 dark:text-amber-300 text-[10px] font-mono font-bold uppercase">
+                        <Repeat className="w-2.5 h-2.5" />
+                        <span>TRANSFER INTERCHANGE</span>
                       </span>
                       <h4 className="font-bold text-xs text-amber-900 dark:text-amber-200 font-sans">
                         {seg.title}
@@ -152,8 +157,10 @@ export function JourneyTimeline({ plan, className = '' }) {
                       <span className="text-[10px] text-slate-500 uppercase block">Alight From</span>
                       <strong className="text-slate-900 dark:text-white font-bold">{seg.alightBus}</strong>
                     </div>
-                    <div className="text-amber-600 dark:text-amber-400 text-xs font-bold">
-                      ➔ {seg.distance} Walk ➔
+                    <div className="text-amber-600 dark:text-amber-400 text-xs font-bold flex items-center space-x-1">
+                      <span>➔</span>
+                      <span>{seg.distance} Walk</span>
+                      <span>➔</span>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-500 uppercase block">Board Next</span>
@@ -181,8 +188,9 @@ export function JourneyTimeline({ plan, className = '' }) {
                 <div className="p-4 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 space-y-3 shadow-xs">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-700 dark:text-sky-400 text-[10px] font-mono font-bold uppercase">
-                        🚌 TRANSIT BUS
+                      <span className="inline-flex items-center space-x-1 px-2 py-0.5 rounded bg-blue-500/10 text-blue-700 dark:text-sky-400 text-[10px] font-mono font-bold uppercase">
+                        <Bus className="w-2.5 h-2.5" />
+                        <span>TRANSIT BUS</span>
                       </span>
                       <h4 className="font-extrabold text-xs text-slate-900 dark:text-white font-sans">
                         {seg.busNumber} • {seg.routeCode}
@@ -236,8 +244,9 @@ export function JourneyTimeline({ plan, className = '' }) {
             <MapPin className="w-3 h-3" />
           </div>
           <div className="p-3.5 rounded-2xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 text-xs font-mono flex items-center justify-between">
-            <span className="font-bold text-emerald-900 dark:text-emerald-300 font-sans">
-              🏁 Arrive at Final Destination ({plan.arrivalTime})
+            <span className="font-bold text-emerald-900 dark:text-emerald-300 font-sans flex items-center space-x-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>Arrive at Final Destination ({plan.arrivalTime})</span>
             </span>
             <span className="text-emerald-700 dark:text-emerald-400 font-bold">
               Journey Completed

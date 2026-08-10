@@ -14,7 +14,10 @@ import {
   AlertTriangle,
   Play,
   RotateCcw,
-  Radio
+  Radio,
+  Zap,
+  GitMerge,
+  Users
 } from 'lucide-react';
 import { journeyService } from '../../../services/passenger/journeyService.js';
 import { JourneyOptionCard } from '../components/JourneyOptionCard.jsx';
@@ -212,26 +215,30 @@ export function JourneyPlannerPage({ onNavigate }) {
             <div className="flex flex-wrap items-center gap-1.5 text-xs font-mono">
               <span className="text-slate-400 text-[10px] uppercase font-bold pr-1">Routing Mode:</span>
               {[
-                { id: 'best_overall', label: '🌟 Best Overall' },
-                { id: 'fastest', label: '🟢 Fastest' },
-                { id: 'fewer_transfers', label: '🟡 Fewest Transfers' },
-                { id: 'less_walking', label: '🔵 Minimal Walking' },
-                { id: 'less_crowded', label: '🟣 Less Crowded (AI)' },
-              ].map((m) => (
-                <button
-                  key={m.id}
-                  type="button"
-                  onClick={() => handlePreferenceChange(m.id)}
-                  className={cn(
-                    'px-3 py-1.5 rounded-xl font-bold transition-all text-xs cursor-pointer',
-                    preference === m.id
-                      ? 'bg-[#0B3D91] text-white shadow-xs'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-                  )}
-                >
-                  {m.label}
-                </button>
-              ))}
+                { id: 'best_overall', label: 'Best Overall', icon: Sparkles },
+                { id: 'fastest', label: 'Fastest', icon: Zap },
+                { id: 'fewer_transfers', label: 'Fewest Transfers', icon: GitMerge },
+                { id: 'less_walking', label: 'Minimal Walking', icon: Footprints },
+                { id: 'less_crowded', label: 'Less Crowded (AI)', icon: Users },
+              ].map((m) => {
+                const IconComponent = m.icon;
+                return (
+                  <button
+                    key={m.id}
+                    type="button"
+                    onClick={() => handlePreferenceChange(m.id)}
+                    className={cn(
+                      'inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl font-bold transition-all text-xs cursor-pointer',
+                      preference === m.id
+                        ? 'bg-[#0B3D91] text-white shadow-xs'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                    )}
+                  >
+                    <IconComponent className="w-3.5 h-3.5" />
+                    <span>{m.label}</span>
+                  </button>
+                );
+              })}
             </div>
 
             <Button
