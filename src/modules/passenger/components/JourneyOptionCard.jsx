@@ -1,3 +1,4 @@
+import React, { Fragment } from 'react';
 import { Bus, Clock, Users, ArrowRight, Footprints, Repeat, Sparkles, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { OccupancyIndicator } from './OccupancyIndicator.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
