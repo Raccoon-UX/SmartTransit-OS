@@ -5,6 +5,8 @@
  * and controls live demo simulation triggers (Simulate Delay, Crowd Surge, GPS Anomaly, API Degradation).
  */
 
+import { apiClient } from '../api/apiClient.js';
+import { socketClient } from '../realtime/socketClient.js';
 import { MOCK_AI_OVERVIEW } from '../../data/ai/aiOverview.js';
 import { MOCK_ETA_PREDICTIONS } from '../../data/ai/etaPredictions.js';
 import { MOCK_OCCUPANCY_FORECASTS } from '../../data/ai/occupancyForecasts.js';
@@ -35,6 +37,12 @@ let state = {
   settings: { ...MOCK_AI_SETTINGS },
   isSimulationActive: false,
   activeSimulationType: null, // 'DELAY' | 'CROWD_SURGE' | 'GPS_ANOMALY' | 'API_DEGRADATION' | null
+  _provenance: {
+    source: 'SIMULATION',
+    mode: 'OFFLINE_FALLBACK',
+    modelType: 'AI_ORCHESTRATOR',
+    confidencePercent: 90,
+  },
 };
 
 let subscribers = [];
@@ -44,10 +52,63 @@ function notify() {
   subscribers.forEach((cb) => cb({ ...state }));
 }
 
+// ----------------------------------------------------
+// Realtime Socket.IO Listeners for Incremental AI Events
+// ----------------------------------------------------
+socketClient.subscribe('ai:recommendation', (rec) => {
+  if (!rec) return;
+  const newRec = {
+    id: `rec-live-${Date.now()}`,
+    type: rec.type || 'OCCUPANCY',
+    title: rec.recommendation || 'Operational Recommendation',
+    impact: 'Moderate Impact',
+    confidence: rec.confidencePercent || 91,
+    status: 'PENDING',
+    timestamp: 'Just now (Live)',
+    _provenance: rec._provenance || { source: 'HYBRID', mode: 'ONLINE' },
+  };
+  state.recommendations = [newRec, ...state.recommendations];
+  notify();
+});
+
+socketClient.subscribe('ai:anomaly', (anom) => {
+  if (!anom) return;
+  const newAnom = {
+    id: anom.id || `anom-live-${Date.now()}`,
+    severity: anom.severity || 'WARNING',
+    type: anom.category || 'ANOMALY',
+    title: anom.title || 'Operational Anomaly',
+    entity: anom.entity || 'Fleet Gateway',
+    timestamp: 'Just now (Live)',
+    status: 'ACTIVE',
+    _provenance: anom._provenance || { source: 'RULE_ENGINE', mode: 'ONLINE' },
+  };
+  state.anomalyEvents = [newAnom, ...state.anomalyEvents];
+  notify();
+});
+
+socketClient.subscribe('ai:eta:update', (eta) => {
+  if (!eta?.busNumber) return;
+  state.etaPredictions = state.etaPredictions.map((p) => {
+    if (p.busNumber === eta.busNumber) {
+      return {
+        ...p,
+        aiPredictedEta: `In ${eta.predictedEtaMinutes}m`,
+        confidence: eta.confidencePercent || p.confidence,
+        _provenance: eta._provenance || { source: 'HYBRID', mode: 'ONLINE' },
+      };
+    }
+    return p;
+  });
+  notify();
+});
+
 function startEngineTimer() {
   if (timer) return;
   timer = setInterval(() => {
-    // Subtle controlled inference jitter
+    // If Socket.IO is actively delivering live telemetry, do not jitter latency
+    if (socketClient.isRealtimeActive()) return;
+
     state.overview.avgInferenceLatencyMs = Math.max(28, Math.min(65, state.overview.avgInferenceLatencyMs + Math.floor(Math.random() * 5 - 2)));
     notify();
   }, 3000);
@@ -56,6 +117,39 @@ function startEngineTimer() {
 export const aiEngine = {
   getSnapshot() {
     return { ...state };
+  },
+
+  async syncWithBackend() {
+    try {
+      const [overviewData, recsData, anomsData] = await Promise.allSettled([
+        apiClient.get('/ai/overview'),
+        apiClient.get('/ai/recommendations'),
+        apiClient.get('/ai/anomalies'),
+      ]);
+
+      if (overviewData.status === 'fulfilled' && overviewData.value) {
+        state.overview = { ...state.overview, ...overviewData.value };
+      }
+      if (recsData.status === 'fulfilled' && Array.isArray(recsData.value) && recsData.value.length > 0) {
+        state.recommendations = recsData.value;
+      }
+      if (anomsData.status === 'fulfilled' && Array.isArray(anomsData.value) && anomsData.value.length > 0) {
+        state.anomalyEvents = anomsData.value;
+      }
+
+      state._provenance = {
+        source: 'DATABASE',
+        mode: 'ONLINE',
+        modelType: 'AI_ORCHESTRATOR',
+        confidencePercent: 94,
+        syncedAt: new Date().toISOString(),
+      };
+      notify();
+    } catch (e) {
+      if (!e.isFallbackEligible) {
+        console.warn('[AIEngine] Backend sync warning:', e);
+      }
+    }
   },
 
   subscribe(callback) {

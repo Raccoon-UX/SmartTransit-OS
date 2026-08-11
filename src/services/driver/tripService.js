@@ -1,8 +1,4 @@
-/**
- * SmartTransit OS — Centralized Driver Trip Lifecycle Service
- * Manages trip status (IDLE, READY, ACTIVE, COMPLETED), GPS ticks, and summary reports.
- */
-
+import { apiClient } from '../api/apiClient.js';
 import { MOCK_DRIVER_ASSIGNMENT } from '../../data/driver/driverAssignment.js';
 import { MOCK_DRIVER_TRIPS } from '../../data/driver/driverTrips.js';
 
@@ -31,12 +27,20 @@ let tripState = {
   summaryReport: null,
 };
 
-let tripSubscribers = [];
-let gpsInterval = null;
+import { socketClient } from '../realtime/socketClient.js';
 
-function notify() {
-  tripSubscribers.forEach((cb) => cb({ ...tripState }));
-}
+// Setup Socket.IO realtime listener for active trip updates
+socketClient.subscribe('trip:updated', (payload) => {
+  if (!payload) return;
+  tripState = {
+    ...tripState,
+    status: payload.status || tripState.status,
+    progressPercent: payload.progressPercent !== undefined ? payload.progressPercent : tripState.progressPercent,
+    currentStop: payload.currentStop || tripState.currentStop,
+    nextStop: payload.nextStop || tripState.nextStop,
+  };
+  notify();
+});
 
 function startGpsSimulation() {
   if (gpsInterval) clearInterval(gpsInterval);
@@ -69,7 +73,18 @@ export const tripService = {
     };
   },
 
-  startTrip() {
+  async startTrip() {
+    try {
+      const data = await apiClient.post('/trips/start', { busNumber: tripState.busNumber });
+      if (data) {
+        console.info('[TripService] Backend trip started:', data.tripId || 'ACTIVE');
+      }
+    } catch (error) {
+      if (!error.isFallbackEligible && error.status !== 409) {
+        console.warn('[TripService] Start trip API warning:', error);
+      }
+    }
+
     const startTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     tripState = {
       ...tripState,
@@ -85,10 +100,22 @@ export const tripService = {
     return { ...tripState };
   },
 
-  endTrip() {
+  async endTrip() {
+    let summary = null;
+    try {
+      const data = await apiClient.post('/trips/end');
+      if (data?.summaryReport) {
+        summary = data.summaryReport;
+      }
+    } catch (error) {
+      if (!error.isFallbackEligible && error.status !== 404) {
+        console.warn('[TripService] End trip API warning:', error);
+      }
+    }
+
     if (gpsInterval) clearInterval(gpsInterval);
     const endTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    const summary = {
+    const finalSummary = summary || {
       busNumber: tripState.busNumber,
       routeCode: tripState.routeCode,
       routeName: tripState.routeName,
@@ -108,7 +135,7 @@ export const tripService = {
       speed: '0 km/h',
       progressPercent: 100,
       completedStopsCount: 32,
-      summaryReport: summary,
+      summaryReport: finalSummary,
     };
     notify();
     return { ...tripState };

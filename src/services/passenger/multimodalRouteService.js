@@ -9,6 +9,7 @@
  * 5. Generates dynamic "Why We Recommend This" trade-off explanations.
  */
 
+import { apiClient } from '../api/apiClient.js';
 import { MOCK_PASSENGER_ROUTES } from '../../data/passenger/mockRoutes.js';
 import { MOCK_PASSENGER_BUSES } from '../../data/passenger/mockBuses.js';
 import { MOCK_PASSENGER_STOPS } from '../../data/passenger/mockStops.js';
@@ -67,7 +68,52 @@ export const multimodalRouteService = {
    * Main Multimodal Planning Method
    */
   async planJourney({ from, to, preference = 'best_overall' }) {
-    await new Promise((res) => setTimeout(res, 280)); // Realistic routing calculation latency
+    // 1. Try Backend Multimodal Planner API
+    try {
+      const data = await apiClient.post('/planner/multimodal', {
+        from,
+        to,
+        preference,
+      });
+
+      if (data && (data.plans || data.options)) {
+        const rawPlans = data.plans || data.options || [];
+        const plans = rawPlans.map((p) => ({
+          ...p,
+          totalDuration: p.totalDuration || `${p.totalMinutes} mins`,
+          walkingDuration: p.walkingDuration || `${p.walkingDistanceMeters ? Math.round(p.walkingDistanceMeters / 80) : 8} mins`,
+          transitDuration: p.transitDuration || `${p.totalMinutes ? p.totalMinutes - 10 : 30} mins`,
+          fare: p.fare || '₹25',
+          departureTime: p.departureTime || 'Now',
+          arrivalTime: p.arrivalTime || `In ${p.totalMinutes || 45} mins`,
+          segments: (p.segments || []).map((seg) => ({
+            ...seg,
+            icon: seg.icon || (seg.type === 'WALK' ? 'Walk' : seg.type === 'TRANSFER' ? 'Transfer' : 'Bus'),
+            distance: seg.distance || (seg.distanceMeters ? `${seg.distanceMeters}m` : '300m'),
+            duration: seg.duration || (seg.durationMinutes ? `${seg.durationMinutes} mins` : '4 mins'),
+          })),
+        }));
+
+        const hasDirect = plans.some((p) => p.transfersCount === 0);
+
+        return {
+          status: data.status || (hasDirect ? 'DIRECT_ROUTE_FOUND' : 'MULTIMODAL_ROUTE_FOUND'),
+          isDirectAvailable: hasDirect,
+          origin: data.origin || from,
+          destination: data.destination || to,
+          preference,
+          plans,
+          recommendedPlanId: data.recommendedPlanId || plans[0]?.id || 'plan-1',
+        };
+      }
+    } catch (error) {
+      if (!error.isFallbackEligible) {
+        console.warn('[MultimodalPlanner] API Error:', error);
+      }
+    }
+
+    // 2. Offline Fallback Local Planner Engine
+    await new Promise((res) => setTimeout(res, 280));
 
     const originLoc = this.resolveLocation(from) || {
       name: from || 'Origin',

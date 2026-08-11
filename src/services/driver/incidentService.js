@@ -1,8 +1,4 @@
-/**
- * SmartTransit OS — Driver Incident & Emergency SOS Service
- * Real Multi-Channel Emergency Dispatch (WhatsApp, Gmail, SMS, and SOC Command)
- */
-
+import { apiClient } from '../api/apiClient.js';
 import { INITIAL_DRIVER_INCIDENTS, MOCK_INCIDENT_CATEGORIES } from '../../data/driver/driverIncidents.js';
 
 let incidentsState = [...INITIAL_DRIVER_INCIDENTS];
@@ -14,7 +10,28 @@ function notify() {
 }
 
 export const incidentService = {
-  getIncidents() {
+  async getIncidents() {
+    try {
+      const data = await apiClient.get('/incidents');
+      if (Array.isArray(data) && data.length > 0) {
+        incidentsState = data.map((inc) => ({
+          id: inc.incidentCode || inc._id,
+          title: inc.title,
+          category: inc.type || 'GENERAL',
+          severity: inc.severity || 'MEDIUM',
+          status: inc.status || 'OPEN',
+          reportedAt: inc.createdAt ? new Date(inc.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '10:45 AM',
+          location: inc.location || 'Municipal Route',
+          vehicle: inc.busNumber ? `${inc.busNumber}` : 'Bus 245',
+          description: inc.timeline?.[0]?.message || inc.title,
+        }));
+        return [...incidentsState];
+      }
+    } catch (error) {
+      if (!error.isFallbackEligible) {
+        console.warn('[IncidentService] Fetch warning:', error);
+      }
+    }
     return [...incidentsState];
   },
 
@@ -30,7 +47,22 @@ export const incidentService = {
     };
   },
 
-  triggerEmergencySos({ reason = 'Emergency SOS Triggered by Driver', category = 'GENERAL' }) {
+  async triggerEmergencySos({ reason = 'Emergency SOS Triggered by Driver', category = 'GENERAL' }) {
+    // Attempt backend incident creation
+    try {
+      await apiClient.post('/incidents', {
+        title: `🚨 SOS: ${reason}`,
+        severity: 'CRITICAL',
+        type: 'EMERGENCY',
+        location: 'Dahisar Check Naka (GPS: 19.25, 72.85)',
+        busNumber: 'Bus 245',
+        message: reason,
+      });
+    } catch (e) {
+      if (!e.isFallbackEligible) {
+        console.warn('[IncidentService] SOS API warning:', e);
+      }
+    }
     const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const incId = `INC-2026-${Math.floor(1000 + Math.random() * 9000)}`;
     const phone = '+91 7710893839';

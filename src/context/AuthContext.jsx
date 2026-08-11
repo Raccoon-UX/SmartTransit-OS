@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { authService } from '../services/auth/authService.js';
 import { USER_ROLES } from '../services/auth/authTypes.js';
+import { socketClient } from '../services/realtime/socketClient.js';
 
 const AuthContext = createContext(null);
 
@@ -15,6 +16,9 @@ export function AuthProvider({ children }) {
       const existingSession = authService.getSession();
       if (existingSession && existingSession.user) {
         setUser(existingSession.user);
+        if (existingSession.token) {
+          socketClient.connect(existingSession.token);
+        }
       }
     } catch (e) {
       console.warn('Failed to restore session:', e);
@@ -30,6 +34,9 @@ export function AuthProvider({ children }) {
     try {
       const session = await authService.login(credentials);
       setUser(session.user);
+      if (session.token) {
+        socketClient.connect(session.token);
+      }
       return session.user;
     } catch (err) {
       setAuthError(err.message || 'Authentication failed');
@@ -46,6 +53,9 @@ export function AuthProvider({ children }) {
     try {
       const session = await authService.demoLogin(roleKey);
       setUser(session.user);
+      if (session.token) {
+        socketClient.connect(session.token);
+      }
       return session.user;
     } catch (err) {
       setAuthError(err.message || 'Demo login failed');
@@ -62,6 +72,9 @@ export function AuthProvider({ children }) {
     try {
       const session = await authService.register(formData);
       setUser(session.user);
+      if (session.token) {
+        socketClient.connect(session.token);
+      }
       return session.user;
     } catch (err) {
       setAuthError(err.message || 'Registration failed');
@@ -118,6 +131,7 @@ export function AuthProvider({ children }) {
 
   // Logout
   const logout = () => {
+    socketClient.disconnect();
     authService.logout();
     setUser(null);
     setAuthError(null);
