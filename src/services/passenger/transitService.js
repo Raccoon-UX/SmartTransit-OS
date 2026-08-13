@@ -113,15 +113,37 @@ export const transitService = {
     try {
       const data = await apiClient.get('/stops');
       if (Array.isArray(data) && data.length > 0) {
-        return data.map((s) => ({
-          id: s.code || s._id,
-          code: s.code,
-          name: s.name,
-          coordinates: s.coordinates || { x: 50, y: 50 },
-          zone: s.zone,
-          amenities: s.amenities || [],
-          connectedRoutes: s.connectedRoutes || [],
-        }));
+        return data.map((s) => {
+          const mockMatch = MOCK_PASSENGER_STOPS.find(
+            (m) => m.code === s.code || m.id === s.code || m.name === s.name
+          );
+          return {
+            id: s.code || s._id,
+            code: s.code,
+            name: s.name,
+            coordinates: s.coordinates || mockMatch?.coordinates || { x: 50, y: 50 },
+            zone: s.zone || mockMatch?.zone || 'Zone 1 - Central',
+            shelterType: s.shelterType || mockMatch?.shelterType || 'Smart Digital Shelter',
+            amenities: s.amenities || mockMatch?.amenities || ['CCTV Surveillance', 'LED Timetable'],
+            connectedRoutes: s.connectedRoutes || mockMatch?.connectedRoutes || ['RT-108', 'RT-415'],
+            incomingBuses: s.incomingBuses || mockMatch?.incomingBuses || [
+              {
+                busNumber: 'Bus 245',
+                route: 'RT-108',
+                destination: 'Vashi Sector 17',
+                eta: '4 min',
+                occupancy: 65,
+              },
+              {
+                busNumber: 'Bus 504',
+                route: 'RT-415',
+                destination: 'Thane Station East',
+                eta: '11 min',
+                occupancy: 42,
+              },
+            ],
+          };
+        });
       }
     } catch (error) {
       if (!error.isFallbackEligible) {

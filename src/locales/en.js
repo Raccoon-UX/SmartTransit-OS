@@ -174,6 +174,7 @@ export const en = {
   menuJourneyPlanner: 'Smart Journey Planner',
   menuFavorites: 'Saved Stops & Buses',
   menuNotifications: 'Travel Alerts & Commute Updates',
+  menuPassengerProfile: 'Passenger Profile & Settings',
 
   // Google Maps Light Theme Controls
   mapLightView: 'Google Map Light',

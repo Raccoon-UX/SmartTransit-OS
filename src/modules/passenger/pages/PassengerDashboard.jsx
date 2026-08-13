@@ -180,7 +180,7 @@ export function PassengerDashboard({ onNavigate }) {
                 </div>
 
                 <div className="space-y-2">
-                  {stop.incomingBuses.map((busItem, bIdx) => (
+                  {(stop.incomingBuses || []).map((busItem, bIdx) => (
                     <div
                       key={bIdx}
                       className="p-2.5 rounded-xl bg-slate-50 dark:bg-navy-850 border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs"
@@ -223,12 +223,12 @@ export function PassengerDashboard({ onNavigate }) {
                 onClick={() => onNavigate && onNavigate('/passenger/favorites')}
                 className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600"
               >
-                Manage ({favorites.routes.length})
+                Manage ({favorites?.routes?.length || 0})
               </button>
             </div>
 
             <div className="space-y-2.5">
-              {favorites.routes.map((fav) => (
+              {(favorites?.routes || []).map((fav) => (
                 <div
                   key={fav.id}
                   className="p-4 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between"

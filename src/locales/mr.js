@@ -174,6 +174,7 @@ export const mr = {
   menuJourneyPlanner: 'स्मार्ट प्रवास नियोजक',
   menuFavorites: 'जतन केलेले थांबे व बसेस',
   menuNotifications: 'प्रवास सूचना व अपडेट्स',
+  menuPassengerProfile: 'प्रवासी प्रोफाइल आणि सेटिंग्ज',
 
   // Google Maps Light Theme Controls
   mapLightView: 'गूगल मॅप लाईट मोड',
