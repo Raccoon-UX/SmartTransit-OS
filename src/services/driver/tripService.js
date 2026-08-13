@@ -1,4 +1,5 @@
 import { apiClient } from '../api/apiClient.js';
+import { socketClient } from '../realtime/socketClient.js';
 import { MOCK_DRIVER_ASSIGNMENT } from '../../data/driver/driverAssignment.js';
 import { MOCK_DRIVER_TRIPS } from '../../data/driver/driverTrips.js';
 
@@ -27,7 +28,18 @@ let tripState = {
   summaryReport: null,
 };
 
-import { socketClient } from '../realtime/socketClient.js';
+let tripSubscribers = [];
+let gpsInterval = null;
+
+function notify() {
+  tripSubscribers.forEach((callback) => {
+    try {
+      callback({ ...tripState });
+    } catch (err) {
+      console.warn('[TripService] Subscriber callback error:', err);
+    }
+  });
+}
 
 // Setup Socket.IO realtime listener for active trip updates
 socketClient.subscribe('trip:updated', (payload) => {
@@ -46,8 +58,8 @@ function startGpsSimulation() {
   if (gpsInterval) clearInterval(gpsInterval);
   gpsInterval = setInterval(() => {
     if (tripState.status === 'ACTIVE') {
-      const deltaX = (Math.sin(Date.now() / 3000) * 1.2);
-      const deltaY = (Math.cos(Date.now() / 3000) * 1.2);
+      const deltaX = Math.sin(Date.now() / 3000) * 1.2;
+      const deltaY = Math.cos(Date.now() / 3000) * 1.2;
       tripState = {
         ...tripState,
         gpsCoordinates: {
@@ -66,8 +78,10 @@ export const tripService = {
   },
 
   subscribeTrip(callback) {
-    tripSubscribers.push(callback);
-    callback({ ...tripState });
+    if (typeof callback === 'function') {
+      tripSubscribers.push(callback);
+      callback({ ...tripState });
+    }
     return () => {
       tripSubscribers = tripSubscribers.filter((cb) => cb !== callback);
     };
@@ -113,7 +127,10 @@ export const tripService = {
       }
     }
 
-    if (gpsInterval) clearInterval(gpsInterval);
+    if (gpsInterval) {
+      clearInterval(gpsInterval);
+      gpsInterval = null;
+    }
     const endTimeStr = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const finalSummary = summary || {
       busNumber: tripState.busNumber,
@@ -142,6 +159,10 @@ export const tripService = {
   },
 
   resetTrip() {
+    if (gpsInterval) {
+      clearInterval(gpsInterval);
+      gpsInterval = null;
+    }
     tripState = {
       ...tripState,
       status: 'READY',
