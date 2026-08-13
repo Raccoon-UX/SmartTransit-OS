@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bus, Radio } from 'lucide-react';
 import { fleetService } from '../../../services/admin/fleetService.js';
 import { FleetTable } from '../components/FleetTable.jsx';
 
 export function FleetPage({ onNavigate }) {
-  const [fleet] = useState(fleetService.getFleet());
+  const [fleet, setFleet] = useState(() => fleetService.getFleet());
+
+  useEffect(() => {
+    const unsub = fleetService.subscribeFleet(setFleet);
+    fleetService.fetchFleet?.();
+    return () => {
+      unsub();
+    };
+  }, []);
+
+  const fleetList = Array.isArray(fleet) ? fleet : [];
 
   return (
     <div className="space-y-6 text-left">
@@ -13,9 +23,9 @@ export function FleetPage({ onNavigate }) {
           <Bus className="w-3.5 h-3.5" /><span>FLEET OPERATIONS</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight">Fleet Management</h1>
-        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Monitor, search, and manage all {fleet.length} vehicles in the metropolitan transit fleet roster.</p>
+        <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">Monitor, search, and manage all {fleetList.length} vehicles in the metropolitan transit fleet roster.</p>
       </div>
-      <FleetTable fleet={fleet} onSelectBus={(bus) => onNavigate(`/admin/fleet/${bus.id}`)} />
+      <FleetTable fleet={fleetList} onSelectBus={(bus) => onNavigate(`/admin/fleet/${bus.id}`)} />
     </div>
   );
 }

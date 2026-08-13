@@ -17,7 +17,8 @@ export function SchedulesPage() {
 
   const handleCancel = (id) => {
     const updated = scheduleService.cancelSchedule(id);
-    setSchedules(updated.filter((s) => s.day === currentDay || currentDay === 'ALL'));
+    const safeUpdated = Array.isArray(updated) ? updated : [];
+    setSchedules(safeUpdated.filter((s) => s.day === currentDay || currentDay === 'ALL'));
     setToast('Schedule cancelled.'); setTimeout(() => setToast(null), 3000);
   };
 

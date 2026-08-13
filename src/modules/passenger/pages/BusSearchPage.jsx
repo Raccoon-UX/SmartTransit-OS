@@ -16,26 +16,28 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
     transitService.getLiveBuses().then(setBuses);
   }, []);
 
-  const filteredBuses = buses
+  const safeBuses = Array.isArray(buses) ? buses : [];
+  const filteredBuses = safeBuses
     .filter((bus) => {
+      if (!bus) return false;
       const q = query.trim().toLowerCase();
       const matchesSearch =
         !q ||
-        bus.busNumber.toLowerCase().includes(q) ||
-        bus.routeId.toLowerCase().includes(q) ||
-        bus.routeName.toLowerCase().includes(q) ||
-        bus.origin.toLowerCase().includes(q) ||
-        bus.destination.toLowerCase().includes(q) ||
-        bus.nextStop.toLowerCase().includes(q);
+        bus.busNumber?.toLowerCase().includes(q) ||
+        bus.routeId?.toLowerCase().includes(q) ||
+        bus.routeName?.toLowerCase().includes(q) ||
+        bus.origin?.toLowerCase().includes(q) ||
+        bus.destination?.toLowerCase().includes(q) ||
+        bus.nextStop?.toLowerCase().includes(q);
 
       if (!matchesSearch) return false;
       if (selectedFilter !== 'ALL' && bus.operationalStatus !== selectedFilter) return false;
       return true;
     })
     .sort((a, b) => {
-      if (sortBy === 'ETA') return a.etaMinutes - b.etaMinutes;
-      if (sortBy === 'OCCUPANCY') return a.occupancyPercent - b.occupancyPercent;
-      return a.busNumber.localeCompare(b.busNumber);
+      if (sortBy === 'ETA') return (parseInt(a.eta, 10) || 0) - (parseInt(b.eta, 10) || 0);
+      if (sortBy === 'OCCUPANCY') return (a.occupancyPercent || 0) - (b.occupancyPercent || 0);
+      return (a.busNumber || '').localeCompare(b.busNumber || '');
     });
 
   return (

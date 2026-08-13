@@ -30,7 +30,9 @@ export function NotificationsPage() {
     setTimeout(() => setToast(null), 2000);
   };
 
-  const filteredAlerts = alerts.filter((a) => {
+  const safeAlerts = Array.isArray(alerts) ? alerts : [];
+  const filteredAlerts = safeAlerts.filter((a) => {
+    if (!a) return false;
     if (filterType === 'ALL') return true;
     return a.type === filterType;
   });

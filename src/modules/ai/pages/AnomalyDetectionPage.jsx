@@ -13,7 +13,8 @@ export function AnomalyDetectionPage() {
     return () => unsub();
   }, []);
 
-  const filtered = domainFilter === 'ALL' ? anomalies : anomalies.filter((a) => a.domain === domainFilter);
+  const safeAnomalies = Array.isArray(anomalies) ? anomalies : [];
+  const filtered = domainFilter === 'ALL' ? safeAnomalies : safeAnomalies.filter((a) => a.domain === domainFilter);
 
   return (
     <div className="space-y-8 text-left">

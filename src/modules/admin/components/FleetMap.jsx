@@ -14,9 +14,11 @@ export function FleetMap({ onSelectBus, className = '' }) {
   const [busToShare, setBusToShare] = useState(null);
   const [fleet] = useState(MOCK_ADMIN_FLEET);
 
-  const filteredFleet = fleet.filter((bus) => {
+  const safeFleet = Array.isArray(fleet) ? fleet : [];
+  const filteredFleet = safeFleet.filter((bus) => {
+    if (!bus) return false;
     if (statusFilter === 'ALL') return true;
-    if (statusFilter === 'HIGH_OCCUPANCY') return bus.occupancyPercent >= 75;
+    if (statusFilter === 'HIGH_OCCUPANCY') return (bus.occupancyPercent || 0) >= 75;
     return bus.status === statusFilter;
   });
 

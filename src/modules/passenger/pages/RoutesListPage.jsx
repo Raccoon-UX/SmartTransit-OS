@@ -13,14 +13,16 @@ export function RoutesListPage({ onNavigate }) {
     routeService.getAllRoutes().then(setRoutes);
   }, []);
 
-  const filteredRoutes = routes.filter((r) => {
+  const safeRoutes = Array.isArray(routes) ? routes : [];
+  const filteredRoutes = safeRoutes.filter((r) => {
+    if (!r) return false;
     const q = search.trim().toLowerCase();
     if (!q) return true;
     return (
-      r.routeCode.toLowerCase().includes(q) ||
-      r.routeName.toLowerCase().includes(q) ||
-      r.origin.toLowerCase().includes(q) ||
-      r.destination.toLowerCase().includes(q)
+      r.routeCode?.toLowerCase().includes(q) ||
+      r.routeName?.toLowerCase().includes(q) ||
+      r.origin?.toLowerCase().includes(q) ||
+      r.destination?.toLowerCase().includes(q)
     );
   });
 

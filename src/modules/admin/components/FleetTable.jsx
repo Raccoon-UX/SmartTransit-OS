@@ -14,14 +14,17 @@ export function FleetTable({
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
-  const filteredFleet = fleet.filter((bus) => {
+  const safeFleet = Array.isArray(fleet) ? fleet : [];
+
+  const filteredFleet = safeFleet.filter((bus) => {
+    if (!bus) return false;
     const q = search.trim().toLowerCase();
     const matchesSearch =
       !q ||
-      bus.busNumber.toLowerCase().includes(q) ||
-      bus.routeId.toLowerCase().includes(q) ||
-      bus.driverName.toLowerCase().includes(q) ||
-      bus.depot.toLowerCase().includes(q);
+      bus.busNumber?.toLowerCase().includes(q) ||
+      bus.routeId?.toLowerCase().includes(q) ||
+      bus.driverName?.toLowerCase().includes(q) ||
+      bus.depot?.toLowerCase().includes(q);
 
     if (!matchesSearch) return false;
     if (statusFilter !== 'ALL' && bus.status !== statusFilter) return false;

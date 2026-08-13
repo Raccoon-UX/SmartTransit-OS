@@ -38,19 +38,24 @@ socketClient.subscribe('alert:created', (alertData) => {
 });
 
 export const alertService = {
-  async getAlerts(statusFilter = 'ALL') {
+  getAlerts(statusFilter = 'ALL') {
+    if (statusFilter === 'ALL') return [...alertsState];
+    return alertsState.filter((a) => a.status === statusFilter);
+  },
+
+  async fetchAlerts() {
     try {
       const data = await apiClient.get('/alerts');
       if (Array.isArray(data) && data.length > 0) {
         alertsState = data.map(normalizeAlert);
+        return [...alertsState];
       }
     } catch (error) {
       if (!error.isFallbackEligible) {
         console.warn('[AlertService] Fetch warning:', error);
       }
     }
-    if (statusFilter === 'ALL') return [...alertsState];
-    return alertsState.filter((a) => a.status === statusFilter);
+    return [...alertsState];
   },
 
   async createAlert({ title, message, severity = 'warning', type = 'DISRUPTION', affectedRoute = 'RT-108', affectedStop = 'All Stops', status = 'ACTIVE' }) {

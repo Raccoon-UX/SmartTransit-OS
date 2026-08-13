@@ -21,7 +21,8 @@ export function RecommendationCenterPage() {
     recommendationService.updateStatus(id, 'REJECTED');
   };
 
-  const filtered = statusFilter === 'ALL' ? data.recommendations : data.recommendations.filter((r) => r.status === statusFilter);
+  const recList = Array.isArray(data?.recommendations) ? data.recommendations : [];
+  const filtered = statusFilter === 'ALL' ? recList : recList.filter((r) => r.status === statusFilter);
 
   return (
     <div className="space-y-8 text-left">

@@ -9,9 +9,11 @@ export function RoutesPage({ onNavigate }) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
-  const filtered = routes.filter((r) => {
+  const safeRoutes = Array.isArray(routes) ? routes : [];
+  const filtered = safeRoutes.filter((r) => {
+    if (!r) return false;
     const q = search.trim().toLowerCase();
-    const matchesSearch = !q || r.routeCode.toLowerCase().includes(q) || r.routeName.toLowerCase().includes(q);
+    const matchesSearch = !q || r.routeCode?.toLowerCase().includes(q) || r.routeName?.toLowerCase().includes(q);
     if (!matchesSearch) return false;
     if (statusFilter !== 'ALL' && r.operationalStatus !== statusFilter) return false;
     return true;

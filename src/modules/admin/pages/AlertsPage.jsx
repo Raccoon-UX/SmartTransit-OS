@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Bell, Plus, CheckCircle2, Trash2, Send } from 'lucide-react';
 import { alertService } from '../../../services/admin/alertService.js';
 import { AlertComposerModal } from '../components/AlertComposerModal.jsx';
@@ -12,13 +12,22 @@ export function AlertsPage() {
   const [showComposer, setShowComposer] = useState(false);
   const [toast, setToast] = useState(null);
 
+  useEffect(() => {
+    alertService.fetchAlerts?.().then((data) => {
+      if (Array.isArray(data)) {
+        setAlerts(statusFilter === 'ALL' ? data : data.filter((a) => a.status === statusFilter));
+      }
+    });
+  }, [statusFilter]);
+
   const refresh = () => setAlerts(alertService.getAlerts(statusFilter));
 
   const handlePublish = (id) => { alertService.publishAlert(id); refresh(); setToast('Alert published.'); setTimeout(() => setToast(null), 3000); };
   const handleResolve = (id) => { alertService.resolveAlert(id); refresh(); setToast('Alert resolved.'); setTimeout(() => setToast(null), 3000); };
   const handleDelete = (id) => { alertService.deleteDraft(id); refresh(); setToast('Draft deleted.'); setTimeout(() => setToast(null), 3000); };
 
-  const filtered = statusFilter === 'ALL' ? alerts : alerts.filter((a) => a.status === statusFilter);
+  const safeAlerts = Array.isArray(alerts) ? alerts : [];
+  const filtered = statusFilter === 'ALL' ? safeAlerts : safeAlerts.filter((a) => a.status === statusFilter);
 
   return (
     <div className="space-y-6 text-left">

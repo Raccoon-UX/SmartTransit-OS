@@ -23,14 +23,15 @@ export function LiveTransitMap({
   useEffect(() => {
     const interval = setInterval(() => {
       setBuses((prev) =>
-        prev.map((bus, idx) => {
+        (Array.isArray(prev) ? prev : []).map((bus, idx) => {
           const deltaX = (Math.sin(Date.now() / 3500 + idx) * 1.5).toFixed(1);
           const deltaY = (Math.cos(Date.now() / 3500 + idx) * 1.5).toFixed(1);
+          const baseCoords = bus.coordinates || { x: 50, y: 50 };
           return {
             ...bus,
             dynamicCoords: {
-              x: Math.max(12, Math.min(88, bus.coordinates.x + parseFloat(deltaX))),
-              y: Math.max(15, Math.min(85, bus.coordinates.y + parseFloat(deltaY))),
+              x: Math.max(12, Math.min(88, (baseCoords.x || 50) + parseFloat(deltaX))),
+              y: Math.max(15, Math.min(85, (baseCoords.y || 50) + parseFloat(deltaY))),
             },
           };
         })
@@ -40,13 +41,15 @@ export function LiveTransitMap({
     return () => clearInterval(interval);
   }, []);
 
-  const filteredBuses = buses.filter((b) => {
+  const safeBuses = Array.isArray(buses) ? buses : [];
+  const filteredBuses = safeBuses.filter((b) => {
+    if (!b) return false;
     if (selectedRouteFilter !== 'ALL' && b.routeId !== selectedRouteFilter) return false;
     if (selectedStatusFilter !== 'ALL' && b.operationalStatus !== selectedStatusFilter) return false;
     return true;
   });
 
-  const activeBus = buses.find((b) => b.id === activeBusId) || buses[0];
+  const activeBus = safeBuses.find((b) => b.id === activeBusId) || safeBuses[0] || {};
 
   const handleBusClick = (b) => {
     setActiveBusId(b.id);

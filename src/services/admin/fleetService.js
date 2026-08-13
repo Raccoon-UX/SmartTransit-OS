@@ -30,11 +30,16 @@ function normalizeAdminBus(b) {
 }
 
 export const fleetService = {
-  async getFleet() {
+  getFleet() {
+    return [...fleetState];
+  },
+
+  async fetchFleet() {
     try {
       const data = await apiClient.get('/fleet');
       if (Array.isArray(data) && data.length > 0) {
         fleetState = data.map(normalizeAdminBus);
+        notify();
         return [...fleetState];
       }
     } catch (error) {

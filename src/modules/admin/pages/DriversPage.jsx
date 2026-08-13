@@ -9,9 +9,11 @@ export function DriversPage({ onNavigate }) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
-  const filtered = drivers.filter((d) => {
+  const safeDrivers = Array.isArray(drivers) ? drivers : [];
+  const filtered = safeDrivers.filter((d) => {
+    if (!d) return false;
     const q = search.trim().toLowerCase();
-    const matchesSearch = !q || d.name.toLowerCase().includes(q) || d.id.toLowerCase().includes(q) || d.depot.toLowerCase().includes(q);
+    const matchesSearch = !q || d.name?.toLowerCase().includes(q) || d.id?.toLowerCase().includes(q) || d.depot?.toLowerCase().includes(q);
     if (!matchesSearch) return false;
     if (statusFilter !== 'ALL' && d.status !== statusFilter) return false;
     return true;

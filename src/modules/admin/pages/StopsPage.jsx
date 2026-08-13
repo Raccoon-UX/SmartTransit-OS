@@ -9,9 +9,11 @@ export function StopsPage({ onNavigate }) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
-  const filtered = stops.filter((s) => {
+  const safeStops = Array.isArray(stops) ? stops : [];
+  const filtered = safeStops.filter((s) => {
+    if (!s) return false;
     const q = search.trim().toLowerCase();
-    const matchesSearch = !q || s.name.toLowerCase().includes(q) || s.code.toLowerCase().includes(q);
+    const matchesSearch = !q || s.name?.toLowerCase().includes(q) || s.code?.toLowerCase().includes(q);
     if (!matchesSearch) return false;
     if (statusFilter !== 'ALL' && s.status !== statusFilter) return false;
     return true;
