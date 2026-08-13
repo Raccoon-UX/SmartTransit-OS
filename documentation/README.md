@@ -59,17 +59,19 @@ The documentation portal is organized into 5 structured categories:
 - **`09. Analytics & Decisions`**: Operational metrics, prediction accuracy, and inference latency benchmarks.
 
 ### Category 04 — Engineering
-- **`10. Technology Constellation`**: React 18, Vite 6, Tailwind CSS 3.4, Lucide Icons, and GTFS-RT v2.0 schemas.
-- **`11. RBAC Matrix & Security`**: Route-by-route authorization matrix across all 4 personas.
-- **`12. Testing & Verification`**: Structured test cases (Crowd surge, role switching, multi-channel SOS).
-- **`13. Build Verification`**: Clean build logs showing 0 errors and 0 warnings (`npm run build`).
-- **`14. Bundle & Performance`**: 47.7% bundle reduction via ST-80 code-splitting (871.61 kB → 455.85 kB).
-- **`15. Deployment & Production`**: Vercel SPA configuration, output directories, and environment parameters.
+- **`10. Full System Architecture`**: Infographic flow diagram, multi-tier topology (Presentation, Gateway, Intelligence, Write Protection, MongoDB Atlas Persistence, and Offline Failover).
+- **`11. How To Use — Operations Guide`**: Comprehensive step-by-step operational guide for Passengers, Drivers, Dispatch Admins, SOC Ops, and AI Center.
+- **`12. Technology Constellation`**: React 18, Vite 6, Tailwind CSS 3.4, Lucide Icons, Node.js, Express, and GTFS-RT v2.0 schemas.
+- **`13. RBAC Matrix & Security`**: Route-by-route authorization matrix across all 4 personas.
+- **`14. Testing & Verification`**: Structured test cases (Crowd surge, role switching, multi-channel SOS).
+- **`15. Build Verification`**: Clean build logs showing 0 errors and 0 warnings (`npm run build`).
+- **`16. Bundle & Performance`**: 47.7% bundle reduction via ST-80 code-splitting (871.61 kB → 455.85 kB).
+- **`17. Deployment & Production`**: Vercel SPA configuration, output directories, and environment parameters.
 
 ### Category 05 — Impact & Future
-- **`16. Public Impact & Benefits`**: Civic mobility advantages for commuters, drivers, operators, and cities.
-- **`17. Limitations & Future Scope`**: Transparent documentation of simulated data vs planned IoT integration.
-- **`18. Strategic Roadmap`**: 4-phase rollout roadmap from prototype to multi-city municipal network.
+- **`18. Public Impact & Benefits`**: Civic mobility advantages for commuters, drivers, operators, and cities.
+- **`19. Limitations & Future Scope`**: Transparent documentation of simulated data vs planned IoT integration.
+- **`20. Strategic Roadmap`**: 4-phase rollout roadmap from prototype to multi-city municipal network.
 
 ---
 

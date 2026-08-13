@@ -16,7 +16,81 @@ SmartTransit OS is an enterprise-grade, smart city public transportation platfor
 
 ---
 
-## 2. Technical Architecture & Component Tree
+---
+
+## 2. Full System Architecture & Real-Time Data Flow
+
+```text
++---------------------------------------------------------------------------------------------------+
+|                                  CLIENT & PRESENTATION TIER                                       |
+|  [Passenger Commuter]    [Driver Cockpit]    [Admin Dispatch]    [SOC Operations]    [AI Center]  |
+|  React 18 + Vite 6 • Tailwind CSS 3.4 • Lucide Icons • Route Code Splitting (React.lazy)          |
++---------------------------------------------------------------------------------------------------+
+                                                  │
+                 Dual Ingress: HTTPS REST APIs + WSS Real-Time Socket.IO
+                                                  ▼
++---------------------------------------------------------------------------------------------------+
+|                                TRANSPORT, GATEWAY & SECURITY TIER                                 |
+|  - JWT Authentication + HttpOnly Refresh Cookies                                                  |
+|  - RBAC Middleware (Role-Based Route Protection)                                                  |
+|  - CORS & Helmet Security Hardening Headers                                                       |
++---------------------------------------------------------------------------------------------------+
+                                                  │
+                                                  ▼
++---------------------------------------------------------------------------------------------------+
+|                             CORE APPLICATION & INTELLIGENCE ENGINES                              |
+|  - Node.js & Express REST Micro-Controllers (/api/v1/*)                                           |
+|  - AI Intelligence Engine (Heuristic ETA, Density Forecasting, Anomaly Detection)                 |
+|  - Multimodal Journey Planner (Dijkstra graph over Metro, Bus & Feeder routes)                    |
+|  - Multi-Channel Emergency SOS Engine (WhatsApp +91 7710893839, Gmail, SMS)                       |
++---------------------------------------------------------------------------------------------------+
+                                                  │
+                         Controlled In-Memory High-Frequency Buffer
+                                                  ▼
++---------------------------------------------------------------------------------------------------+
+|                        TRANSIENT WRITE-PROTECTION & PERSISTENCE TIER                              |
+|  - In-Memory Ring Buffer: Absorbs 10,000+ GPS ticks/min with 0 DB overload                        |
+|  - MongoDB Atlas Cloud Cluster (Cluster0 / smarttransit_os - 10 Collections)                      |
+|  - Dual-Mode Failover: 100% Offline Simulation Fallback when offline                              |
++---------------------------------------------------------------------------------------------------+
+```
+
+---
+
+## 3. How To Use — Complete Operations Guide
+
+### 👤 1. Passenger Commuter Portal
+1. **Live Bus Radar (`/passenger/live-map`)**: View real-time bus locations with animated GPS beacons, route lines, and traffic layers.
+2. **Multimodal Journey Planner (`/passenger/journey-planner`)**: Input origin and destination to calculate the fastest transit itinerary (Metro + Bus + Feeder) with carbon footprint and fare comparisons.
+3. **Saved Stops & Routes**: Bookmark frequent corridors to view immediate arrival countdowns.
+4. **Localization**: Toggle language between English and Marathi (`EN / मराठी`) in the top navigation header.
+
+### 👨‍✈️ 2. Driver Cockpit & Navigation
+1. **Start Shift & Vehicle Assignment**: Log in as Driver Pilot (Vikram Jadhav), verify assigned vehicle (`Bus 245`) on corridor (`RT-108`), and click **"Start Trip"**.
+2. **HUD Waypoint Guidance**: Follow real-time turn-by-turn prompts, stop distance indicators, and passenger load counters.
+3. **Occupancy Reporting (`/driver/occupancy`)**: Adjust live passenger load slider to transmit real-time crowding data.
+4. **Emergency SOS**: Click **"Emergency SOS"** to broadcast incident telemetry directly via WhatsApp (`+91 7710893839`), Gmail (`vsujal956@gmail.com`), and SMS.
+
+### 👩‍💼 3. Transport Admin Console
+1. **Fleet Management (`/admin/fleet`)**: Real-time vehicle status, maintenance indicators, and fuel/battery monitoring.
+2. **Driver Dispatch Modals**: Dynamically assign drivers and routes to fleet buses with immediate confirmation.
+3. **Route & Stop Kiosk Control (`/admin/routes`, `/admin/stops`)**: Edit corridors, add new GPS stop coordinates, and manage transit kiosks.
+4. **Schedule Dispatcher (`/admin/schedules`)**: Generate daily and weekly timetable trip sheets.
+5. **Advisory Alerts (`/admin/alerts`)**: Compose and broadcast real-time delay or detour notices to all commuters.
+
+### 👨‍💻 4. System Operations Center (SOC)
+1. **Infrastructure Health (`/soc/telemetry`)**: Monitor real-time CPU load, memory usage, active Socket.IO clients, and API latency.
+2. **Database Snapshots (`/soc/backups`)**: Trigger automated or manual point-in-time MongoDB snapshots.
+3. **Security Audit Logs**: Track all authenticated API transactions, role transitions, and emergency events.
+
+### 🤖 5. AI Intelligence Center
+1. **Anomaly Watchdog (`/ai/anomalies`)**: Detect telemetry anomalies across Fleet, GPS, Occupancy, API, and Routes.
+2. **Demand Forecast Heatmaps (`/ai/demand`)**: Analyze hourly passenger crowding patterns to optimize feeder deployment.
+3. **Human-in-the-Loop AI Approvals (`/ai/recommendations`)**: Review and **Approve** or **Reject** AI dispatch optimizations before execution.
+
+---
+
+## 4. Technical Architecture & Component Tree
 
 ```text
 SmartTransit OS Architecture
