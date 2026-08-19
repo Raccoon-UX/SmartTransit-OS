@@ -177,7 +177,7 @@ export function GoogleAuthButton({
     <div className={cn('w-full flex flex-col items-center justify-center', className)}>
       {/* GIS Render Target if Client ID is configured and GIS is loaded */}
       {clientId && gisScriptReady ? (
-        <div ref={buttonContainerRef} className="w-full flex justify-center min-h-[44px]" />
+        <div ref={buttonContainerRef} className="w-full flex justify-center min-h-[50px]" />
       ) : (
         /* Standalone High-Fidelity Google Button */
         <button
@@ -185,17 +185,17 @@ export function GoogleAuthButton({
           onClick={handleFallbackClick}
           disabled={disabled || loading || authLoading}
           className={cn(
-            'w-full flex items-center justify-center space-x-3 px-4 py-2.5 rounded-lg font-sans font-medium text-xs sm:text-sm transition-all shadow-xs cursor-pointer',
-            'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700',
-            'hover:bg-slate-50 dark:hover:bg-slate-750 hover:border-slate-400 dark:hover:border-slate-600',
-            'focus:outline-hidden focus:ring-2 focus:ring-[#0B3D91] focus:ring-offset-2 dark:focus:ring-offset-slate-900',
+            'w-full h-[52px] sm:h-[56px] flex items-center justify-center space-x-3 px-5 rounded-xl font-sans font-bold text-sm sm:text-base transition-all shadow-xs cursor-pointer',
+            'bg-white text-[#152238] border border-[#D8E0EA]',
+            'hover:bg-[#F8FAFC] hover:border-[#CBD5E1] hover:shadow-sm',
+            'focus:outline-none focus:ring-2 focus:ring-[#0B4AA2] focus:ring-offset-2',
             (disabled || loading || authLoading) && 'opacity-60 cursor-not-allowed'
           )}
         >
           {loading || authLoading ? (
-            <div className="w-4 h-4 border-2 border-slate-400 border-t-[#0B3D91] rounded-full animate-spin" />
+            <div className="w-5 h-5 border-2 border-slate-300 border-t-[#0B4AA2] rounded-full animate-spin" />
           ) : (
-            <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
               <path
                 fill="#4285F4"
                 d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
