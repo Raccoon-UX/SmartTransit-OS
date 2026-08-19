@@ -5,6 +5,7 @@ import {
   generateRefreshToken,
   verifyRefreshToken,
 } from '../utils/jwt.js';
+import { verifyGoogleIdToken } from '../services/googleAuthService.js';
 
 // Safe mapping for demo 1-click role logins
 const DEMO_ROLE_EMAIL_MAP = {
@@ -29,6 +30,9 @@ function sanitizeUser(user) {
     email: user.email,
     name: user.name,
     role: user.role,
+    authProvider: user.authProvider || 'LOCAL',
+    avatar: user.avatar || null,
+    emailVerified: Boolean(user.emailVerified),
     driverProfile: user.driverProfile || {},
     commuterProfile: user.commuterProfile || {},
     isActive: user.isActive,
@@ -277,6 +281,135 @@ export const authController = {
           message: error.message || 'Failed to refresh token.',
         },
       });
+    }
+  },
+
+  /**
+   * POST /api/v1/auth/google
+   * Google Identity Services (GIS) server-side verified authentication & registration.
+   */
+  async googleAuth(req, res, next) {
+    try {
+      const credential = req.body?.credential || req.body?.token || req.body?.idToken;
+
+      if (!credential) {
+        return res.status(400).json({
+          success: false,
+          error: {
+            code: 'MISSING_CREDENTIAL',
+            message: 'Google credential ID token is required.',
+          },
+        });
+      }
+
+      // Verify Google token server-side
+      const verified = await verifyGoogleIdToken(credential);
+
+      if (!verified.emailVerified) {
+        return res.status(401).json({
+          success: false,
+          error: {
+            code: 'GOOGLE_EMAIL_UNVERIFIED',
+            message: 'Your Google account email address is not verified by Google.',
+          },
+        });
+      }
+
+      const normalizedEmail = verified.email.trim().toLowerCase();
+
+      // Check if user exists by googleId OR by verified email
+      let user = await User.findOne({
+        $or: [
+          { googleId: verified.googleId },
+          { email: normalizedEmail },
+        ],
+      });
+
+      if (user) {
+        // Account exists
+        if (!user.isActive) {
+          return res.status(401).json({
+            success: false,
+            error: {
+              code: 'ACCOUNT_DEACTIVATED',
+              message: 'Account is deactivated. Please contact transit dispatch.',
+            },
+          });
+        }
+
+        // Account linking: attach googleId and update provider if not already linked
+        let isModified = false;
+
+        if (!user.googleId) {
+          user.googleId = verified.googleId;
+          isModified = true;
+        }
+
+        if (user.authProvider === 'LOCAL') {
+          user.authProvider = 'BOTH';
+          isModified = true;
+        } else if (!user.authProvider) {
+          user.authProvider = 'BOTH';
+          isModified = true;
+        }
+
+        if (!user.emailVerified) {
+          user.emailVerified = true;
+          isModified = true;
+        }
+
+        if (verified.avatar && !user.avatar) {
+          user.avatar = verified.avatar;
+          isModified = true;
+        }
+
+        user.lastLoginAt = new Date();
+        isModified = true;
+
+        if (isModified) {
+          await user.save();
+        }
+      } else {
+        // New Google user registration -> strictly create as PASSENGER role
+        user = await User.create({
+          name: verified.name || 'Google Commuter',
+          email: normalizedEmail,
+          googleId: verified.googleId,
+          authProvider: 'GOOGLE',
+          role: 'PASSENGER', // Enforce passenger role
+          avatar: verified.avatar || null,
+          emailVerified: true,
+          isActive: true,
+          lastLoginAt: new Date(),
+          commuterProfile: {},
+          driverProfile: {},
+        });
+      }
+
+      const accessToken = generateAccessToken(user);
+      const refreshToken = generateRefreshToken(user);
+
+      // Set secure HttpOnly cookie for refresh token
+      res.cookie('refreshToken', refreshToken, REFRESH_COOKIE_OPTIONS);
+
+      return res.status(200).json({
+        success: true,
+        data: {
+          accessToken,
+          user: sanitizeUser(user),
+        },
+      });
+    } catch (error) {
+      if (error.status && error.code) {
+        return res.status(error.status).json({
+          success: false,
+          error: {
+            code: error.code,
+            message: error.message,
+          },
+        });
+      }
+      next(error);
     }
   },
 

@@ -6,6 +6,7 @@ import { Button } from '../../components/ui/Button.jsx';
 import { TextInput as Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { DemoLoginPills } from '../../components/auth/DemoLoginPills.jsx';
+import { GoogleAuthButton } from '../../components/auth/GoogleAuthButton.jsx';
 import logoImg from '../../assets/logo.png';
 import msrtcLogo1 from '../../assets/msrtc logo1.png';
 import publicBusBg from '../../assets/PublicBus.webp';
@@ -205,6 +206,39 @@ export function LoginPage({
                 >
                   {t('signInBtn')}
                 </Button>
+
+                {/* Visual OR Divider */}
+                <div className="relative flex items-center justify-center my-3">
+                  <div className="border-t border-slate-200 dark:border-slate-700 w-full" />
+                  <span className="bg-white dark:bg-slate-900 px-3 text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider shrink-0">
+                    OR
+                  </span>
+                  <div className="border-t border-slate-200 dark:border-slate-700 w-full" />
+                </div>
+
+                {/* Google Sign-In Button */}
+                <GoogleAuthButton
+                  text="signin_with"
+                  onSuccess={(user) => {
+                    if (onLoginSuccess) onLoginSuccess(user);
+                  }}
+                  onError={(err) => {
+                    setLocalError(err.message || 'Google sign-in was canceled or failed.');
+                  }}
+                />
+
+                {onNavigateRegister && (
+                  <div className="text-center text-xs text-slate-600 dark:text-slate-400 pt-1">
+                    Don't have an official commuter profile?{' '}
+                    <button
+                      type="button"
+                      onClick={onNavigateRegister}
+                      className="text-[#0B3D91] dark:text-sky-400 font-semibold hover:underline cursor-pointer"
+                    >
+                      Create Account
+                    </button>
+                  </div>
+                )}
               </form>
             </div>
 

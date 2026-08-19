@@ -16,6 +16,8 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || 'smarttransit_dev_jwt_secret',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '15m',
   refreshTokenExpiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN || '7d',
+  googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
 };
 
 export default config;

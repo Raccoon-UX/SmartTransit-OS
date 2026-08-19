@@ -120,6 +120,26 @@ export const authService = {
     return mockAuthService.register(userData);
   },
 
+  // Dual-mode Google Authentication (Production Enforced)
+  async googleLogin(credential) {
+    try {
+      const data = await apiClient.post('/auth/google', { credential }, { skipAuth: true });
+      if (data?.accessToken && data?.user) {
+        apiClient.setAccessToken(data.accessToken);
+        return formatUserSession(data.user, data.accessToken);
+      }
+    } catch (error) {
+      if (!error.isFallbackEligible) {
+        throw error;
+      }
+      if (isProduction) {
+        throw new Error('Google authentication service is temporarily unavailable. Please verify your connection.');
+      }
+      console.info('[AuthService] Backend unreachable in DEV mode, using offline Google login simulation.');
+    }
+    return mockAuthService.googleLogin(credential);
+  },
+
   requestOtp: (emailOrPhone) => mockAuthService.requestOtp(emailOrPhone),
   verifyOtp: (otp) => mockAuthService.verifyOtp(otp),
   resetPassword: (payload) => mockAuthService.resetPassword(payload),

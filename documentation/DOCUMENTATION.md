@@ -163,3 +163,28 @@ dist/assets/index-OYgtvvHB.js  593.62 kB │ gzip: 160.89 kB
 - [x] **Profile Drawers**: Functional right-side drawers for "My Profile & ID", "Transit Preferences", and "Security & RBAC Keys".
 - [x] **Emergency SOS**: Multi-channel alert deep links to WhatsApp (`+91 7710893839`) and Gmail (`vsujal956@gmail.com`).
 - [x] **Interactive Documentation Portal**: Fully accessible in `documentation/index.html` with screenshots from `documentation/img/`.
+- [x] **Google Authentication (GIS)**: Production-grade Google Sign-In & Sign-Up with server-side ID token verification, account linking, and RBAC preservation.
+
+---
+
+## 6. Google Authentication & Registration Setup
+
+SmartTransit OS provides Google Sign-In & Sign-Up via Google Identity Services (GIS) on the frontend and token verification via `google-auth-library` on the backend.
+
+### Google Cloud Setup
+1. Create a Google Cloud Project in the [Google Cloud Console](https://console.cloud.google.com/).
+2. Setup OAuth Consent Screen (User Type: External, Scopes: `openid`, `email`, `profile`).
+3. Create Web Application OAuth Client ID:
+   - Authorized Javascript Origins:
+     - Local: `http://localhost:5173`, `http://localhost:5000`
+     - Production: `https://smarttransit-os.vercel.app`, `https://smarttransit-os.onrender.com`
+4. Set Environment Variables:
+   - Frontend: `VITE_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com`
+   - Backend: `GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com`
+   - Backend: `GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET`
+
+### Security Invariants
+- **Public Google Registrations**: Strictly create accounts with `role = 'PASSENGER'`.
+- **Existing Account Linking**: If an existing ADMIN/DRIVER/SOC user authenticates with Google using the verified matching email, their identity is linked (`authProvider = 'BOTH'`) without altering their role or access privileges.
+- **Session Uniformity**: Issues the standard SmartTransit JWT access token & HttpOnly refresh cookie.
+

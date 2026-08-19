@@ -5,6 +5,7 @@ import { Button } from '../../components/ui/Button.jsx';
 import { TextInput as Input } from '../../components/ui/Input.jsx';
 import { Alert } from '../../components/ui/Alert.jsx';
 import { PasswordStrength } from '../../components/auth/PasswordStrength.jsx';
+import { GoogleAuthButton } from '../../components/auth/GoogleAuthButton.jsx';
 import { cn } from '../../utils/index.js';
 import publicBusBg from '../../assets/PublicBus.webp';
 
@@ -191,6 +192,26 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
           >
             Complete Registration
           </Button>
+
+          {/* Visual OR Divider */}
+          <div className="relative flex items-center justify-center my-3">
+            <div className="border-t border-slate-200 dark:border-slate-700 w-full" />
+            <span className="bg-white dark:bg-navy-900 px-3 text-[11px] font-mono text-slate-400 dark:text-slate-500 uppercase tracking-wider shrink-0">
+              OR
+            </span>
+            <div className="border-t border-slate-200 dark:border-slate-700 w-full" />
+          </div>
+
+          {/* Google Sign-Up Button */}
+          <GoogleAuthButton
+            text="signup_with"
+            onSuccess={(user) => {
+              if (onRegisterSuccess) onRegisterSuccess(user);
+            }}
+            onError={(err) => {
+              setLocalError(err.message || 'Google registration was canceled or failed.');
+            }}
+          />
         </form>
 
         <div className="text-center text-xs text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-navy-800 pt-4">

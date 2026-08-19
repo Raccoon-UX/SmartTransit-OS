@@ -84,6 +84,25 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Google Sign-In / Registration
+  const googleLogin = async (credential) => {
+    setIsLoading(true);
+    setAuthError(null);
+    try {
+      const session = await authService.googleLogin(credential);
+      setUser(session.user);
+      if (session.token) {
+        socketClient.connect(session.token);
+      }
+      return session.user;
+    } catch (err) {
+      setAuthError(err.message || 'Google authentication failed');
+      throw err;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   // Forgot Password / OTP Request
   const requestPasswordReset = async (emailOrPhone) => {
     setIsLoading(true);
@@ -158,6 +177,7 @@ export function AuthProvider({ children }) {
     isLoading,
     authError,
     login,
+    googleLogin,
     demoLogin,
     register,
     requestPasswordReset,

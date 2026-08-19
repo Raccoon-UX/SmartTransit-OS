@@ -30,8 +30,37 @@ const userSchema = new mongoose.Schema(
     },
     passwordHash: {
       type: String,
-      required: [true, 'Password hash is required'],
+      required: false,
       select: false, // Never select passwordHash by default
+    },
+    googleId: {
+      type: String,
+      trim: true,
+      default: null,
+      sparse: true,
+      index: true,
+    },
+    authProvider: {
+      type: String,
+      enum: {
+        values: ['LOCAL', 'GOOGLE', 'BOTH'],
+        message: '{VALUE} is not a valid auth provider',
+      },
+      default: 'LOCAL',
+      index: true,
+    },
+    avatar: {
+      type: String,
+      trim: true,
+      default: null,
+    },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    lastLoginAt: {
+      type: Date,
+      default: null,
     },
     name: {
       type: String,

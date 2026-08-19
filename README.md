@@ -159,6 +159,54 @@ smarttransit-os/
 
 ---
 
+## 🔐 Google Authentication & Registration Setup
+
+SmartTransit OS supports Google Sign-In and Google Sign-Up powered by Google Identity Services (GIS) and server-side token verification using `google-auth-library`.
+
+### 1. Google Cloud Console Setup
+1. Go to the [Google Cloud Console](https://console.cloud.google.com/).
+2. Create a new project (e.g. `smarttransit-os`).
+3. Configure the **OAuth Consent Screen**:
+   - User Type: **External**
+   - App Name: `SmartTransit OS`
+   - User support email & Developer contact info.
+   - Scopes: `openid`, `email`, `profile`.
+4. Create **OAuth 2.0 Client Credentials**:
+   - Application type: **Web application**.
+   - Name: `SmartTransit OS Web Client`.
+   - **Authorized JavaScript origins**:
+     - Local: `http://localhost:5173`, `http://localhost:5000`
+     - Production: `https://smarttransit-os.vercel.app`, `https://smarttransit-os.onrender.com`
+   - Copy the generated **Client ID** and **Client Secret**.
+
+### 2. Environment Variables Configuration
+
+#### Backend (`server/.env`):
+```env
+# Google OAuth 2.0 / GIS
+GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=YOUR_GOOGLE_CLIENT_SECRET
+```
+
+#### Frontend (`.env`):
+```env
+# Frontend Google Client ID
+VITE_GOOGLE_CLIENT_ID=YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com
+```
+
+### 3. Vercel & Render Production Deployment
+- **Vercel (Frontend)**: Add `VITE_GOOGLE_CLIENT_ID` in Project Settings -> Environment Variables.
+- **Render (Backend)**: Add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in Service Environment Variables.
+
+### 4. Account Linking & Security Model
+- **New Google Users**: Automatically created with strictly enforced `role = PASSENGER` and `authProvider = 'GOOGLE'`.
+- **Existing Users**: When signing in with Google using an existing registered email, the Google identity is securely linked (`authProvider = 'BOTH'`), while preserving existing `_id`, role (ADMIN / DRIVER / SOC / PASSENGER), and profile configurations.
+- **Privilege Escalation Prevention**: New public registrations can never self-assign privileged roles (ADMIN, DRIVER, SOC).
+- **Session Continuity**: Google authentication reuses the unified SmartTransit JWT access token (15m) and HttpOnly refresh token cookie (7d) architecture.
+
+---
+
 ## 📄 License & Disclaimer
 
 SmartTransit OS is open source under the [MIT License](LICENSE). Built for municipal public transit modernization.
+

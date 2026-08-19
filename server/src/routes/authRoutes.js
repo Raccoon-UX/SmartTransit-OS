@@ -8,6 +8,7 @@ const router = Router();
 router.post('/login', authController.login);
 router.post('/demo-login', authController.demoLogin);
 router.post('/register', authController.register);
+router.post('/google', authController.googleAuth);
 router.post('/refresh', authController.refreshToken);
 
 // Protected Authentication Profile

@@ -152,6 +152,35 @@ export const mockAuthService = {
   },
 
   /**
+   * Google authentication simulation for offline development mode
+   */
+  async googleLogin(credential) {
+    await new Promise((res) => setTimeout(res, 500));
+
+    const googleUser = {
+      id: `usr_google_${Date.now()}`,
+      name: 'Google Commuter',
+      email: 'commuter.google@smarttransit.city',
+      role: USER_ROLES.PASSENGER,
+      roleTitle: 'Google Verified Commuter',
+      roleCode: 'PASSENGER',
+      avatar: 'GC',
+      department: 'Urban Transit Citizens',
+      authProvider: 'GOOGLE',
+      emailVerified: true,
+    };
+
+    const session = {
+      user: googleUser,
+      token: `demo_jwt_google_${Date.now()}`,
+      expiresAt: Date.now() + 86400 * 1000,
+    };
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    return session;
+  },
+
+  /**
    * Passenger registration flow
    */
   async register({ fullName, email, phone, password }) {
