@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================
   // 5. SEARCH MODAL (Ctrl + K)
   // ==========================================
-  const searchBtn = document.getElementById('search-btn');
+  const searchBtn = document.getElementById('search-trigger') || document.getElementById('search-btn');
   const searchModal = document.getElementById('search-modal');
   const searchInput = document.getElementById('search-input');
   const searchClose = document.getElementById('search-close');
