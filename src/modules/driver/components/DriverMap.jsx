@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Bus, MapPin, Navigation, RotateCcw, Share2 } from 'lucide-react';
+import { Bus, MapPin, Navigation, RotateCcw, Share2, Radio, Compass } from 'lucide-react';
+import { RealisticCityCanvas } from '../../../components/maps/RealisticCityCanvas.jsx';
+import { BusMapMarker } from '../../../components/maps/MapMarkerPrimitives.jsx';
 import { LocationShareModal } from '../../../components/maps/LocationShareModal.jsx';
 import { cn } from '../../../utils/index.js';
 
@@ -30,34 +32,25 @@ export function DriverMap({
   return (
     <div
       className={cn(
-        'relative w-full h-[480px] sm:h-[580px] rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-800 shadow-xl transition-all text-left bg-[#E8ECEF] font-sans',
+        'relative w-full h-[500px] sm:h-[600px] rounded-2xl overflow-hidden border border-slate-300 dark:border-slate-800 shadow-xl transition-all text-left bg-[#F4F7FB] font-sans select-none',
         className
       )}
     >
-      {/* REALISTIC GOOGLE MAPS LIGHT THEME CANVAS */}
-      <svg className="absolute inset-0 w-full h-full pointer-events-none">
-        <path d="M 0 0 L 140 0 Q 220 180, 180 340 T 240 600 L 0 600 Z" fill="#A5C9EB" />
-        <path d="M 680 40 Q 820 80, 960 160 L 960 40 Z" fill="#D2E8D4" />
+      {/* REALISTIC HIGH-FIDELITY VECTOR CITY CANVAS */}
+      <RealisticCityCanvas
+        showTraffic={true}
+        showRoutes={true}
+        showLabels={true}
+        showLandmarks={true}
+        activeRouteId={routeCode}
+      />
 
-        {/* Secondary White Local Streets */}
-        <g stroke="#FFFFFF" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round">
-          <line x1="160" y1="120" x2="900" y2="120" />
-          <line x1="180" y1="240" x2="960" y2="240" />
-          <line x1="200" y1="360" x2="960" y2="360" />
-          <line x1="300" y1="40" x2="300" y2="560" />
-          <line x1="450" y1="40" x2="450" y2="560" />
-        </g>
-
-        {/* Google Maps Yellow Expressway */}
-        <path d="M 180 80 Q 320 220, 520 280 T 880 480" fill="none" stroke="#FFE082" strokeWidth="10" strokeLinecap="round" />
-      </svg>
-
-      {/* Top Cockpit HUD Bar */}
-      <div className="absolute top-4 left-4 right-4 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-auto">
+      {/* TOP COCKPIT HUD BAR */}
+      <div className="absolute top-3 sm:top-4 left-3 sm:left-4 right-3 sm:right-4 z-40 flex flex-wrap items-center justify-between gap-2 pointer-events-auto">
         <div className="flex items-center space-x-2 px-3 py-1.5 rounded-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white font-mono text-xs shadow-md">
-          <Bus className="w-4 h-4 text-[#0B3D91]" />
-          <span className="font-bold">{busNumber}</span>
-          <span className="text-slate-500 font-normal">Line {routeCode}</span>
+          <Radio className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
+          <span className="font-extrabold">{busNumber}</span>
+          <span className="text-[#0B3D91] dark:text-sky-400 font-bold">Line {routeCode}</span>
         </div>
 
         <div className="flex items-center space-x-2">
@@ -65,35 +58,56 @@ export function DriverMap({
           <button
             type="button"
             onClick={() => setShareModalOpen(true)}
-            className="px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold font-mono text-xs shadow-md inline-flex items-center space-x-1.5"
+            className="px-3 py-1.5 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-white font-bold font-mono text-xs shadow-md inline-flex items-center space-x-1.5 border border-emerald-400 cursor-pointer"
           >
-            <Share2 className="w-4 h-4" />
-            <span>Share Location on WhatsApp</span>
+            <Share2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Share Location</span>
           </button>
 
           <button
             type="button"
             onClick={() => setRecentered(true)}
-            className="p-2 rounded-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 transition-colors text-xs font-mono flex items-center space-x-1.5 shadow-md"
+            className="p-2 rounded-xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 transition-colors text-xs font-mono flex items-center space-x-1.5 shadow-md cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Recenter Vector</span>
+            <RotateCcw className="w-3.5 h-3.5 text-[#0B3D91]" />
+            <span className="hidden sm:inline">Recenter</span>
           </button>
         </div>
       </div>
 
-      {/* Driver's Bus Vehicle Marker */}
+      {/* DRIVER'S BUS VEHICLE MARKER ON ROAD CORRIDOR */}
       <div
-        className="absolute z-30 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out pointer-events-none"
+        className="absolute z-30 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out pointer-events-auto cursor-pointer"
         style={{ left: `${coordinates.x}%`, top: `${coordinates.y}%` }}
       >
-        <span className="absolute -inset-3 rounded-full bg-[#0B3D91]/30 animate-ping" />
-        <div className="w-11 h-11 rounded-full bg-[#0B3D91] text-white flex items-center justify-center shadow-xl border-2 border-white">
-          <Bus className="w-5 h-5" />
+        <BusMapMarker
+          busNumber={busNumber}
+          routeCode={routeCode}
+          heading={135}
+          status="LIVE"
+          occupancyPercent={68}
+          speed="42 km/h"
+          isSelected={true}
+        />
+      </div>
+
+      {/* NEXT STOP HUD CARD (BOTTOM OVERLAY) */}
+      <div className="absolute bottom-3 left-3 sm:left-4 right-3 sm:right-4 z-40 flex items-center justify-between pointer-events-auto p-3 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border border-slate-300 dark:border-slate-700 shadow-xl">
+        <div>
+          <div className="text-[10px] font-mono font-bold uppercase text-slate-400">Current Approach Vector</div>
+          <div className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-sans flex items-center space-x-1.5">
+            <span className="text-slate-500">{currentStop}</span>
+            <span className="text-slate-400">&rarr;</span>
+            <strong className="text-[#0B3D91] dark:text-sky-400">{nextStop}</strong>
+          </div>
+        </div>
+        <div className="text-right">
+          <div className="text-[10px] font-mono font-bold uppercase text-slate-400">Live Progress</div>
+          <div className="text-xs font-mono font-bold text-emerald-600">{tripProgress}% Completed</div>
         </div>
       </div>
 
-      {/* WhatsApp Share Location Modal */}
+      {/* WHATSAPP SHARE LOCATION MODAL */}
       <LocationShareModal
         isOpen={shareModalOpen}
         bus={driverBusObj}

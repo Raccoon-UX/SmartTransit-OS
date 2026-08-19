@@ -1,15 +1,123 @@
 import React from 'react';
-import { Bus, MapPin, Navigation, Radio } from 'lucide-react';
+import { Bus, MapPin, Navigation, Radio, Compass, Users } from 'lucide-react';
 import { cn } from '../../utils/index.js';
 
 /**
- * Live Transit Bus Marker for Leaflet / Canvas / Map overlays
+ * Live Transit Bus Marker
+ * Realistic vehicle silhouette marker with directional heading arrow,
+ * route badge, status LED indicator, and interactive hover elevation.
  */
 export function BusMapMarker({
   busNumber = '245',
-  heading = 45, // Degrees 0 - 360
-  status = 'LIVE',
+  routeCode = 'RT-108',
+  heading = 45, // Degrees 0 - 360 or direction string
+  status = 'LIVE', // LIVE, DELAYED, APPROACHING, OFFLINE
   occupancyPercent = 60,
+  speed = '38 km/h',
+  isSelected = false,
+  onClick,
+  className = '',
+}) {
+  // Convert heading string or number to numeric angle
+  let rotationDeg = 45;
+  if (typeof heading === 'number') {
+    rotationDeg = heading;
+  } else if (typeof heading === 'string') {
+    const headingMap = {
+      'North': 0,
+      'North-East': 45,
+      'East': 90,
+      'East-South': 135,
+      'South-East': 135,
+      'South': 180,
+      'South-West': 225,
+      'West': 270,
+      'North-West': 315,
+    };
+    rotationDeg = headingMap[heading] ?? 45;
+  }
+
+  const isDelayed = status === 'DELAYED';
+  const isApproaching = status === 'APPROACHING';
+
+  return (
+    <div
+      onClick={onClick}
+      className={cn('relative inline-flex flex-col items-center cursor-pointer select-none group', className)}
+    >
+      {/* Live Active Pulse Ripple */}
+      {status !== 'OFFLINE' && (
+        <span
+          className={cn(
+            'absolute -inset-2 rounded-full pointer-events-none animate-ping opacity-75',
+            isDelayed ? 'bg-amber-500/40' : 'bg-emerald-500/30'
+          )}
+        />
+      )}
+
+      {/* Realistic Vehicle Capsule Container */}
+      <div
+        className={cn(
+          'relative flex items-center space-x-1.5 px-2.5 py-1 rounded-full border shadow-md transition-all duration-200',
+          isSelected
+            ? 'bg-[#0B3D91] text-white border-amber-400 ring-4 ring-[#0B3D91]/30 scale-110 shadow-xl'
+            : 'bg-white text-slate-900 border-slate-300 hover:border-[#0B3D91] hover:shadow-lg hover:scale-105'
+        )}
+      >
+        {/* Status Indicator LED */}
+        <span
+          className={cn(
+            'w-2 h-2 rounded-full shrink-0',
+            isDelayed
+              ? 'bg-amber-500 shadow-[0_0_6px_rgba(245,158,11,0.8)]'
+              : 'bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)]'
+          )}
+        />
+
+        {/* Bus Icon */}
+        <Bus className={cn('w-3.5 h-3.5 shrink-0', isSelected ? 'text-amber-300' : 'text-[#0B3D91]')} />
+
+        {/* Bus Number Label */}
+        <span className="text-[11px] font-mono font-bold tracking-tight">
+          {busNumber.replace('Bus ', '')}
+        </span>
+
+        {/* Direction Heading Pointer */}
+        <div
+          className={cn(
+            'w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300',
+            isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-[#0B3D91]'
+          )}
+          style={{ transform: `rotate(${rotationDeg}deg)` }}
+          title={`Heading: ${heading}`}
+        >
+          <Navigation className="w-2.5 h-2.5 fill-current" />
+        </div>
+      </div>
+
+      {/* Route Badge Sub-Tag */}
+      <div
+        className={cn(
+          'mt-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono font-bold tracking-wider uppercase shadow-xs transition-opacity',
+          isSelected
+            ? 'bg-amber-400 text-slate-950 font-black'
+            : 'bg-slate-800 text-slate-100'
+        )}
+      >
+        {routeCode}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Realistic Bus Stop Marker with Shelter Symbol & ETA Badge
+ */
+export function StopMapMarker({
+  stopCode = 'BST-104',
+  stopName = 'Central Station',
+  eta = '3m',
+  hasKiosk = true,
   isSelected = false,
   onClick,
   className = '',
@@ -19,56 +127,26 @@ export function BusMapMarker({
       onClick={onClick}
       className={cn('relative inline-flex flex-col items-center cursor-pointer select-none group', className)}
     >
-      {/* Dynamic expanding pulse around live bus marker */}
-      <span className="absolute -inset-2 rounded-full bg-transit-500/30 animate-ping pointer-events-none" />
-      
-      {/* Bus Bubble */}
+      {/* Outer Stop Pin Shield */}
       <div
         className={cn(
-          'w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-200 border shadow-lg relative z-10',
-          'bg-transit-600 text-white border-white dark:border-navy-900',
-          isSelected && 'ring-4 ring-transit-400 scale-110'
+          'w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shadow-md transition-all duration-200 border-2',
+          isSelected
+            ? 'bg-[#0B3D91] text-white border-amber-400 ring-4 ring-[#0B3D91]/25 scale-110'
+            : 'bg-white text-[#0B3D91] border-[#0B3D91] hover:scale-105'
         )}
       >
-        <Bus className="w-5 h-5" />
-        {/* Heading Indicator Arrow */}
-        <div
-          className="absolute -top-1.5 w-3 h-3 bg-white dark:bg-navy-950 text-transit-500 rounded-full flex items-center justify-center shadow"
-          style={{ transform: `rotate(${heading}deg)` }}
-        >
-          <div className="w-1.5 h-1.5 border-l-2 border-t-2 border-transit-600 rotate-45 transform -translate-y-0.5" />
-        </div>
+        <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
       </div>
 
-      {/* Floating Tag */}
-      <div className="mt-1 px-1.5 py-0.5 rounded bg-slate-900/90 backdrop-blur-sm text-white text-[10px] font-mono font-bold shadow whitespace-nowrap">
-        Bus {busNumber}
+      {/* Stop Code Pill */}
+      <div className="mt-0.5 px-1.5 py-0.2 rounded bg-slate-900/90 backdrop-blur-xs text-white text-[8px] sm:text-[9px] font-mono font-bold shadow-xs whitespace-nowrap">
+        {stopCode}
       </div>
-    </div>
-  );
-}
 
-/**
- * Bus Stop Marker with LED Kiosk Indicator
- */
-export function StopMapMarker({
-  stopCode = 'BST-104',
-  stopName = 'Central Station',
-  eta = '3m',
-  hasKiosk = true,
-  onClick,
-  className = '',
-}) {
-  return (
-    <div
-      onClick={onClick}
-      className={cn('relative inline-flex flex-col items-center cursor-pointer select-none', className)}
-    >
-      <div className="w-8 h-8 rounded-full bg-white dark:bg-navy-900 border-2 border-slate-700 dark:border-slate-300 flex items-center justify-center text-slate-800 dark:text-white shadow-md">
-        <MapPin className="w-4 h-4 text-transit-500" />
-      </div>
+      {/* ETA Badge */}
       {eta && (
-        <div className="mt-0.5 px-1.5 py-0.2 rounded-full bg-emerald-600 text-white text-[9px] font-mono font-bold shadow">
+        <div className="mt-0.5 px-1.5 py-0.2 rounded-full bg-emerald-600 text-white text-[8px] font-mono font-bold shadow-xs">
           {eta}
         </div>
       )}
@@ -77,13 +155,13 @@ export function StopMapMarker({
 }
 
 /**
- * User Geolocation Pin
+ * User Geolocation Pulse Marker
  */
 export function UserLocationMarker({ className = '' }) {
   return (
-    <div className={cn('relative inline-flex items-center justify-center', className)}>
-      <span className="absolute w-8 h-8 rounded-full bg-transit-500/20 animate-ping" />
-      <span className="w-4 h-4 rounded-full bg-transit-500 border-2 border-white dark:border-navy-950 shadow-md" />
+    <div className={cn('relative inline-flex items-center justify-center pointer-events-none', className)}>
+      <span className="absolute w-8 h-8 rounded-full bg-sky-500/25 animate-ping" />
+      <span className="w-4 h-4 rounded-full bg-sky-500 border-2 border-white shadow-md" />
     </div>
   );
 }
