@@ -183,18 +183,22 @@ export const mockAuthService = {
   /**
    * Passenger registration flow
    */
-  async register({ fullName, email, phone, password }) {
+  async register({ name, fullName, email, phone, phoneNumber, password }) {
     await new Promise((res) => setTimeout(res, 700));
+
+    const finalName = (name || fullName || '').trim();
+    const finalEmail = (email || '').trim().toLowerCase();
+    const finalPhone = (phone || phoneNumber || '').trim();
 
     const newUser = {
       id: `usr_reg_${Date.now()}`,
-      name: fullName.trim(),
-      email: email.trim().toLowerCase(),
-      phone: phone.trim(),
+      name: finalName,
+      email: finalEmail,
+      phone: finalPhone,
       role: USER_ROLES.PASSENGER,
       roleTitle: 'Registered Commuter',
       roleCode: 'PASSENGER',
-      avatar: fullName.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() || 'RG',
+      avatar: finalName.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() || 'RG',
       department: 'Urban Transit Citizens',
     };
 

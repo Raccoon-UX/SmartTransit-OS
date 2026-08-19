@@ -169,7 +169,14 @@ export const authController = {
    */
   async register(req, res, next) {
     try {
-      const { name, email, password, commuterProfile } = req.body;
+      const name = (req.body.name || req.body.fullName || '').trim();
+      const email = (req.body.email || '').trim();
+      const password = req.body.password;
+      const phone = (req.body.phone || req.body.phoneNumber || req.body.mobile || '').trim();
+      const commuterProfile = req.body.commuterProfile || {};
+      if (phone && !commuterProfile.phone) {
+        commuterProfile.phone = phone;
+      }
 
       if (!name || !email || !password) {
         return res.status(400).json({
@@ -191,7 +198,7 @@ export const authController = {
         });
       }
 
-      const normalizedEmail = email.trim().toLowerCase();
+      const normalizedEmail = email.toLowerCase();
 
       // Check duplicate email
       const existingUser = await User.findOne({ email: normalizedEmail });
@@ -209,11 +216,11 @@ export const authController = {
 
       // Force role = PASSENGER to prevent privilege escalation
       const newUser = await User.create({
-        name: name.trim(),
+        name,
         email: normalizedEmail,
         passwordHash: hashedPassword,
         role: 'PASSENGER',
-        commuterProfile: commuterProfile || {},
+        commuterProfile,
         isActive: true,
       });
 

@@ -51,7 +51,12 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
     }
 
     try {
-      const newUser = await register({ fullName, email, phone, password });
+      const newUser = await register({
+        name: fullName.trim(),
+        email: email.trim(),
+        phone: phone.trim(),
+        password,
+      });
       if (onRegisterSuccess) {
         onRegisterSuccess(newUser);
       }
