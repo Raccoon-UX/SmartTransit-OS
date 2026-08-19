@@ -67,18 +67,18 @@ export function AppHeader({
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Dual Emblem Logos */}
-          <div className="flex items-center space-x-2.5 shrink-0 min-w-0">
+          {/* Dual Emblem Logos (High-Contrast in Light & Dark) */}
+          <div className="flex items-center space-x-2 sm:space-x-2.5 shrink-0 min-w-0 dark:bg-white/95 dark:px-2 dark:py-0.5 dark:rounded-xl dark:shadow-xs">
             <img
               src={logoImg}
               alt="SmartTransit OS Logo"
-              className="h-8 sm:h-9 md:h-10 w-auto max-w-[105px] sm:max-w-[130px] object-contain shrink-0"
+              className="h-7 sm:h-8 md:h-9 w-auto max-w-[100px] sm:max-w-[125px] object-contain shrink-0"
             />
-            <span className="text-slate-300 dark:text-slate-700 text-sm font-mono hidden sm:inline">|</span>
+            <span className="text-slate-300 dark:text-slate-400 text-sm font-mono hidden sm:inline">|</span>
             <img
               src={msrtcLogo1}
               alt="MSRTC Official Emblem"
-              className="hidden sm:block h-8 sm:h-9 md:h-10 w-auto max-w-[125px] sm:max-w-[160px] object-contain shrink-0"
+              className="hidden sm:block h-7 sm:h-8 md:h-9 w-auto max-w-[120px] sm:max-w-[155px] object-contain shrink-0"
             />
           </div>
 

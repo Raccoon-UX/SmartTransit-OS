@@ -60,8 +60,8 @@ export function BusMapMarker({
         className={cn(
           'relative flex items-center space-x-1.5 px-2.5 py-1 rounded-full border shadow-md transition-all duration-200',
           isSelected
-            ? 'bg-[#0B3D91] text-white border-amber-400 ring-4 ring-[#0B3D91]/30 scale-110 shadow-xl'
-            : 'bg-white text-slate-900 border-slate-300 hover:border-[#0B3D91] hover:shadow-lg hover:scale-105'
+            ? 'bg-[#0B3D91] dark:bg-sky-600 text-white border-amber-400 ring-4 ring-sky-500/30 scale-110 shadow-xl'
+            : 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white border-slate-300 dark:border-slate-700 hover:border-[#0B3D91] dark:hover:border-sky-400 hover:shadow-lg hover:scale-105'
         )}
       >
         {/* Status Indicator LED */}
@@ -75,7 +75,7 @@ export function BusMapMarker({
         />
 
         {/* Bus Icon */}
-        <Bus className={cn('w-3.5 h-3.5 shrink-0', isSelected ? 'text-amber-300' : 'text-[#0B3D91]')} />
+        <Bus className={cn('w-3.5 h-3.5 shrink-0', isSelected ? 'text-amber-300' : 'text-[#0B3D91] dark:text-sky-400')} />
 
         {/* Bus Number Label */}
         <span className="text-[11px] font-mono font-bold tracking-tight">
@@ -86,7 +86,9 @@ export function BusMapMarker({
         <div
           className={cn(
             'w-3.5 h-3.5 rounded-full flex items-center justify-center shrink-0 shadow-xs transition-transform duration-300',
-            isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-[#0B3D91]'
+            isSelected
+              ? 'bg-white/20 text-white'
+              : 'bg-slate-100 dark:bg-slate-800 text-[#0B3D91] dark:text-sky-400'
           )}
           style={{ transform: `rotate(${rotationDeg}deg)` }}
           title={`Heading: ${heading}`}
@@ -101,7 +103,7 @@ export function BusMapMarker({
           'mt-0.5 px-1.5 py-0.2 rounded text-[9px] font-mono font-bold tracking-wider uppercase shadow-xs transition-opacity',
           isSelected
             ? 'bg-amber-400 text-slate-950 font-black'
-            : 'bg-slate-800 text-slate-100'
+            : 'bg-slate-800 dark:bg-slate-800 text-slate-100 dark:text-slate-200 border border-transparent dark:border-slate-700'
         )}
       >
         {routeCode}
@@ -132,15 +134,15 @@ export function StopMapMarker({
         className={cn(
           'w-6 h-6 sm:w-7 sm:h-7 rounded-full flex items-center justify-center shadow-md transition-all duration-200 border-2',
           isSelected
-            ? 'bg-[#0B3D91] text-white border-amber-400 ring-4 ring-[#0B3D91]/25 scale-110'
-            : 'bg-white text-[#0B3D91] border-[#0B3D91] hover:scale-105'
+            ? 'bg-[#0B3D91] dark:bg-sky-600 text-white border-amber-400 ring-4 ring-sky-500/30 scale-110'
+            : 'bg-white dark:bg-slate-900 text-[#0B3D91] dark:text-sky-400 border-[#0B3D91] dark:border-sky-400 hover:scale-105 shadow-sm'
         )}
       >
         <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current" />
       </div>
 
       {/* Stop Code Pill */}
-      <div className="mt-0.5 px-1.5 py-0.2 rounded bg-slate-900/90 backdrop-blur-xs text-white text-[8px] sm:text-[9px] font-mono font-bold shadow-xs whitespace-nowrap">
+      <div className="mt-0.5 px-1.5 py-0.2 rounded bg-slate-900/90 dark:bg-slate-950/90 border border-transparent dark:border-slate-700 backdrop-blur-xs text-white text-[8px] sm:text-[9px] font-mono font-bold shadow-xs whitespace-nowrap">
         {stopCode}
       </div>
 
@@ -160,8 +162,10 @@ export function StopMapMarker({
 export function UserLocationMarker({ className = '' }) {
   return (
     <div className={cn('relative inline-flex items-center justify-center pointer-events-none', className)}>
-      <span className="absolute w-8 h-8 rounded-full bg-sky-500/25 animate-ping" />
+      <span className="absolute w-8 h-8 rounded-full bg-sky-500/30 animate-ping" />
       <span className="w-4 h-4 rounded-full bg-sky-500 border-2 border-white shadow-md" />
     </div>
   );
 }
+
+export default BusMapMarker;

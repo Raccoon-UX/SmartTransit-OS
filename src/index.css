@@ -14,10 +14,10 @@
   }
 
   .dark {
-    --color-bg-primary: #0F172A;
-    --color-bg-surface: #1E293B;
-    --color-bg-card: #1E293B;
-    --color-border: #334155;
+    --color-bg-primary: #090E17;
+    --color-bg-surface: #0E1626;
+    --color-bg-card: #111A2C;
+    --color-border: #2A374F;
     --color-text-primary: #F8FAFC;
     --color-text-muted: #94A3B8;
     --color-accent: #38BDF8;

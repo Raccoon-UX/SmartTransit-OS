@@ -32,32 +32,32 @@ export function FleetTable({
   });
 
   return (
-    <div className={cn('p-6 rounded-3xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 text-left', className)}>
+    <div className={cn('p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 text-left', className)}>
       {/* Table Filter Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-400" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search fleet by bus ID, route, pilot, or depot..."
-            className="w-full pl-10 pr-4 py-2 rounded-2xl border text-xs bg-slate-50 dark:bg-navy-950 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-transit-500"
+            className="w-full pl-10 pr-4 py-2 rounded-2xl border text-xs bg-slate-50 dark:bg-slate-950 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-transit-500"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-1 text-xs font-mono">
-          <span className="text-[10px] text-slate-400 font-bold uppercase px-1">Status:</span>
+          <span className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase px-1">Status:</span>
           {['ALL', 'ACTIVE', 'DELAYED', 'IDLE', 'MAINTENANCE', 'OFFLINE'].map((st) => (
             <button
               key={st}
               type="button"
               onClick={() => setStatusFilter(st)}
               className={cn(
-                'px-2.5 py-1 rounded-xl font-bold transition-colors',
+                'px-2.5 py-1 rounded-xl font-bold transition-colors cursor-pointer',
                 statusFilter === st
                   ? 'bg-transit-500 text-white shadow-sm'
-                  : 'bg-slate-100 dark:bg-navy-850 text-slate-600 dark:text-slate-400 hover:text-white'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
               )}
             >
               {st}
@@ -70,7 +70,7 @@ export function FleetTable({
       <div className="overflow-x-auto min-w-0 w-full rounded-2xl border border-slate-200 dark:border-slate-800">
         <table className="w-full text-left text-xs font-mono">
           <thead>
-            <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-400 uppercase text-[10px] bg-slate-50/50 dark:bg-navy-950/50">
+            <tr className="border-b border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-300 uppercase text-[10px] bg-slate-50/80 dark:bg-slate-950/80">
               <th className="py-3 px-3 whitespace-nowrap">Vehicle</th>
               <th className="py-3 px-3 whitespace-nowrap">Route Line</th>
               <th className="py-3 px-3 whitespace-nowrap">Assigned Pilot</th>
@@ -83,18 +83,18 @@ export function FleetTable({
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
             {filteredFleet.map((bus) => (
-              <tr key={bus.id} className="hover:bg-slate-50 dark:hover:bg-navy-850 transition-colors">
+              <tr key={bus.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                 <td className="py-3 px-3 font-bold text-slate-900 dark:text-white">
                   <div className="flex items-center space-x-2">
-                    <Bus className="w-4 h-4 text-transit-500" />
+                    <Bus className="w-4 h-4 text-transit-500 dark:text-sky-400" />
                     <span>{bus.busNumber}</span>
                   </div>
-                  <span className="text-[10px] text-slate-400 font-normal block">{bus.serial}</span>
+                  <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal block">{bus.serial}</span>
                 </td>
-                <td className="py-3 px-3 text-transit-500 font-bold">{bus.routeId}</td>
-                <td className="py-3 px-3 text-slate-700 dark:text-slate-300 font-sans font-bold">
+                <td className="py-3 px-3 text-transit-500 dark:text-sky-400 font-bold">{bus.routeId}</td>
+                <td className="py-3 px-3 text-slate-700 dark:text-slate-200 font-sans font-bold">
                   {bus.driverName} ({bus.driverId})
                 </td>
                 <td className="py-3 px-3">
@@ -102,11 +102,11 @@ export function FleetTable({
                 </td>
                 <td className="py-3 px-3 font-bold text-slate-900 dark:text-white">{bus.speed}</td>
                 <td className="py-3 px-3 text-slate-600 dark:text-slate-300">
-                  <div>{bus.currentLocation}</div>
-                  <span className="text-[10px] text-transit-500 font-bold">Next: {bus.nextStop} ({bus.eta})</span>
+                  <div className="text-slate-900 dark:text-slate-200 font-medium">{bus.currentLocation}</div>
+                  <span className="text-[10px] text-transit-500 dark:text-sky-400 font-bold">Next: {bus.nextStop} ({bus.eta})</span>
                 </td>
                 <td className="py-3 px-3">
-                  <span className={cn('text-[10px] font-bold', bus.gpsStatus === 'ONLINE' ? 'text-emerald-500' : 'text-slate-400')}>
+                  <span className={cn('text-[10px] font-bold', bus.gpsStatus === 'ONLINE' ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400')}>
                     ● {bus.gpsStatus} ({bus.lastUpdate})
                   </span>
                 </td>
@@ -117,7 +117,7 @@ export function FleetTable({
                   <button
                     type="button"
                     onClick={() => onSelectBus(bus)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-transit-500 hover:bg-slate-100 dark:hover:bg-navy-800 transition-colors inline-flex items-center space-x-1"
+                    className="p-1.5 rounded-lg text-slate-500 dark:text-slate-300 hover:text-transit-500 dark:hover:text-sky-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors inline-flex items-center space-x-1 cursor-pointer"
                     title="View Telemetry Detail"
                   >
                     <Eye className="w-3.5 h-3.5" />
