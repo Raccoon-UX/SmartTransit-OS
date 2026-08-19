@@ -44,13 +44,14 @@ export function AppHeader({
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#B83E12] w-full" />
 
-      <div className="h-16 sm:h-20 px-2.5 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 max-w-full overflow-hidden">
+      {/* Main Header Row (No overflow-hidden to allow dropdown popovers to show freely) */}
+      <div className="relative h-16 sm:h-20 px-2.5 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 max-w-full">
         {/* Left: Official Masthead Identity (Dual Emblems + Stacked Title) */}
         <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileNav}
-            className="lg:hidden p-1.5 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0"
+            className="lg:hidden p-1.5 rounded text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer"
             aria-label="Open Navigation"
           >
             <Menu className="w-5 h-5" />
@@ -59,7 +60,7 @@ export function AppHeader({
           <button
             type="button"
             onClick={onToggleSidebar}
-            className="hidden lg:flex p-1.5 rounded text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0"
+            className="hidden lg:flex p-1.5 rounded text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer"
             aria-label="Toggle Sidebar"
           >
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -81,7 +82,7 @@ export function AppHeader({
               />
             </div>
 
-            {/* Vertically Stacked Title (SmartTransit OS on Top, GOVT PORTAL on Bottom) */}
+            {/* Vertically Stacked Title */}
             <div className="hidden md:flex flex-col justify-center border-l border-slate-300 dark:border-slate-700 pl-2.5 shrink-0 leading-tight">
               <span className="font-extrabold text-sm sm:text-base tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
                 SmartTransit <span className="text-[#B83E12] dark:text-amber-400">OS</span>
@@ -99,7 +100,7 @@ export function AppHeader({
             type="button"
             onClick={onOpenSearch}
             className={cn(
-              'w-full flex items-center justify-between px-3 py-1.5 rounded-lg border text-xs font-sans transition-all shadow-xs',
+              'w-full flex items-center justify-between px-3 py-1.5 rounded-lg border text-xs font-sans transition-all shadow-xs cursor-pointer',
               'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300',
               'hover:border-[#B83E12] dark:hover:border-amber-400 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
             )}
@@ -115,9 +116,10 @@ export function AppHeader({
           </button>
         </div>
 
-        {/* Right: Operational Controls & Language Switcher */}
+        {/* Right: Operational Controls, Indicators, Role Switcher, Notifications & Profile */}
         <div className="flex items-center space-x-1 sm:space-x-2 shrink-0">
-          <div className="hidden 2xl:block">
+          {/* Live Telemetry Indicator (Interactive Popover) */}
+          <div className="hidden lg:block">
             <LiveSystemIndicator />
           </div>
 
@@ -125,7 +127,7 @@ export function AppHeader({
           <button
             type="button"
             onClick={() => setDemoModalOpen(true)}
-            className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#B83E12] dark:hover:border-amber-400 text-left transition-colors shadow-xs shrink-0"
+            className="hidden sm:flex items-center space-x-1.5 px-2.5 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#B83E12] dark:hover:border-amber-400 text-left transition-colors shadow-xs shrink-0 cursor-pointer"
           >
             <Sliders className="w-4 h-4 text-[#B83E12] dark:text-amber-400 shrink-0" />
             <div className="flex flex-col justify-center leading-none">
@@ -144,7 +146,7 @@ export function AppHeader({
               type="button"
               onClick={() => toggleLanguage('en')}
               className={cn(
-                'px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold transition-colors leading-none',
+                'px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold transition-colors leading-none cursor-pointer',
                 language === 'en'
                   ? 'bg-[#B83E12] text-white shadow-xs font-black'
                   : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -157,7 +159,7 @@ export function AppHeader({
               type="button"
               onClick={() => toggleLanguage('mr')}
               className={cn(
-                'px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold transition-colors font-sans leading-none',
+                'px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold transition-colors font-sans leading-none cursor-pointer',
                 language === 'mr'
                   ? 'bg-[#B83E12] text-white shadow-xs font-black'
                   : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -167,22 +169,25 @@ export function AppHeader({
             </button>
           </div>
 
-          {/* Interactive Role Switcher Dropdown (Inside Drawer on mobile) */}
+          {/* Interactive Role Switcher Dropdown (4 Options) */}
           <div className="hidden sm:block">
             <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
           </div>
 
+          {/* Notification Center Popover */}
           <NotificationCenter />
 
+          {/* Dark / Light Mode Toggle */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0"
+            className="p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer"
             aria-label="Toggle Light and Dark Mode"
           >
             {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
           </button>
 
+          {/* Profile Menu Popover & Drawers */}
           <ProfileMenu />
         </div>
       </div>
