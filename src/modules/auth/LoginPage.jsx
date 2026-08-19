@@ -97,65 +97,65 @@ export function LoginPage({
           <div className="h-1 bg-gradient-to-r from-[#0B3D91] via-[#1E40AF] to-[#0B3D91] w-full" />
 
           {/* Portal Masthead Header (Mobile Responsive Layout) */}
-          <div className="p-4 sm:p-6 bg-slate-50/90 border-b border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 box-border">
+          <div className="p-3.5 sm:p-5 bg-slate-50/90 border-b border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 sm:gap-4 box-border">
             {/* Left: SmartTransit OS Brand + Masthead Title */}
-            <div className="flex items-center space-x-3 sm:space-x-4 min-w-0 w-full md:w-auto">
+            <div className="flex items-center space-x-3 sm:space-x-3.5 min-w-0 w-full md:w-auto">
               <img
                 src={logoImg}
                 alt="SmartTransit OS Logo"
-                className="h-9 sm:h-12 md:h-13 w-auto max-w-[120px] sm:max-w-[160px] object-contain shrink-0"
+                className="h-8 sm:h-10 md:h-11 w-auto max-w-[110px] sm:max-w-[140px] object-contain shrink-0"
               />
-              <div className="border-l border-slate-300 pl-3 sm:pl-5 min-w-0 flex-1">
-                <h1 className="text-base sm:text-xl md:text-2xl font-extrabold text-slate-900 font-sans tracking-tight leading-tight">
+              <div className="border-l border-slate-300 pl-3 sm:pl-4 min-w-0 flex-1">
+                <h1 className="text-sm sm:text-lg md:text-xl font-bold text-slate-900 font-sans tracking-tight leading-tight">
                   {t('authPortalTitle') || 'SmartTransit OS Authorization Portal'}
                 </h1>
-                <p className="text-[11px] sm:text-sm text-slate-600 font-sans mt-0.5 leading-tight">
+                <p className="text-[10px] sm:text-xs text-slate-500 font-sans mt-0.5 leading-tight">
                   {t('authPortalSub') || 'Government Transit Operations & Municipal Transport Authority'}
                 </p>
               </div>
             </div>
 
             {/* Right: Authentication Subsystem Text + MSRTC Emblem */}
-            <div className="flex items-center justify-between md:justify-end space-x-3.5 shrink-0 w-full md:w-auto pt-2 md:pt-0 border-t md:border-t-0 border-slate-200">
+            <div className="flex items-center justify-between md:justify-end space-x-3 shrink-0 w-full md:w-auto pt-2 md:pt-0 border-t md:border-t-0 border-slate-200">
               <div className="text-left md:text-right shrink-0 leading-tight">
-                <span className="block text-[10px] sm:text-xs font-mono font-bold uppercase tracking-widest text-[#0B3D91]">
+                <span className="block text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-widest text-[#0B3D91]">
                   AUTHENTICATION
                 </span>
-                <span className="block text-xs sm:text-sm font-sans font-extrabold text-slate-800">
+                <span className="block text-[11px] sm:text-xs font-sans font-extrabold text-slate-800">
                   Subsystem
                 </span>
               </div>
-              <span className="text-slate-300 text-2xl font-light shrink-0 hidden sm:block">
+              <span className="text-slate-300 text-xl font-light shrink-0 hidden sm:block">
                 |
               </span>
               <img
                 src={msrtcLogo1}
                 alt="MSRTC Official Emblem"
-                className="h-9 sm:h-13 md:h-16 w-auto max-w-[140px] sm:max-w-[200px] object-contain shrink-0"
+                className="h-8 sm:h-11 md:h-13 w-auto max-w-[130px] sm:max-w-[180px] object-contain shrink-0"
               />
             </div>
           </div>
 
           {/* Full-Width Sandbox Disclosure Banner */}
-          <div className="px-4 sm:px-6 py-2.5 sm:py-3 bg-amber-500/10 border-b border-amber-500/20 text-xs font-mono text-amber-900 flex items-center space-x-2.5 box-border break-words">
-            <Info className="w-4 h-4 text-amber-600 shrink-0" />
+          <div className="px-4 sm:px-5 py-2 sm:py-2.5 bg-amber-500/10 border-b border-amber-500/20 text-[11px] sm:text-xs font-mono text-amber-900 flex items-center space-x-2 box-border break-words">
+            <Info className="w-3.5 h-3.5 text-amber-600 shrink-0" />
             <span className="leading-snug font-medium">
               {t('demoSandboxNotice') || 'DEMO SANDBOX DISCLOSURE: Pre-configured role profiles provided for evaluation purposes.'}
             </span>
           </div>
 
-          {/* 50 / 50 Equal Visual Weight Two-Column Main Content Grid (Stacks cleanly to 1-column on mobile) */}
-          <div className="p-4 sm:p-8 xl:p-10 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 xl:gap-10 items-start box-border">
+          {/* 50 / 50 Equal Visual Weight Two-Column Main Content Grid */}
+          <div className="p-4 sm:p-6 xl:p-8 grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 items-start box-border">
             
             {/* ============================================================ */}
             {/* LEFT COLUMN (~50% Desktop, 100% Mobile): SIGN-IN FORM        */}
             {/* ============================================================ */}
-            <div className="space-y-4 sm:space-y-5 w-full min-w-0">
-              <div className="space-y-1">
-                <h2 className="text-lg sm:text-2xl font-bold text-slate-900 font-sans tracking-tight">
+            <div className="space-y-4 w-full min-w-0">
+              <div className="space-y-0.5">
+                <h2 className="text-base sm:text-xl font-bold text-slate-900 font-sans tracking-tight">
                   {t('signInHeadline') || 'Sign In to Authorized Account'}
                 </h2>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                <p className="text-xs text-slate-500 leading-relaxed">
                   {t('signInDesc') || 'Enter your official email or registered mobile number to access your portal.'}
                 </p>
               </div>
@@ -170,10 +170,10 @@ export function LoginPage({
                 </Alert>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-3.5 sm:space-y-4 w-full">
+              <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-3.5 w-full">
                 {/* Official Email / Registered Mobile Field */}
-                <div className="space-y-1.5 text-left w-full">
-                  <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
+                <div className="space-y-1 text-left w-full">
+                  <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700">
                     {t('officialEmailLabel') || 'OFFICIAL EMAIL / REGISTERED MOBILE'} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative flex items-center w-full">
@@ -186,7 +186,7 @@ export function LoginPage({
                       value={emailOrPhone}
                       onChange={(e) => setEmailOrPhone(e.target.value)}
                       className={cn(
-                        'w-full h-[50px] sm:h-[54px] text-base rounded-xl pl-11 pr-4 transition-all duration-150 box-border',
+                        'w-full h-[46px] sm:h-[48px] text-xs sm:text-sm rounded-xl pl-10 pr-4 transition-all duration-150 box-border',
                         'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400',
                         'focus:outline-none focus:ring-2 focus:ring-[#0B3D91] focus:border-[#0B3D91] shadow-2xs'
                       )}
@@ -196,8 +196,8 @@ export function LoginPage({
                 </div>
 
                 {/* Account Password Field */}
-                <div className="space-y-1.5 text-left w-full">
-                  <label className="block text-xs font-mono font-bold uppercase tracking-wider text-slate-800">
+                <div className="space-y-1 text-left w-full">
+                  <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-slate-700">
                     {t('passwordLabel') || 'ACCOUNT PASSWORD'} <span className="text-rose-500">*</span>
                   </label>
                   <div className="relative flex items-center w-full">
@@ -210,7 +210,7 @@ export function LoginPage({
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       className={cn(
-                        'w-full h-[50px] sm:h-[54px] text-base rounded-xl pl-11 pr-11 transition-all duration-150 box-border',
+                        'w-full h-[46px] sm:h-[48px] text-xs sm:text-sm rounded-xl pl-10 pr-10 transition-all duration-150 box-border',
                         'bg-white border border-slate-300 text-slate-900 placeholder:text-slate-400',
                         'focus:outline-none focus:ring-2 focus:ring-[#0B3D91] focus:border-[#0B3D91] shadow-2xs'
                       )}
@@ -219,24 +219,24 @@ export function LoginPage({
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3.5 text-slate-400 hover:text-slate-600 transition-colors p-2 cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
+                      className="absolute right-3 text-slate-400 hover:text-slate-600 transition-colors p-1.5 cursor-pointer flex items-center justify-center"
                       aria-label={showPassword ? 'Hide password' : 'Show password'}
                     >
-                      {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                      {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                     </button>
                   </div>
                 </div>
 
                 {/* Remember Credentials & Forgot Password Controls */}
-                <div className="flex items-center justify-between text-xs sm:text-sm font-sans pt-0.5">
-                  <label className="flex items-center space-x-2 cursor-pointer select-none py-1">
+                <div className="flex items-center justify-between text-xs font-sans pt-0.5">
+                  <label className="flex items-center space-x-2 cursor-pointer select-none py-0.5">
                     <input
                       type="checkbox"
                       checked={rememberMe}
                       onChange={(e) => setRememberMe(e.target.checked)}
-                      className="rounded border-slate-300 text-[#0B3D91] focus:ring-[#0B3D91] w-4 h-4 cursor-pointer"
+                      className="rounded border-slate-300 text-[#0B3D91] focus:ring-[#0B3D91] w-3.5 h-3.5 cursor-pointer"
                     />
-                    <span className="text-slate-700 font-medium">
+                    <span className="text-slate-600 font-medium">
                       {t('rememberCredentials') || 'Remember credentials'}
                     </span>
                   </label>
@@ -244,21 +244,21 @@ export function LoginPage({
                     <button
                       type="button"
                       onClick={onNavigateForgotPassword}
-                      className="text-[#0B3D91] hover:text-[#082e6d] font-semibold hover:underline cursor-pointer py-1"
+                      className="text-[#0B3D91] hover:text-[#082e6d] font-semibold hover:underline cursor-pointer py-0.5 text-xs"
                     >
                       {t('forgotPassword') || 'Forgot Password?'}
                     </button>
                   )}
                 </div>
 
-                {/* Primary Large Sign-In CTA Button */}
+                {/* Primary Sign-In CTA Button */}
                 <button
                   type="submit"
                   disabled={isLoading}
                   className={cn(
-                    'w-full h-[50px] sm:h-[54px] min-h-[44px] flex items-center justify-center space-x-2 px-5 rounded-xl font-sans font-bold text-sm sm:text-base text-white transition-all duration-200 cursor-pointer shadow-md box-border',
+                    'w-full h-[46px] sm:h-[48px] flex items-center justify-center space-x-2 px-4 rounded-xl font-sans font-bold text-xs sm:text-sm text-white transition-all duration-200 cursor-pointer shadow-md box-border',
                     'bg-[#0B3D91] hover:bg-[#082e6d] active:bg-[#06214f] border border-[#07275f]',
-                    'hover:shadow-lg hover:shadow-[#0B3D91]/25 hover:-translate-y-0.5 active:translate-y-0',
+                    'hover:shadow-md hover:shadow-[#0B3D91]/25 hover:-translate-y-0.5 active:translate-y-0',
                     'disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0'
                   )}
                 >
@@ -267,15 +267,15 @@ export function LoginPage({
                   ) : (
                     <>
                       <span>{t('signInBtn') || 'Sign In to Authorized Portal'}</span>
-                      <ArrowRight className="w-4 h-4 shrink-0" />
+                      <ArrowRight className="w-3.5 h-3.5 shrink-0" />
                     </>
                   )}
                 </button>
 
                 {/* Visual OR Divider */}
-                <div className="relative flex items-center justify-center my-3 sm:my-4">
+                <div className="relative flex items-center justify-center my-2.5 sm:my-3">
                   <div className="border-t border-slate-200 w-full" />
-                  <span className="bg-white px-3 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest shrink-0">
+                  <span className="bg-white px-2.5 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-widest shrink-0">
                     OR
                   </span>
                   <div className="border-t border-slate-200 w-full" />
@@ -293,15 +293,15 @@ export function LoginPage({
                 />
 
                 {onNavigateRegister && (
-                  <div className="text-center text-xs sm:text-sm text-slate-600 pt-2 border-t border-slate-100">
+                  <div className="text-center text-xs text-slate-500 pt-1.5 border-t border-slate-100">
                     Don't have an official commuter profile?{' '}
                     <button
                       type="button"
                       onClick={onNavigateRegister}
-                      className="text-[#0B3D91] font-bold hover:underline cursor-pointer ml-1 inline-flex items-center space-x-1 py-1"
+                      className="text-[#0B3D91] font-bold hover:underline cursor-pointer ml-1 inline-flex items-center space-x-1 py-0.5"
                     >
                       <span>Create Account</span>
-                      <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                      <ArrowRight className="w-3 h-3 shrink-0" />
                     </button>
                   </div>
                 )}
@@ -311,13 +311,13 @@ export function LoginPage({
             {/* ============================================================ */}
             {/* RIGHT COLUMN (~50% Desktop, 100% Mobile): DEMO ROLE PROFILES */}
             {/* ============================================================ */}
-            <div className="bg-slate-50/70 p-4 sm:p-6 rounded-2xl border border-slate-200/90 space-y-3.5 sm:space-y-4 w-full min-w-0 box-border">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-                <h3 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-900 font-mono flex items-center space-x-2">
-                  <ShieldCheck className="w-4 h-4 text-[#0B3D91] shrink-0" />
+            <div className="bg-slate-50/70 p-3.5 sm:p-5 rounded-2xl border border-slate-200/90 space-y-3 w-full min-w-0 box-border">
+              <div className="flex items-center justify-between border-b border-slate-200 pb-2.5">
+                <h3 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-slate-900 font-mono flex items-center space-x-1.5">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#0B3D91] shrink-0" />
                   <span className="truncate">{t('selectDemoProfile') || 'SELECT DEMO ROLE PROFILE (INSTANT ACCESS)'}</span>
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 font-bold uppercase shrink-0">
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 font-bold uppercase shrink-0">
                   ACTIVE
                 </span>
               </div>

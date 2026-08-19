@@ -52,13 +52,13 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
   };
 
   return (
-    <div className={cn('space-y-3.5 text-left', className)}>
-      <p className="text-xs text-slate-600 font-sans leading-relaxed">
+    <div className={cn('space-y-2.5 sm:space-y-3 text-left', className)}>
+      <p className="text-[11px] sm:text-xs text-slate-500 font-sans leading-relaxed">
         {t('selectDemoSubtitle') || 'Select a pre-configured role to authenticate with full RBAC permissions:'}
       </p>
 
       {/* Enterprise Four Horizontal Role Rows */}
-      <div className="space-y-2.5">
+      <div className="space-y-2">
         {DEMO_USERS.map((demo) => {
           const config = roleMetaConfig[demo.role] || roleMetaConfig[USER_ROLES.PASSENGER];
           const Icon = config.icon;
@@ -68,33 +68,33 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
               key={demo.id}
               className={cn(
                 'group relative rounded-xl border border-slate-200/90',
-                'bg-white p-3.5 sm:p-4',
+                'bg-white p-2.5 sm:p-3',
                 'transition-all duration-200 ease-out shadow-2xs',
                 'hover:border-[#0B3D91]/40 hover:shadow-md hover:shadow-[#0B3D91]/5 hover:-translate-y-0.5',
-                'flex flex-col sm:flex-row sm:items-center justify-between gap-3'
+                'flex flex-col sm:flex-row sm:items-center justify-between gap-2.5'
               )}
             >
               {/* Left & Center Info */}
-              <div className="flex items-center space-x-3.5 min-w-0">
+              <div className="flex items-center space-x-2.5 sm:space-x-3 min-w-0">
                 {/* Role Icon Container */}
                 <div
                   className={cn(
-                    'w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-200 group-hover:scale-105',
+                    'w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-200 group-hover:scale-105',
                     config.iconBg
                   )}
                 >
-                  <Icon className="w-5 h-5" />
+                  <Icon className="w-4 h-4" />
                 </div>
 
                 {/* Role Title & Identity Details */}
                 <div className="min-w-0 space-y-0.5">
-                  <div className="flex items-center space-x-2 flex-wrap">
-                    <span className="text-sm sm:text-[15px] font-bold text-slate-900 font-sans truncate">
+                  <div className="flex items-center space-x-1.5 sm:space-x-2 flex-wrap">
+                    <span className="text-xs sm:text-[13px] font-bold text-slate-900 font-sans truncate">
                       {getRoleTitle(demo.role, demo.roleTitle)}
                     </span>
                     <span
                       className={cn(
-                        'text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded border',
+                        'text-[9px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.2 rounded border',
                         config.badgeColor
                       )}
                     >
@@ -103,22 +103,22 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
                   </div>
 
                   {/* Official ID in monospace */}
-                  <div className="flex items-center space-x-2 text-xs font-mono text-slate-500">
+                  <div className="flex items-center space-x-1.5 text-[11px] font-mono text-slate-500">
                     <span className="truncate">{demo.email}</span>
                   </div>
                 </div>
               </div>
 
-              {/* Right Action: Authenticate Button (Full width on mobile with >=44px touch target) */}
+              {/* Right Action: Authenticate Button */}
               <div className="shrink-0 w-full sm:w-auto flex sm:justify-end">
                 <button
                   type="button"
                   disabled={isLoading}
                   onClick={() => handleSelect(demo.role)}
                   className={cn(
-                    'w-full sm:w-auto min-h-[44px] sm:min-h-[38px] inline-flex items-center justify-center space-x-1.5 px-4 py-2.5 sm:py-2 rounded-lg text-xs font-mono font-bold transition-all duration-200 cursor-pointer',
+                    'w-full sm:w-auto min-h-[38px] sm:min-h-[32px] inline-flex items-center justify-center space-x-1 px-3 py-1.5 rounded-lg text-[11px] font-mono font-bold transition-all duration-200 cursor-pointer',
                     'bg-[#0B3D91] hover:bg-[#082e6d] active:bg-[#06214f] text-white border border-[#07275f]',
-                    'shadow-xs hover:shadow-md hover:shadow-[#0B3D91]/20 hover:-translate-y-0.5 active:translate-y-0',
+                    'shadow-2xs hover:shadow-xs hover:shadow-[#0B3D91]/20 hover:-translate-y-0.5 active:translate-y-0',
                     'disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0'
                   )}
                 >
@@ -131,8 +131,8 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
       </div>
 
       {/* Security Notice Strip inside Role Panel */}
-      <div className="pt-3 border-t border-slate-200/80 flex items-center space-x-2 text-xs font-mono text-slate-500">
-        <ShieldCheck className="w-4 h-4 text-[#0B3D91] shrink-0" />
+      <div className="pt-2.5 border-t border-slate-200/80 flex items-center space-x-2 text-[11px] font-mono text-slate-500">
+        <ShieldCheck className="w-3.5 h-3.5 text-[#0B3D91] shrink-0" />
         <span className="leading-snug">
           {t('demoSandboxFooter') || 'All demo accounts are pre-authorized for evaluation in the sandbox environment.'}
         </span>
