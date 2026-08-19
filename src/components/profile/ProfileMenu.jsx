@@ -73,12 +73,12 @@ export function ProfileMenu({
       >
         <UserAvatar name={userName} role={role} size="sm" status="online" />
         
-        <div className="hidden md:block text-left">
-          <div className="text-xs font-bold text-slate-900 dark:text-white leading-tight flex items-center gap-1">
-            <span>{userName}</span>
-            <ChevronDown className={cn('w-3 h-3 text-slate-400 transition-transform duration-150', isOpen && 'rotate-180')} />
+        <div className="hidden xl:block text-left">
+          <div className="text-[11px] font-bold text-slate-900 dark:text-white leading-tight flex items-center gap-1">
+            <span className="truncate max-w-[100px]">{userName}</span>
+            <ChevronDown className={cn('w-3 h-3 text-slate-400 shrink-0 transition-transform duration-150', isOpen && 'rotate-180')} />
           </div>
-          <span className="text-[10px] font-mono text-slate-500 dark:text-slate-400 block leading-tight">{roleTitle}</span>
+          <span className="text-[9px] font-mono text-slate-500 dark:text-slate-400 block leading-tight truncate max-w-[110px]">{roleTitle}</span>
         </div>
       </button>
 

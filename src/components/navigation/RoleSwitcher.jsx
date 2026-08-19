@@ -88,7 +88,7 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
-          'flex items-center space-x-2 px-3 py-1.5 rounded-xl border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-xs cursor-pointer',
+          'flex items-center space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-2xs cursor-pointer',
           'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700/80',
           'hover:border-[#B83E12] dark:hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-[#B83E12]/30',
           isOpen && 'border-[#B83E12] dark:border-amber-400 ring-2 ring-[#B83E12]/20'
@@ -96,16 +96,16 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
-        <ActiveIcon className="w-4 h-4 text-[#B83E12] dark:text-amber-400 shrink-0" />
+        <ActiveIcon className="w-3.5 h-3.5 text-[#B83E12] dark:text-amber-400 shrink-0" />
         <div className="flex flex-col justify-center leading-none">
-          <span className="text-[9px] font-mono font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+          <span className="text-[8px] font-mono font-bold uppercase tracking-wider text-slate-400 dark:text-slate-400">
             ROLE
           </span>
-          <span className="text-xs font-extrabold text-slate-900 dark:text-white truncate mt-0.5">
+          <span className="text-[11px] font-extrabold text-slate-900 dark:text-white truncate mt-0.5 max-w-[110px] sm:max-w-[130px]">
             {activeOption.headerLabel}
           </span>
         </div>
-        <ChevronDown className={cn('w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform duration-150', isOpen && 'rotate-180')} />
+        <ChevronDown className={cn('w-3 h-3 text-slate-400 shrink-0 transition-transform duration-150', isOpen && 'rotate-180')} />
       </button>
 
       {/* Role Switcher Menu Popover (Guaranteed z-[1000] visibility & outside click dismissal) */}
