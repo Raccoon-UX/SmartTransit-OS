@@ -48,7 +48,7 @@ export function AppHeader({
       <div className="relative h-14 sm:h-16 px-2 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 w-full max-w-full box-border">
         
         {/* Left: Brand Identity & Toggle */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0 min-w-0">
+        <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileNav}
@@ -64,37 +64,37 @@ export function AppHeader({
             className="hidden lg:flex p-1.5 rounded-lg text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer"
             aria-label="Toggle Sidebar"
           >
-            {sidebarCollapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronLeft className="w-3.5 h-3.5" />}
+            {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Dual Emblem Logos */}
-          <div className="flex items-center space-x-1.5 shrink-0 min-w-0">
+          {/* Dual Emblem Logos (Prominent & Clear) */}
+          <div className="flex items-center space-x-2 shrink-0 min-w-0">
             <img
               src={logoImg}
               alt="SmartTransit OS Logo"
-              className="h-7 sm:h-8 md:h-9 w-auto max-w-[85px] sm:max-w-[110px] object-contain shrink-0"
+              className="h-8 sm:h-10 md:h-11 w-auto max-w-[110px] sm:max-w-[140px] object-contain shrink-0"
             />
-            <span className="text-slate-300 dark:text-slate-700 text-sm font-mono hidden xl:inline">|</span>
+            <span className="text-slate-300 dark:text-slate-700 text-sm font-mono hidden sm:inline">|</span>
             <img
               src={msrtcLogo1}
               alt="MSRTC Official Emblem"
-              className="hidden xl:block h-7 sm:h-8 md:h-9 w-auto max-w-[110px] sm:max-w-[140px] object-contain shrink-0"
+              className="hidden sm:block h-8 sm:h-9 md:h-10 w-auto max-w-[130px] sm:max-w-[175px] object-contain shrink-0"
             />
           </div>
 
-          {/* Vertically Stacked Title (Visible on extra-wide screens) */}
-          <div className="hidden 2xl:flex flex-col justify-center border-l border-slate-300 dark:border-slate-700 pl-2 shrink-0 leading-tight">
-            <span className="font-extrabold text-xs tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
+          {/* Vertically Stacked Title */}
+          <div className="hidden lg:flex flex-col justify-center border-l border-slate-300 dark:border-slate-700 pl-2 sm:pl-2.5 shrink-0 leading-tight">
+            <span className="font-extrabold text-xs sm:text-[13px] tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
               SmartTransit <span className="text-[#B83E12] dark:text-amber-400">OS</span>
             </span>
-            <span className="text-[8px] font-mono font-extrabold tracking-widest px-1 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-amber-400 border border-slate-300 dark:border-slate-700 w-fit shrink-0 mt-0.5">
+            <span className="text-[8px] sm:text-[9px] font-mono font-extrabold tracking-widest px-1 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-[#B83E12] dark:text-amber-400 border border-slate-300 dark:border-slate-700 w-fit shrink-0 mt-0.5">
               GOVT PORTAL
             </span>
           </div>
         </div>
 
-        {/* Center: Search Bar Trigger */}
-        <div className="hidden md:block flex-1 min-w-[110px] max-w-[170px] lg:max-w-[220px] xl:max-w-[280px] mx-1 sm:mx-2">
+        {/* Center: Search Bar Trigger (More Compact) */}
+        <div className="hidden md:block flex-1 min-w-[90px] max-w-[130px] sm:max-w-[150px] lg:max-w-[170px] xl:max-w-[195px] mx-1 sm:mx-2">
           <button
             type="button"
             onClick={onOpenSearch}
@@ -108,7 +108,7 @@ export function AppHeader({
               <Search className="w-3.5 h-3.5 text-[#B83E12] dark:text-amber-400 flex-shrink-0" />
               <span className="truncate text-[11px] font-medium">{t('menuBusSearch')}</span>
             </div>
-            <kbd className="hidden xl:inline-flex items-center space-x-0.5 px-1 py-0.2 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[9px] font-mono text-slate-400 shadow-2xs shrink-0">
+            <kbd className="hidden 2xl:inline-flex items-center space-x-0.5 px-1 py-0.2 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[9px] font-mono text-slate-400 shadow-2xs shrink-0">
               <Command className="w-2.5 h-2.5 inline" />
               <span>K</span>
             </kbd>
