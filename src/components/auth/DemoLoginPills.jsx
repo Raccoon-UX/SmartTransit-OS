@@ -1,8 +1,9 @@
 import React from 'react';
-import { User, Bus, Shield, Terminal, ArrowRight } from 'lucide-react';
+import { User, Bus, Shield, Terminal, ArrowRight, Lock, ShieldCheck } from 'lucide-react';
 import { DEMO_USERS } from '../../services/auth/mockAuth.js';
 import { USER_ROLES } from '../../services/auth/authTypes.js';
 import { usePublicAccessibility } from '../../context/PublicAccessibilityContext.jsx';
+import { cn } from '../../utils/index.js';
 
 export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, className = '' }) {
   const { t } = usePublicAccessibility();
@@ -12,11 +13,31 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
     else if (onSelectDemo) onSelectDemo(roleKey);
   };
 
-  const roleIcons = {
-    [USER_ROLES.PASSENGER]: User,
-    [USER_ROLES.DRIVER]: Bus,
-    [USER_ROLES.ADMIN]: Shield,
-    [USER_ROLES.SYSTEM_ADMIN]: Terminal,
+  const roleMetaConfig = {
+    [USER_ROLES.PASSENGER]: {
+      icon: User,
+      badgeColor: 'bg-sky-500/10 text-sky-700 dark:text-sky-300 border-sky-500/20',
+      iconBg: 'bg-sky-50 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400 border-sky-200 dark:border-sky-800/60',
+      tag: 'PASSENGER ACCESS',
+    },
+    [USER_ROLES.DRIVER]: {
+      icon: Bus,
+      badgeColor: 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border-emerald-500/20',
+      iconBg: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800/60',
+      tag: 'PILOT TELEMETRY',
+    },
+    [USER_ROLES.ADMIN]: {
+      icon: Shield,
+      badgeColor: 'bg-blue-500/10 text-blue-700 dark:text-blue-300 border-blue-500/20',
+      iconBg: 'bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800/60',
+      tag: 'DISPATCH COMMAND',
+    },
+    [USER_ROLES.SYSTEM_ADMIN]: {
+      icon: Terminal,
+      badgeColor: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-500/20',
+      iconBg: 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 border-indigo-200 dark:border-indigo-800/60',
+      tag: 'SOC INFRASTRUCTURE',
+    },
   };
 
   const getRoleTitle = (role, defaultTitle) => {
@@ -31,53 +52,94 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
   };
 
   return (
-    <div className="space-y-3 text-left">
-      <p className="text-xs text-slate-600 dark:text-slate-400 font-sans">
-        Select a pre-configured role to authenticate with full RBAC permissions:
+    <div className={cn('space-y-3.5 text-left', className)}>
+      <p className="text-xs text-slate-600 dark:text-slate-400 font-sans leading-relaxed">
+        {t('selectDemoSubtitle') || 'Select a pre-configured role to authenticate with full RBAC permissions:'}
       </p>
 
-      <div className="overflow-x-auto rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-xs">
-        <table className="w-full text-left text-xs font-sans min-w-max">
-          <thead>
-            <tr className="bg-slate-100 dark:bg-slate-800 border-b border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold uppercase text-[10px] font-mono whitespace-nowrap">
-              <th className="py-2.5 px-3">Role Title</th>
-              <th className="py-2.5 px-3">Official ID</th>
-              <th className="py-2.5 px-3 text-right">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
-            {DEMO_USERS.map((demo) => {
-              const Icon = roleIcons[demo.role] || User;
-              return (
-                <tr key={demo.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-colors">
-                  <td className="py-2.5 px-3 font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                    <div className="flex items-center space-x-2">
-                      <Icon className="w-4 h-4 text-[#0B3D91] dark:text-sky-400 shrink-0" />
-                      <span>{getRoleTitle(demo.role, demo.roleTitle)}</span>
-                    </div>
-                  </td>
-                  <td className="py-2.5 px-3 font-mono text-slate-600 dark:text-slate-400 text-[11px] whitespace-nowrap">
-                    {demo.email}
-                  </td>
-                  <td className="py-2.5 px-3 text-right whitespace-nowrap">
-                    <button
-                      type="button"
-                      disabled={isLoading}
-                      onClick={() => handleSelect(demo.role)}
-                      className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-lg text-xs font-mono font-bold bg-[#0B3D91] hover:bg-[#093278] text-white border border-[#07275f] transition-all shadow-xs shrink-0 whitespace-nowrap"
+      {/* Enterprise Role Rows List */}
+      <div className="space-y-2.5">
+        {DEMO_USERS.map((demo) => {
+          const config = roleMetaConfig[demo.role] || roleMetaConfig[USER_ROLES.PASSENGER];
+          const Icon = config.icon;
+
+          return (
+            <div
+              key={demo.id}
+              className={cn(
+                'group relative rounded-xl border border-slate-200/90 dark:border-slate-700/80',
+                'bg-white dark:bg-slate-900/90 p-3 sm:p-3.5',
+                'transition-all duration-200 ease-out',
+                'hover:border-[#0B3D91]/40 dark:hover:border-sky-500/40 hover:shadow-md hover:shadow-[#0B3D91]/5 hover:-translate-y-0.5',
+                'flex flex-col sm:flex-row sm:items-center justify-between gap-3'
+              )}
+            >
+              {/* Left & Center Info */}
+              <div className="flex items-center space-x-3 min-w-0">
+                {/* Role Icon Container */}
+                <div
+                  className={cn(
+                    'w-10 h-10 rounded-lg flex items-center justify-center shrink-0 border transition-transform duration-200 group-hover:scale-105',
+                    config.iconBg
+                  )}
+                >
+                  <Icon className="w-5 h-5" />
+                </div>
+
+                {/* Role Title & Identity Details */}
+                <div className="min-w-0 space-y-0.5">
+                  <div className="flex items-center space-x-2 flex-wrap">
+                    <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white font-sans truncate">
+                      {getRoleTitle(demo.role, demo.roleTitle)}
+                    </span>
+                    <span
+                      className={cn(
+                        'text-[10px] font-mono font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border',
+                        config.badgeColor
+                      )}
                     >
-                      <span>{t('authenticateBtn')}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+                      {config.tag}
+                    </span>
+                  </div>
+
+                  {/* Official ID in monospace */}
+                  <div className="flex items-center space-x-2 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+                    <span className="truncate">{demo.email}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Action: Authenticate Button */}
+              <div className="shrink-0 flex sm:justify-end">
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => handleSelect(demo.role)}
+                  className={cn(
+                    'w-full sm:w-auto inline-flex items-center justify-center space-x-1.5 px-3.5 py-1.5 rounded-lg text-xs font-mono font-bold transition-all duration-200 cursor-pointer',
+                    'bg-[#0B3D91] hover:bg-[#082e6d] active:bg-[#06214f] text-white border border-[#07275f]',
+                    'shadow-xs hover:shadow-md hover:shadow-[#0B3D91]/20 hover:-translate-y-0.5 active:translate-y-0',
+                    'disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0'
+                  )}
+                >
+                  <span>{t('authenticateBtn') || 'Authenticate'} &rarr;</span>
+                </button>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Security Notice Strip inside Role Panel */}
+      <div className="pt-2 border-t border-slate-200/80 dark:border-slate-700/60 flex items-center space-x-2 text-[11px] font-mono text-slate-500 dark:text-slate-400">
+        <ShieldCheck className="w-3.5 h-3.5 text-[#0B3D91] dark:text-sky-400 shrink-0" />
+        <span className="leading-snug">
+          {t('demoSandboxFooter') || 'All demo accounts are pre-authorized for evaluation in the sandbox environment.'}
+        </span>
       </div>
     </div>
   );
 }
 
 export default DemoLoginPills;
+
