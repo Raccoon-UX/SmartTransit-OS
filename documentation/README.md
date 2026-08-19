@@ -1,13 +1,13 @@
 # 📖 SmartTransit OS — Technical Documentation Portal
 
 **Official Documentation & Architecture Manual for SmartTransit OS**  
-*Implementation Milestones: ST-01 through ST-80 | Release: v1.0.0 Stable*
+*Implementation Milestones: ST-01 through ST-95 | Release: v2.4.0 Production*
 
 ---
 
 ## 🎯 Overview
 
-This folder contains the complete, standalone **Technical Documentation & Engineering Portal** for SmartTransit OS. It provides an institutional-grade, human-designed technical overview of the platform across 18 comprehensive chapters, interactive architecture visualizers, multi-role persona breakdowns, live search (`Ctrl + K`), and media galleries.
+This directory contains the complete, standalone **Technical Documentation & Engineering Portal** for SmartTransit OS. It provides an institutional-grade, human-designed technical overview of the platform across 20 comprehensive chapters, interactive architecture visualizers, multi-role persona breakdowns, live search (`Ctrl + K`), realistic vector map technical specs, and media galleries.
 
 - **Live Application Portal**: [https://smarttransit-os.vercel.app/](https://smarttransit-os.vercel.app/)
 - **GitHub Repository**: [https://github.com/Raccoon-UX/smarttransit-os](https://github.com/Raccoon-UX/smarttransit-os)
@@ -28,7 +28,7 @@ documentation/
 ├── README.md           # This documentation guide
 └── img/                # Visual media assets, screenshots, and official logos
     ├── 1logo.png           # SmartTransit OS Primary Brand Logo
-    ├── 1msrtc logo1.png    # MSRTC Emblem & Government Leaders
+    ├── 1msrtc logo1.png    # MSRTC Emblem & Government Insignia
     ├── 1BEST Bus_logo.png  # Brihanmumbai Electric Supply & Transport (BEST) Logo
     ├── 1TMT_logo.png       # Thane Municipal Transport (TMT) Logo
     ├── 1PublicBus.webp     # Municipal Transit Bus Fleet Asset
@@ -39,38 +39,38 @@ documentation/
 
 ---
 
-## 📑 18 Master Documentation Chapters
+## 📑 Master Documentation Chapters
 
 The documentation portal is organized into 5 structured categories:
 
 ### Category 01 — Foundation
 - **`01. Platform Overview`**: System identity, mission, and 8-point platform status matrix.
-- **`02. System Architecture`**: 7-layer architecture (Clients, Portals, Services, AI Engine, Telemetry, Data, Cloud Backend).
+- **`02. System Architecture`**: Multi-tier architecture (Clients, Gateway, Core Services, AI Engine, Telemetry Buffer, Cloud Persistence).
 - **`03. How It Works`**: 5-step operational lifecycle workflow from commuter query to multi-channel incident sync.
 
-### Category 02 — Product
-- **`04. ST Roster (ST-01 → ST-80)`**: Full 80 milestone evolutionary roadmap.
+### Category 02 — Product & Core Modules
+- **`04. ST Roster (ST-01 → ST-95)`**: Full 95 milestone evolutionary roadmap.
 - **`05. Features & Capabilities`**: Consolidated capability matrix for Passenger, Driver, Admin, and SOC.
-- **`06. Role Experiences`**: Interactive tabbed persona breakdown (Priya Nambiar, Aarav Sharma, Vikram Jadhav, Devraj Sen).
-- **`07. Cross-Module Integration`**: Entity tracking across corridors (`Bus 245` on `RT-108`, `Bus 504` on `RT-415`).
+- **`06. Realistic Vector City Map Engine`**: In-house SVG map architecture, road hierarchies, waterways, and vehicle heading markers.
+- **`07. Role Experiences`**: Interactive tabbed persona breakdown (Priya Nambiar, Aarav Sharma, Vikram Jadhav, Devraj Sen).
+- **`08. Cross-Module Integration`**: Entity tracking across corridors (`Bus 245` on `RT-108`, `Bus 504` on `RT-415`).
 
-### Category 03 — Intelligence
-- **`08. AI Predictive Engine`**: Predictive ETAs, crowding forecasting, and delay simulations with prototype disclaimers.
-- **`09. Analytics & Decisions`**: Operational metrics, prediction accuracy, and inference latency benchmarks.
+### Category 03 — Intelligence & Visual Systems
+- **`09. AI Predictive Engine`**: Predictive ETAs, crowding forecasting, and delay simulations.
+- **`10. Analytics & Decisions`**: Operational metrics, prediction accuracy, and inference latency benchmarks.
+- **`11. High-Contrast Dark & Light Visual System`**: Dual-theme tokens, Obsidian map rendering, and luminous status badges.
 
-### Category 04 — Engineering
-- **`10. Full System Architecture`**: Infographic flow diagram, multi-tier topology (Presentation, Gateway, Intelligence, Write Protection, MongoDB Atlas Persistence, and Offline Failover).
-- **`11. How To Use — Operations Guide`**: Comprehensive step-by-step operational guide for Passengers, Drivers, Dispatch Admins, SOC Ops, and AI Center.
-- **`12. Technology Constellation`**: React 18, Vite 6, Tailwind CSS 3.4, Lucide Icons, Node.js, Express, and GTFS-RT v2.0 schemas.
-- **`13. RBAC Matrix & Security`**: Route-by-route authorization matrix across all 4 personas.
-- **`14. Testing & Verification`**: Structured test cases (Crowd surge, role switching, multi-channel SOS).
-- **`15. Build Verification`**: Clean build logs showing 0 errors and 0 warnings (`npm run build`).
-- **`16. Bundle & Performance`**: 47.7% bundle reduction via ST-80 code-splitting (871.61 kB → 455.85 kB).
-- **`17. Deployment & Production`**: Vercel SPA configuration, output directories, and environment parameters.
+### Category 04 — Engineering & Security
+- **`12. Full System Architecture`**: Infographic flow diagram, multi-tier topology, and failover buffer.
+- **`13. How To Use — Operations Guide`**: Step-by-step operational guide for Passengers, Drivers, Dispatch Admins, SOC Ops, and AI Center.
+- **`14. Technology Constellation`**: React 18, Vite 6, Tailwind CSS 3.4, Lucide Icons, Node.js, Express, and GTFS-RT schemas.
+- **`15. RBAC Matrix & Google Authentication`**: Route-by-route authorization matrix and Google Identity Services (GIS) integration.
+- **`16. Testing & Verification`**: Structured test cases (Crowd surge, role switching, multi-channel SOS).
+- **`17. Build Verification`**: Clean build logs showing 0 errors and 0 warnings (`npm run build`).
+- **`18. Bundle & Performance`**: Code-splitting and optimized initial chunks.
 
 ### Category 05 — Impact & Future
-- **`18. Public Impact & Benefits`**: Civic mobility advantages for commuters, drivers, operators, and cities.
-- **`19. Limitations & Future Scope`**: Transparent documentation of simulated data vs planned IoT integration.
+- **`19. Public Impact & Benefits`**: Civic mobility advantages for commuters, drivers, operators, and cities.
 - **`20. Strategic Roadmap`**: 4-phase rollout roadmap from prototype to multi-city municipal network.
 
 ---
@@ -90,18 +90,9 @@ The documentation portal is organized into 5 structured categories:
 
 You can open the documentation portal in any modern web browser:
 
-1. **Directly**: Double-click or open `documentation/index.html` in your browser.
+1. **Directly**: Open `documentation/index.html` in your browser.
 2. **Via Local Dev Server**:
    ```bash
-   # From the project root
    npm run dev
    ```
    Navigate to: `http://localhost:5173/documentation/index.html`
-
----
-
-## 📜 Standards & Compliance
-
-- **GTFS-RT Standard**: Compatible with General Transit Feed Specification Realtime v2.0.
-- **Accessibility**: Built with WCAG 2.1 AA contrast and screen-reader accessibility tokens.
-- **Production Build**: Verified with 0 errors and 0 warnings.
