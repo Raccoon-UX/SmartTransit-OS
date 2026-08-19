@@ -44,11 +44,11 @@ export function AppHeader({
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#B83E12] w-full" />
 
-      {/* Main Header Row — Dynamic Fluid Fit for All Screen Resolutions */}
-      <div className="relative h-14 sm:h-16 px-2 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 w-full max-w-full box-border">
+      {/* Main Header Row — Perfectly Balanced & Evenly Spaced */}
+      <div className="relative h-14 sm:h-16 px-3 sm:px-5 flex items-center justify-between w-full max-w-full box-border gap-2.5 sm:gap-4">
         
         {/* Left: Brand Identity & Toggle */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0 min-w-0">
+        <div className="flex items-center space-x-2 sm:space-x-3 shrink-0 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileNav}
@@ -67,23 +67,23 @@ export function AppHeader({
             {sidebarCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
 
-          {/* Dual Emblem Logos (Prominent & Clear) */}
-          <div className="flex items-center space-x-2 shrink-0 min-w-0">
+          {/* Dual Emblem Logos */}
+          <div className="flex items-center space-x-2.5 shrink-0 min-w-0">
             <img
               src={logoImg}
               alt="SmartTransit OS Logo"
-              className="h-8 sm:h-10 md:h-11 w-auto max-w-[110px] sm:max-w-[140px] object-contain shrink-0"
+              className="h-8 sm:h-9 md:h-10 w-auto max-w-[105px] sm:max-w-[130px] object-contain shrink-0"
             />
             <span className="text-slate-300 dark:text-slate-700 text-sm font-mono hidden sm:inline">|</span>
             <img
               src={msrtcLogo1}
               alt="MSRTC Official Emblem"
-              className="hidden sm:block h-8 sm:h-9 md:h-10 w-auto max-w-[130px] sm:max-w-[175px] object-contain shrink-0"
+              className="hidden sm:block h-8 sm:h-9 md:h-10 w-auto max-w-[125px] sm:max-w-[160px] object-contain shrink-0"
             />
           </div>
 
           {/* Vertically Stacked Title */}
-          <div className="hidden lg:flex flex-col justify-center border-l border-slate-300 dark:border-slate-700 pl-2 sm:pl-2.5 shrink-0 leading-tight">
+          <div className="hidden xl:flex flex-col justify-center border-l border-slate-300 dark:border-slate-700 pl-2.5 shrink-0 leading-tight">
             <span className="font-extrabold text-xs sm:text-[13px] tracking-tight text-slate-900 dark:text-white font-sans shrink-0">
               SmartTransit <span className="text-[#B83E12] dark:text-amber-400">OS</span>
             </span>
@@ -93,32 +93,32 @@ export function AppHeader({
           </div>
         </div>
 
-        {/* Center: Search Bar Trigger (More Compact) */}
-        <div className="hidden md:block flex-1 min-w-[90px] max-w-[130px] sm:max-w-[150px] lg:max-w-[170px] xl:max-w-[195px] mx-1 sm:mx-2">
+        {/* Center: Search Bar Trigger (Centered & Balanced) */}
+        <div className="hidden md:flex flex-1 items-center justify-center max-w-xs mx-2">
           <button
             type="button"
             onClick={onOpenSearch}
             className={cn(
-              'w-full flex items-center justify-between px-2.5 py-1 rounded-lg border text-xs font-sans transition-all shadow-2xs cursor-pointer',
+              'w-full h-9 flex items-center justify-between px-3 rounded-xl border text-xs font-sans transition-all shadow-2xs cursor-pointer',
               'bg-slate-50 dark:bg-slate-950 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300',
               'hover:border-[#B83E12] dark:hover:border-amber-400 hover:bg-white dark:hover:bg-slate-900 focus:outline-none'
             )}
           >
-            <div className="flex items-center space-x-1.5 truncate">
+            <div className="flex items-center space-x-2 truncate">
               <Search className="w-3.5 h-3.5 text-[#B83E12] dark:text-amber-400 flex-shrink-0" />
-              <span className="truncate text-[11px] font-medium">{t('menuBusSearch')}</span>
+              <span className="truncate text-xs font-medium">{t('menuBusSearch')}</span>
             </div>
-            <kbd className="hidden 2xl:inline-flex items-center space-x-0.5 px-1 py-0.2 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[9px] font-mono text-slate-400 shadow-2xs shrink-0">
+            <kbd className="hidden lg:inline-flex items-center space-x-0.5 px-1.5 py-0.5 rounded bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-[9px] font-mono text-slate-400 shadow-2xs shrink-0">
               <Command className="w-2.5 h-2.5 inline" />
               <span>K</span>
             </kbd>
           </button>
         </div>
 
-        {/* Right: Operational Controls & Dropdowns */}
-        <div className="flex items-center space-x-1 sm:space-x-1.5 shrink-0">
+        {/* Right: Operational Controls & Dropdowns (Evenly spaced) */}
+        <div className="flex items-center space-x-2 sm:space-x-2.5 shrink-0">
           {/* Live Telemetry Popover Indicator */}
-          <div className="hidden 2xl:block">
+          <div className="hidden xl:block">
             <LiveSystemIndicator />
           </div>
 
@@ -126,21 +126,21 @@ export function AppHeader({
           <button
             type="button"
             onClick={() => setDemoModalOpen(true)}
-            className="hidden lg:flex items-center space-x-1 px-2 py-1 rounded-lg border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#B83E12] dark:hover:border-amber-400 text-left transition-colors shadow-2xs shrink-0 cursor-pointer"
+            className="hidden sm:flex items-center space-x-1.5 px-2.5 h-9 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:border-[#B83E12] dark:hover:border-amber-400 text-left transition-colors shadow-2xs shrink-0 cursor-pointer"
           >
             <Sliders className="w-3.5 h-3.5 text-[#B83E12] dark:text-amber-400 shrink-0" />
-            <span className="text-[11px] font-mono font-bold text-slate-800 dark:text-slate-200">
+            <span className="text-xs font-mono font-bold text-slate-800 dark:text-slate-200">
               Controls
             </span>
           </button>
 
           {/* Language Switcher (EN | मराठी) */}
-          <div className="flex items-center space-x-0.5 p-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-[10px] shrink-0">
+          <div className="flex items-center space-x-0.5 p-1 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 font-mono text-[11px] shrink-0">
             <button
               type="button"
               onClick={() => toggleLanguage('en')}
               className={cn(
-                'px-1.5 py-0.5 rounded font-bold transition-colors leading-none cursor-pointer',
+                'px-2 py-0.5 rounded-lg font-bold transition-colors leading-none cursor-pointer',
                 language === 'en'
                   ? 'bg-[#B83E12] text-white shadow-2xs font-black'
                   : 'text-slate-700 dark:text-slate-300 hover:text-slate-900'
@@ -148,12 +148,12 @@ export function AppHeader({
             >
               EN
             </button>
-            <span className="text-slate-300 dark:text-slate-600 text-[9px]">|</span>
+            <span className="text-slate-300 dark:text-slate-600 text-[10px]">|</span>
             <button
               type="button"
               onClick={() => toggleLanguage('mr')}
               className={cn(
-                'px-1.5 py-0.5 rounded font-bold transition-colors font-sans leading-none cursor-pointer',
+                'px-2 py-0.5 rounded-lg font-bold transition-colors font-sans leading-none cursor-pointer',
                 language === 'mr'
                   ? 'bg-[#B83E12] text-white shadow-2xs font-black'
                   : 'text-slate-700 dark:text-slate-300 hover:text-slate-900'
@@ -175,10 +175,10 @@ export function AppHeader({
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-1.5 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer"
+            className="w-9 h-9 flex items-center justify-center rounded-xl text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0 cursor-pointer shadow-2xs"
             aria-label="Toggle Light and Dark Mode"
           >
-            {isDark ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
+            {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}
           </button>
 
           {/* Profile Menu Dropdown */}

@@ -88,7 +88,7 @@ export function RoleSwitcher({ currentRole = 'admin', onRoleChange, className = 
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         className={cn(
-          'flex items-center space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-2xs cursor-pointer',
+          'h-9 flex items-center space-x-1.5 px-2.5 sm:px-3 rounded-xl border transition-all text-xs font-sans text-left leading-tight shrink-0 shadow-2xs cursor-pointer',
           'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700/80',
           'hover:border-[#B83E12] dark:hover:border-amber-400 focus:outline-none focus:ring-2 focus:ring-[#B83E12]/30',
           isOpen && 'border-[#B83E12] dark:border-amber-400 ring-2 ring-[#B83E12]/20'

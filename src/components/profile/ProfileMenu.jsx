@@ -65,8 +65,8 @@ export function ProfileMenu({
         aria-expanded={isOpen}
         aria-label="User Profile and Security Menu"
         className={cn(
-          'flex items-center space-x-2 p-1 sm:px-2 rounded-xl transition-all cursor-pointer select-none',
-          'hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 shadow-xs',
+          'h-9 flex items-center space-x-2 px-2 rounded-xl transition-all cursor-pointer select-none',
+          'hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 shadow-2xs',
           'focus:outline-none focus:ring-2 focus:ring-[#B83E12] dark:focus:ring-amber-400',
           isOpen && 'ring-2 ring-[#B83E12]/30 border-[#B83E12]'
         )}

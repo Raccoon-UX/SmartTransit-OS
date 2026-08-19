@@ -65,7 +65,7 @@ export function LiveSystemIndicator({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'flex items-center space-x-2 px-3 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all cursor-pointer select-none',
+          'h-9 flex items-center space-x-2 px-3 rounded-xl border text-xs font-mono font-bold transition-all cursor-pointer select-none shadow-2xs',
           'bg-slate-50 dark:bg-slate-800 border-slate-300 dark:border-slate-700',
           'hover:border-[#0B3D91] dark:hover:border-sky-400 focus:outline-none focus:ring-2 focus:ring-[#0B3D91]/30',
           isOpen && 'ring-2 ring-[#0B3D91]/30 border-[#0B3D91]'

@@ -105,17 +105,17 @@ export function NotificationCenter({ className = '' }) {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={cn(
-          'relative p-2 rounded-xl text-slate-600 dark:text-slate-300 transition-all cursor-pointer select-none',
-          'hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800',
+          'relative w-9 h-9 flex items-center justify-center rounded-xl text-slate-600 dark:text-slate-300 transition-all cursor-pointer select-none shadow-2xs',
+          'hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700',
           'focus:outline-none focus:ring-2 focus:ring-[#B83E12]',
           isOpen && 'ring-2 ring-[#B83E12]/30 border-[#B83E12]'
         )}
         aria-label="Notifications"
         aria-expanded={isOpen}
       >
-        <Bell className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+        <Bell className="w-4 h-4 text-slate-700 dark:text-slate-300" />
         {unreadCount > 0 && (
-          <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
+          <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
             {unreadCount}
           </span>
         )}
