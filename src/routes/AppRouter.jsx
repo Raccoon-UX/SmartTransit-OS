@@ -125,79 +125,92 @@ export function AppRouter() {
   // Route 2: Login Page (/login)
   if (currentRoute === '/login') {
     return (
-      <LoginPage
-        onNavigateHome={() => navigateTo('/')}
-        onNavigateRegister={() => navigateTo('/register')}
-        onNavigateForgotPassword={() => navigateTo('/forgot-password')}
-        onLoginSuccess={(authUser) => {
-          const defaultPath = ROLE_METADATA[authUser.role]?.defaultRoute || '/soc/overview';
-          navigateTo(defaultPath);
-        }}
-      />
+      <ErrorBoundary>
+        <LoginPage
+          onNavigateHome={() => navigateTo('/')}
+          onNavigateRegister={() => navigateTo('/register')}
+          onNavigateForgotPassword={() => navigateTo('/forgot-password')}
+          onLoginSuccess={(authUser) => {
+            const defaultPath = (authUser && authUser.role && ROLE_METADATA[authUser.role]?.defaultRoute) || '/soc/overview';
+            navigateTo(defaultPath);
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 
   // Route 3: Register Page (/register)
   if (currentRoute === '/register') {
     return (
-      <RegisterPage
-        onNavigateHome={() => navigateTo('/')}
-        onNavigateLogin={() => navigateTo('/login')}
-        onRegisterSuccess={() => {
-          navigateTo('/soc/overview');
-        }}
-      />
+      <ErrorBoundary>
+        <RegisterPage
+          onNavigateHome={() => navigateTo('/')}
+          onNavigateLogin={() => navigateTo('/login')}
+          onRegisterSuccess={(newUser) => {
+            const defaultPath = (newUser && newUser.role && ROLE_METADATA[newUser.role]?.defaultRoute) || '/passenger/dashboard';
+            navigateTo(defaultPath);
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 
   // Route 4: Forgot Password (/forgot-password)
   if (currentRoute === '/forgot-password') {
     return (
-      <ForgotPasswordPage
-        onNavigateLogin={() => navigateTo('/login')}
-        onOtpRequested={({ emailOrPhone }) => {
-          setVerificationEmail(emailOrPhone);
-          navigateTo('/verify');
-        }}
-      />
+      <ErrorBoundary>
+        <ForgotPasswordPage
+          onNavigateLogin={() => navigateTo('/login')}
+          onOtpRequested={({ emailOrPhone }) => {
+            setVerificationEmail(emailOrPhone);
+            navigateTo('/verify');
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 
   // Route 5: OTP Verification (/verify)
   if (currentRoute === '/verify') {
     return (
-      <OtpVerificationPage
-        targetEmail={verificationEmail}
-        onNavigateLogin={() => navigateTo('/login')}
-        onVerifySuccess={() => {
-          navigateTo('/reset-password');
-        }}
-      />
+      <ErrorBoundary>
+        <OtpVerificationPage
+          targetEmail={verificationEmail}
+          onNavigateLogin={() => navigateTo('/login')}
+          onVerifySuccess={() => {
+            navigateTo('/reset-password');
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 
   // Route 6: Reset Password (/reset-password)
   if (currentRoute === '/reset-password') {
     return (
-      <ResetPasswordPage
-        onNavigateLogin={() => navigateTo('/login')}
-        onResetSuccess={() => {
-          navigateTo('/login');
-        }}
-      />
+      <ErrorBoundary>
+        <ResetPasswordPage
+          onNavigateLogin={() => navigateTo('/login')}
+          onResetSuccess={() => {
+            navigateTo('/login');
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 
   // Route 7: Unauthorized Page (/unauthorized)
   if (currentRoute === '/unauthorized') {
     return (
-      <UnauthorizedPage
-        onNavigateBack={() => navigateTo('/')}
-        onNavigateDashboard={() => {
-          const defaultPath = (role && ROLE_METADATA[role]?.defaultRoute) || '/login';
-          navigateTo(defaultPath);
-        }}
-      />
+      <ErrorBoundary>
+        <UnauthorizedPage
+          onNavigateBack={() => navigateTo('/')}
+          onNavigateDashboard={() => {
+            const defaultPath = (role && ROLE_METADATA[role]?.defaultRoute) || '/login';
+            navigateTo(defaultPath);
+          }}
+        />
+      </ErrorBoundary>
     );
   }
 

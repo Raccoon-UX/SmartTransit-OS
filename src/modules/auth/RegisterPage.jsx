@@ -99,11 +99,12 @@ export function RegisterPage({ onNavigateLogin, onNavigateHome, onRegisterSucces
 
         {(localError || authError) && (
           <Alert
-            type="critical"
+            severity="critical"
             title="Registration Error"
-            message={localError || authError}
             onClose={() => setLocalError(null)}
-          />
+          >
+            {localError || authError}
+          </Alert>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">

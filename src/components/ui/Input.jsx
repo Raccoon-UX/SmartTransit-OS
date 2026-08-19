@@ -30,7 +30,11 @@ export function TextInput({
       <div className="relative flex items-center">
         {LeftIcon && (
           <div className="absolute left-3 pointer-events-none text-slate-400 dark:text-slate-500">
-            <LeftIcon className="w-4 h-4" />
+            {React.isValidElement(LeftIcon) ? (
+              LeftIcon
+            ) : typeof LeftIcon === 'function' ? (
+              <LeftIcon className="w-4 h-4" />
+            ) : null}
           </div>
         )}
         <input
@@ -51,8 +55,12 @@ export function TextInput({
           {...props}
         />
         {RightIcon && (
-          <div className="absolute right-3 pointer-events-none text-slate-400 dark:text-slate-500">
-            <RightIcon className="w-4 h-4" />
+          <div className="absolute right-3 flex items-center justify-center text-slate-400 dark:text-slate-500">
+            {React.isValidElement(RightIcon) ? (
+              RightIcon
+            ) : typeof RightIcon === 'function' ? (
+              <RightIcon className="w-4 h-4 pointer-events-none" />
+            ) : null}
           </div>
         )}
       </div>
@@ -271,3 +279,7 @@ export function Textarea({ label, error, helperText, rows = 3, className = '', i
     </div>
   );
 }
+
+export const Input = TextInput;
+export default TextInput;
+

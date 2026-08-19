@@ -9,7 +9,10 @@
  */
 
 const API_BASE_URL =
-  import.meta.env?.VITE_API_URL || 'http://localhost:5000/api/v1';
+  import.meta.env?.VITE_API_URL ||
+  (import.meta.env?.PROD
+    ? 'https://smarttransit-os.onrender.com/api/v1'
+    : 'http://localhost:5000/api/v1');
 
 const DEFAULT_TIMEOUT_MS = 5000;
 const ACCESS_TOKEN_KEY = 'smarttransit_access_token';

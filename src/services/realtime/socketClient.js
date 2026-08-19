@@ -74,12 +74,15 @@ class ManagedSocketClient {
 
     this.setState(REALTIME_STATES.CONNECTING_REALTIME);
 
-    // Production: use VITE_WS_URL when configured. Otherwise derive the
-    // Socket.IO origin from the existing VITE_API_BASE_URL. Keep localhost
-    // only as the final fallback for local development.
-    const configuredWsUrl = import.meta.env?.VITE_WS_URL;
-    const apiBaseUrl = import.meta.env?.VITE_API_BASE_URL;
-    const socketUrl = configuredWsUrl || apiBaseUrl || 'http://localhost:5000';
+    // Production: use VITE_WS_URL, VITE_SOCKET_URL, or VITE_API_BASE_URL when configured.
+    // In production mode, fallback to production backend origin.
+    const socketUrl =
+      import.meta.env?.VITE_WS_URL ||
+      import.meta.env?.VITE_SOCKET_URL ||
+      import.meta.env?.VITE_API_BASE_URL ||
+      (import.meta.env?.PROD
+        ? 'https://smarttransit-os.onrender.com'
+        : 'http://localhost:5000');
 
     this.socket = io(socketUrl, {
       auth: { token },

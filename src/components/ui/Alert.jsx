@@ -6,8 +6,10 @@ import { cn } from '../../utils/index.js';
  * Standard Alert Banner with 5 severity modes
  */
 export function Alert({
-  severity = 'info', // 'info' | 'success' | 'warning' | 'critical' | 'emergency'
+  severity,
+  type,
   title,
+  message,
   children,
   onClose,
   className = '',
@@ -21,8 +23,11 @@ export function Alert({
     if (onClose) onClose();
   };
 
+  const effectiveSeverity = severity || type || 'info';
+  const effectiveContent = children || message;
+
   const getStyle = () => {
-    switch (severity) {
+    switch (effectiveSeverity) {
       case 'success':
         return {
           icon: CheckCircle2,
@@ -67,7 +72,7 @@ export function Alert({
         <Icon className={cn('w-5 h-5 flex-shrink-0 mt-0.5', config.iconColor)} />
         <div>
           {title && <h4 className="text-sm font-bold tracking-tight mb-0.5">{title}</h4>}
-          <div className="text-xs leading-relaxed opacity-90">{children}</div>
+          <div className="text-xs leading-relaxed opacity-90">{effectiveContent}</div>
         </div>
       </div>
 

@@ -72,9 +72,13 @@ export function Button({
         <Loader2 className="w-4 h-4 animate-spin shrink-0" />
       ) : (
         <>
-          {LeftIcon && <LeftIcon className="w-4 h-4 shrink-0" />}
+          {LeftIcon && (
+            React.isValidElement(LeftIcon) ? LeftIcon : typeof LeftIcon === 'function' ? <LeftIcon className="w-4 h-4 shrink-0" /> : null
+          )}
           {children && <span>{children}</span>}
-          {RightIcon && <RightIcon className="w-4 h-4 shrink-0" />}
+          {RightIcon && (
+            React.isValidElement(RightIcon) ? RightIcon : typeof RightIcon === 'function' ? <RightIcon className="w-4 h-4 shrink-0" /> : null
+          )}
         </>
       )}
     </button>

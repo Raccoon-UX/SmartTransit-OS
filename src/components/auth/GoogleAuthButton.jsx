@@ -1,6 +1,45 @@
-﻿import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { cn } from '../../utils/index.js';
+
+// Module-level GIS singleton state to guarantee single initialization
+let isGisInitialized = false;
+let currentGisClientId = null;
+const globalCredentialListeners = new Set();
+
+function dispatchGlobalCredentialResponse(response) {
+  globalCredentialListeners.forEach((listener) => {
+    try {
+      listener(response);
+    } catch (err) {
+      console.error('[GoogleAuth] Error in credential listener:', err);
+    }
+  });
+}
+
+function initGisOnce(clientId) {
+  if (!clientId || typeof window === 'undefined' || !window.google?.accounts?.id) {
+    return false;
+  }
+  if (isGisInitialized && currentGisClientId === clientId) {
+    return true;
+  }
+
+  try {
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: dispatchGlobalCredentialResponse,
+      auto_select: false,
+      cancel_on_tap_outside: true,
+    });
+    isGisInitialized = true;
+    currentGisClientId = clientId;
+    return true;
+  } catch (e) {
+    console.warn('[GoogleAuth] Failed to initialize GIS:', e);
+    return false;
+  }
+}
 
 export function GoogleAuthButton({
   onSuccess,
@@ -11,17 +50,48 @@ export function GoogleAuthButton({
 }) {
   const { googleLogin, isLoading: authLoading } = useAuth();
   const [loading, setLoading] = useState(false);
-  const [gisLoaded, setGisLoaded] = useState(false);
+  const [gisScriptReady, setGisScriptReady] = useState(() => {
+    return typeof window !== 'undefined' && Boolean(window.google?.accounts?.id);
+  });
   const buttonContainerRef = useRef(null);
 
   const clientId = import.meta.env?.VITE_GOOGLE_CLIENT_ID;
 
-  // Load Google Identity Services script
+  // Credential callback
+  const handleCredentialResponse = useCallback(
+    async (response) => {
+      if (!response?.credential) {
+        if (onError) onError(new Error('No Google credential returned.'));
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const user = await googleLogin(response.credential);
+        if (onSuccess) onSuccess(user);
+      } catch (err) {
+        if (onError) onError(err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [googleLogin, onSuccess, onError]
+  );
+
+  // Subscribe this button instance to global GIS credential dispatches
+  useEffect(() => {
+    globalCredentialListeners.add(handleCredentialResponse);
+    return () => {
+      globalCredentialListeners.delete(handleCredentialResponse);
+    };
+  }, [handleCredentialResponse]);
+
+  // Load Google Identity Services script if not already loaded
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
     if (window.google?.accounts?.id) {
-      setGisLoaded(true);
+      setGisScriptReady(true);
       return;
     }
 
@@ -33,78 +103,57 @@ export function GoogleAuthButton({
       script.async = true;
       script.defer = true;
       script.onload = () => {
-        setGisLoaded(true);
+        setGisScriptReady(true);
       };
       script.onerror = () => {
         console.warn('[GoogleAuth] Failed to load Google Identity Services SDK.');
       };
       document.head.appendChild(script);
     } else {
-      existingScript.addEventListener('load', () => setGisLoaded(true));
+      existingScript.addEventListener('load', () => setGisScriptReady(true));
     }
   }, []);
 
-  const handleCredentialResponse = async (response) => {
-    if (!response?.credential) {
-      if (onError) onError(new Error('No Google credential returned.'));
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const user = await googleLogin(response.credential);
-      if (onSuccess) onSuccess(user);
-    } catch (err) {
-      if (onError) onError(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Initialize and render Google Button when GIS and Client ID are ready
+  // Initialize once and render button into container
   useEffect(() => {
-    if (!gisLoaded || !window.google?.accounts?.id || !clientId || !buttonContainerRef.current) {
+    if (!gisScriptReady || !clientId || !buttonContainerRef.current) {
       return;
     }
 
-    try {
-      window.google.accounts.id.initialize({
-        client_id: clientId,
-        callback: handleCredentialResponse,
-        auto_select: false,
-        cancel_on_tap_outside: true,
-      });
-
-      // Clear container and render button
-      buttonContainerRef.current.innerHTML = '';
-      window.google.accounts.id.renderButton(buttonContainerRef.current, {
-        theme: 'outline',
-        size: 'large',
-        type: 'standard',
-        shape: 'rectangular',
-        text: text,
-        logo_alignment: 'left',
-        width: buttonContainerRef.current.offsetWidth || 320,
-      });
-    } catch (e) {
-      console.warn('[GoogleAuth] Error rendering GIS button:', e);
+    const ready = initGisOnce(clientId);
+    if (ready && window.google?.accounts?.id && buttonContainerRef.current) {
+      try {
+        buttonContainerRef.current.innerHTML = '';
+        window.google.accounts.id.renderButton(buttonContainerRef.current, {
+          theme: 'outline',
+          size: 'large',
+          type: 'standard',
+          shape: 'rectangular',
+          text: text,
+          logo_alignment: 'left',
+          width: buttonContainerRef.current.offsetWidth || 320,
+        });
+      } catch (e) {
+        console.warn('[GoogleAuth] Error rendering GIS button:', e);
+      }
     }
-  }, [gisLoaded, clientId, text]);
+  }, [gisScriptReady, clientId, text]);
 
-  // Fallback handler for click when GIS is not configured or in development
+  // Fallback handler for click when GIS button is not rendered or in offline/development mode
   const handleFallbackClick = async () => {
     if (loading || authLoading || disabled) return;
 
     if (clientId && window.google?.accounts?.id) {
       try {
+        initGisOnce(clientId);
         window.google.accounts.id.prompt();
         return;
       } catch (e) {
-        console.warn('[GoogleAuth] GIS prompt failed, falling back:', e);
+        console.warn('[GoogleAuth] GIS prompt fallback trigger failed:', e);
       }
     }
 
-    // In DEV mode without client ID, trigger simulated Google Auth
+    // Offline / dev fallback simulated login
     setLoading(true);
     try {
       const mockToken = `mock-google-token:commuter.citizen@gmail.com:Google Citizen:${Date.now()}:verified`;
@@ -127,7 +176,7 @@ export function GoogleAuthButton({
   return (
     <div className={cn('w-full flex flex-col items-center justify-center', className)}>
       {/* GIS Render Target if Client ID is configured and GIS is loaded */}
-      {clientId && gisLoaded ? (
+      {clientId && gisScriptReady ? (
         <div ref={buttonContainerRef} className="w-full flex justify-center min-h-[44px]" />
       ) : (
         /* Standalone High-Fidelity Google Button */
@@ -173,3 +222,4 @@ export function GoogleAuthButton({
 }
 
 export default GoogleAuthButton;
+
