@@ -100,7 +100,7 @@ export function AppRouter() {
 
   const navigateTo = (path) => {
     setCurrentRoute(path);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo(0, 0);
   };
 
   // Initial Application Boot Loader

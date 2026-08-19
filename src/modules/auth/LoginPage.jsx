@@ -80,7 +80,7 @@ export function LoginPage({
             className="inline-flex items-center space-x-2 text-xs font-mono font-semibold text-sky-400 hover:text-sky-300 transition-colors duration-150 group cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5 transition-transform duration-150 group-hover:-translate-x-0.5 shrink-0" />
-            <span>&larr; {t('returnToPublicPortal') || 'Return to Public Portal'}</span>
+            <span>{t('returnToPublicPortal') || 'Return to Public Portal'}</span>
           </button>
 
           <div className="flex items-center space-x-2 text-[10px] sm:text-[11px] font-mono text-slate-300">
