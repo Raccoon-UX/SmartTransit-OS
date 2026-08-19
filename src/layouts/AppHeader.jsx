@@ -44,9 +44,9 @@ export function AppHeader({
       {/* Top 3px Solid Institutional Accent Line */}
       <div className="h-1 bg-[#B83E12] w-full" />
 
-      <div className="h-20 px-2.5 sm:px-4 flex items-center justify-between gap-2 max-w-full">
+      <div className="h-16 sm:h-20 px-2.5 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 max-w-full overflow-hidden">
         {/* Left: Official Masthead Identity (Dual Emblems + Stacked Title) */}
-        <div className="flex items-center space-x-2 sm:space-x-2.5 shrink-0 min-w-0">
+        <div className="flex items-center space-x-1.5 sm:space-x-2.5 shrink-0 min-w-0">
           <button
             type="button"
             onClick={onOpenMobileNav}
@@ -66,18 +66,18 @@ export function AppHeader({
           </button>
 
           {/* Dual Emblem Logos (logo.png + msrtc logo1.png) & Stacked Title */}
-          <div className="flex items-center space-x-2.5 shrink-0 min-w-0">
-            <div className="flex items-center space-x-2 shrink-0">
+          <div className="flex items-center space-x-2 sm:space-x-2.5 shrink-0 min-w-0">
+            <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
               <img
                 src={logoImg}
                 alt="SmartTransit OS Logo"
-                className="h-11 sm:h-12 w-auto max-w-[150px] object-contain shrink-0"
+                className="h-8 sm:h-11 md:h-12 w-auto max-w-[110px] sm:max-w-[150px] object-contain shrink-0"
               />
-              <span className="text-slate-300 dark:text-slate-700 text-lg font-mono">|</span>
+              <span className="text-slate-300 dark:text-slate-700 text-lg font-mono hidden sm:inline">|</span>
               <img
                 src={msrtcLogo1}
                 alt="MSRTC Official Emblem"
-                className="h-11 sm:h-12 w-auto max-w-[220px] object-contain shrink-0"
+                className="hidden sm:block h-9 sm:h-11 md:h-12 w-auto max-w-[160px] sm:max-w-[220px] object-contain shrink-0"
               />
             </div>
 
@@ -93,8 +93,8 @@ export function AppHeader({
           </div>
         </div>
 
-        {/* Center: Search Bar Trigger */}
-        <div className="flex-1 min-w-[140px] max-w-xs sm:max-w-sm mx-1 sm:mx-2">
+        {/* Center: Search Bar Trigger (Visible on medium+ screens) */}
+        <div className="hidden md:block flex-1 min-w-[140px] max-w-xs sm:max-w-sm mx-1 sm:mx-2">
           <button
             type="button"
             onClick={onOpenSearch}
@@ -116,7 +116,7 @@ export function AppHeader({
         </div>
 
         {/* Right: Operational Controls & Language Switcher */}
-        <div className="flex items-center space-x-1.5 sm:space-x-2 shrink-0">
+        <div className="flex items-center space-x-1 sm:space-x-2 shrink-0">
           <div className="hidden 2xl:block">
             <LiveSystemIndicator />
           </div>
@@ -144,7 +144,7 @@ export function AppHeader({
               type="button"
               onClick={() => toggleLanguage('en')}
               className={cn(
-                'px-2 py-0.5 rounded text-[11px] font-bold transition-colors leading-none',
+                'px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold transition-colors leading-none',
                 language === 'en'
                   ? 'bg-[#B83E12] text-white shadow-xs font-black'
                   : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -157,7 +157,7 @@ export function AppHeader({
               type="button"
               onClick={() => toggleLanguage('mr')}
               className={cn(
-                'px-2 py-0.5 rounded text-[11px] font-bold transition-colors font-sans leading-none',
+                'px-1.5 sm:px-2 py-0.5 rounded text-[10px] sm:text-[11px] font-bold transition-colors font-sans leading-none',
                 language === 'mr'
                   ? 'bg-[#B83E12] text-white shadow-xs font-black'
                   : 'text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -167,15 +167,17 @@ export function AppHeader({
             </button>
           </div>
 
-          {/* Interactive Role Switcher Dropdown */}
-          <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
+          {/* Interactive Role Switcher Dropdown (Inside Drawer on mobile) */}
+          <div className="hidden sm:block">
+            <RoleSwitcher currentRole={currentRole} onRoleChange={onRoleChange} />
+          </div>
 
           <NotificationCenter />
 
           <button
             type="button"
             onClick={toggleTheme}
-            className="p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0"
+            className="p-1.5 sm:p-2 rounded-lg text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:outline-none border border-slate-300 dark:border-slate-700 shrink-0"
             aria-label="Toggle Light and Dark Mode"
           >
             {isDark ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-slate-700" />}

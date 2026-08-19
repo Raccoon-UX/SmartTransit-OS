@@ -21,52 +21,52 @@ export function PublicBrandHeader() {
 
   return (
     <div className="bg-white dark:bg-slate-900 border-b border-[#DDD8CE] dark:border-slate-800 py-2 sm:py-2.5 px-4 sm:px-6 text-left select-none font-sans leading-none">
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4">
-        {/* Left Side: Dual Emblem Logos (Larger Sizes) */}
-        <div className="flex items-center space-x-3 sm:space-x-4 shrink-0">
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-3 sm:gap-4 box-border">
+        {/* Left Side: Dual Emblem Logos (Responsive Sizes) */}
+        <div className="flex items-center justify-center space-x-2 sm:space-x-4 max-w-full shrink-0">
           <img
             src={logoImg}
             alt="SmartTransit OS Logo"
-            className="h-13 sm:h-16 w-auto max-w-[180px] object-contain shrink-0"
+            className="h-10 sm:h-14 md:h-16 w-auto max-w-[120px] sm:max-w-[180px] object-contain shrink-0"
           />
-          <span className="text-slate-300 dark:text-slate-700 text-2xl font-mono shrink-0">|</span>
+          <span className="text-slate-300 dark:text-slate-700 text-xl sm:text-2xl font-mono shrink-0">|</span>
           <img
             src={msrtcLogo1}
             alt="MSRTC Official Emblem"
-            className="h-18 sm:h-22 w-auto max-w-[320px] object-contain shrink-0"
+            className="h-12 sm:h-18 md:h-22 w-auto max-w-[160px] sm:max-w-[320px] object-contain shrink-0"
           />
         </div>
 
         {/* Right Side: Transit Network Partners + Stacked High Contrast & English/Marathi Switcher */}
-        <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 sm:gap-4 shrink-0">
+        <div className="flex flex-wrap items-center justify-center lg:justify-end gap-2.5 sm:gap-4 max-w-full shrink-0">
           {/* Transit Network Partners Logo Box */}
-          <div className="flex items-center space-x-3 bg-slate-50 dark:bg-slate-800/80 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 shrink-0">
-            <div className="text-right pr-1">
-              <span className="block text-[10px] font-mono font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider leading-none">
+          <div className="flex items-center space-x-2 sm:space-x-3 bg-slate-50 dark:bg-slate-800/80 px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border border-slate-200 dark:border-slate-700 max-w-full overflow-x-auto shrink-0">
+            <div className="text-right pr-1 shrink-0">
+              <span className="block text-[9px] sm:text-[10px] font-mono font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider leading-none">
                 {t('transitPartners')}
               </span>
-              <span className="block text-[9px] text-slate-400 font-sans mt-0.5 leading-none">Connected Network</span>
+              <span className="block text-[8px] sm:text-[9px] text-slate-400 font-sans mt-0.5 leading-none">Connected Network</span>
             </div>
-            <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
+            <span className="text-slate-300 dark:text-slate-600 text-xs shrink-0">|</span>
             <img
               src={bestLogo}
               alt="BEST Undertaking Logo"
               title="BEST Undertaking"
-              className="h-9 sm:h-11 w-auto object-contain shrink-0 px-0.5"
+              className="h-7 sm:h-10 md:h-11 w-auto object-contain shrink-0 px-0.5"
             />
-            <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
+            <span className="text-slate-300 dark:text-slate-600 text-xs shrink-0">|</span>
             <img
               src={msrtcLogo}
               alt="MSRTC Corporation Logo"
               title="MSRTC Transport Corporation"
-              className="h-9 sm:h-11 w-auto object-contain shrink-0 px-0.5"
+              className="h-7 sm:h-10 md:h-11 w-auto object-contain shrink-0 px-0.5"
             />
-            <span className="text-slate-300 dark:text-slate-600 text-xs">|</span>
+            <span className="text-slate-300 dark:text-slate-600 text-xs shrink-0">|</span>
             <img
               src={tmtLogo}
               alt="TMT Transport Logo"
               title="Thane Municipal Transport (TMT)"
-              className="h-9 sm:h-11 w-auto object-contain shrink-0 px-0.5"
+              className="h-7 sm:h-10 md:h-11 w-auto object-contain shrink-0 px-0.5"
             />
           </div>
 

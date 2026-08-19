@@ -108,7 +108,7 @@ export function OtpVerificationPage({
 
         {/* 6-Digit OTP Inputs */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center justify-between gap-1.5 sm:gap-2">
             {otpValues.map((digit, idx) => (
               <input
                 key={idx}
@@ -120,7 +120,7 @@ export function OtpVerificationPage({
                 onChange={(e) => handleDigitChange(idx, e.target.value)}
                 onKeyDown={(e) => handleKeyDown(idx, e)}
                 className={cn(
-                  'w-12 h-14 text-center text-xl font-mono font-bold rounded-2xl border transition-all focus:outline-none focus:ring-2',
+                  'w-9 sm:w-12 h-12 sm:h-14 text-center text-lg sm:text-xl font-mono font-bold rounded-xl sm:rounded-2xl border transition-all focus:outline-none focus:ring-2',
                   'bg-slate-50 dark:bg-navy-950 border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-transit-500'
                 )}
                 autoFocus={idx === 0}

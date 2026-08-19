@@ -47,9 +47,9 @@ export function Modal({
       {/* Modal Dialog Card */}
       <div
         className={cn(
-          'relative w-full z-10 p-6 rounded-2xl transition-all duration-300 transform text-left',
+          'relative w-full max-w-[calc(100vw-2rem)] z-10 p-4 sm:p-6 rounded-2xl transition-all duration-300 transform text-left',
           'bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800',
-          'shadow-2xl dark:shadow-modal',
+          'shadow-2xl dark:shadow-modal max-h-[90vh] overflow-y-auto box-border',
           maxWidth,
           className
         )}

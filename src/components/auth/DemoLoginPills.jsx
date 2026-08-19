@@ -109,14 +109,14 @@ export function DemoLoginPills({ onSelectRole, onSelectDemo, isLoading = false, 
                 </div>
               </div>
 
-              {/* Right Action: Authenticate Button */}
-              <div className="shrink-0 flex sm:justify-end">
+              {/* Right Action: Authenticate Button (Full width on mobile with >=44px touch target) */}
+              <div className="shrink-0 w-full sm:w-auto flex sm:justify-end">
                 <button
                   type="button"
                   disabled={isLoading}
                   onClick={() => handleSelect(demo.role)}
                   className={cn(
-                    'w-full sm:w-auto inline-flex items-center justify-center space-x-1.5 px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all duration-200 cursor-pointer',
+                    'w-full sm:w-auto min-h-[44px] sm:min-h-[38px] inline-flex items-center justify-center space-x-1.5 px-4 py-2.5 sm:py-2 rounded-lg text-xs font-mono font-bold transition-all duration-200 cursor-pointer',
                     'bg-[#0B3D91] hover:bg-[#082e6d] active:bg-[#06214f] text-white border border-[#07275f]',
                     'shadow-xs hover:shadow-md hover:shadow-[#0B3D91]/20 hover:-translate-y-0.5 active:translate-y-0',
                     'disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0'

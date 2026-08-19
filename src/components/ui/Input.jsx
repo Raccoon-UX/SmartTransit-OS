@@ -41,7 +41,7 @@ export function TextInput({
           id={inputId}
           disabled={disabled}
           className={cn(
-            'w-full text-sm rounded-lg px-3.5 py-2 transition-all duration-150',
+            'w-full text-base sm:text-sm rounded-lg px-3.5 py-2.5 sm:py-2 transition-all duration-150',
             'bg-white dark:bg-navy-900 border border-slate-300 dark:border-slate-700/80',
             'text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500',
             'focus:outline-none focus:ring-2 focus:ring-transit-500 focus:border-transit-500',
@@ -96,7 +96,7 @@ export function SearchInput({ value = '', onChange, onClear, placeholder = 'Sear
         onChange={onChange}
         placeholder={placeholder}
         className={cn(
-          'w-full text-sm rounded-lg pl-10 pr-9 py-2 transition-all',
+          'w-full text-base sm:text-sm rounded-lg pl-10 pr-9 py-2.5 sm:py-2 transition-all',
           'bg-slate-50 dark:bg-navy-900/90 border border-slate-200 dark:border-slate-700/80',
           'text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500',
           'focus:outline-none focus:ring-2 focus:ring-transit-500 focus:bg-white dark:focus:bg-navy-900'
@@ -135,7 +135,7 @@ export function Select({ label, options = [], error, value, onChange, className 
           value={value}
           onChange={onChange}
           className={cn(
-            'w-full text-sm rounded-lg px-3.5 py-2 pr-10 appearance-none transition-all',
+            'w-full text-base sm:text-sm rounded-lg px-3.5 py-2.5 sm:py-2 pr-10 appearance-none transition-all',
             'bg-white dark:bg-navy-900 border border-slate-300 dark:border-slate-700/80',
             'text-slate-900 dark:text-slate-100',
             'focus:outline-none focus:ring-2 focus:ring-transit-500',
