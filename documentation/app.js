@@ -112,21 +112,24 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     passenger: {
-      title: 'Passenger Commuter — Live Transit Portal',
-      sub: 'Persona: Aarav Sharma (Daily Metro Commuter)',
+      title: 'Passenger Commuter — Live Transit & Safety Portal',
+      sub: 'Persona: Aarav Sharma (Daily Metro & Bus Commuter)',
       id: 'passenger',
       modules: [
-        '• Live Bus Tracking & Search (`/passenger/search`)',
-        '• Journey Route Planner (`/passenger/planner`)',
-        '• Smart Bus Stop Kiosks (`/passenger/stops`)',
-        '• Active Trip Tracking (`/passenger/dashboard`)',
-        '• Commuter Advisories (`/passenger/alerts`)',
+        '• Live Vector Map & Search (`/passenger/live-map`)',
+        '• Multimodal Journey Planner (`/passenger/planner`)',
+        '• Passenger Emergency SOS & Banner (`/passenger/safety-center`)',
+        '• Grievance Tracking Desk (`/passenger/complaints`)',
+        '• Lost & Found Property Desk (`/passenger/lost-and-found`)',
+        '• Trip History & 6D Feedback (`/passenger/trip-history`)',
       ],
       privileges: [
-        '✓ Search routes by origin & destination',
-        '✓ Real-time occupancy forecast checking',
-        '✓ Save favorite routes & bus stops',
-        '✓ Receive service advisories',
+        '✓ Trigger rapid Emergency SOS to operations dispatch',
+        '✓ Submit & track 4-stage grievance lifecycle (ST-XXXX)',
+        '✓ Manage trusted emergency contacts & 24/7 helplines',
+        '✓ Report misplaced property for depot custody matching',
+        '✓ Rate completed trips across 6 service dimensions',
+        '✓ Share live journey telemetry via WhatsApp & clipboard',
       ]
     },
     driver: {
