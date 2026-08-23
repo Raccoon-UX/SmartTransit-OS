@@ -1,11 +1,11 @@
 import React from 'react';
-import { Bus, Navigation, MapPin, CheckCircle2, Clock, X, AlertTriangle, ArrowRight } from 'lucide-react';
+import { Bus, Navigation, MapPin, CheckCircle2, Clock, X, AlertTriangle, ArrowRight, Share2 } from 'lucide-react';
 import { OccupancyIndicator } from './OccupancyIndicator.jsx';
 import { ProgressBar } from '../../../components/dataviz/ProgressBar.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { cn } from '../../../utils/index.js';
 
-export function ActiveTripCard({ trip, onCancelTrip, onOpenLiveMap, className = '' }) {
+export function ActiveTripCard({ trip, onCancelTrip, onOpenLiveMap, onShareJourney, className = '' }) {
   if (!trip || !trip.isActive) return null;
 
   return (
@@ -84,8 +84,8 @@ export function ActiveTripCard({ trip, onCancelTrip, onOpenLiveMap, className = 
         <OccupancyIndicator percent={trip.occupancyPercent} status={trip.occupancyStatus} showBar={true} />
       </div>
 
-      {/* Bottom CTA to Live Map */}
-      <div className="pt-1 relative z-10">
+      {/* Bottom Action CTAs */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1 relative z-10">
         <Button
           variant="primary"
           size="md"
@@ -94,8 +94,20 @@ export function ActiveTripCard({ trip, onCancelTrip, onOpenLiveMap, className = 
           onClick={onOpenLiveMap}
           className="bg-[#B83E12] hover:bg-[#96300c] text-white shadow-md font-bold"
         >
-          Track This Journey on Live Map
+          Track Live
         </Button>
+        {onShareJourney && (
+          <Button
+            variant="outline"
+            size="md"
+            fullWidth
+            leftIcon={Share2}
+            onClick={onShareJourney}
+            className="border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 font-bold"
+          >
+            Share Journey
+          </Button>
+        )}
       </div>
     </div>
   );

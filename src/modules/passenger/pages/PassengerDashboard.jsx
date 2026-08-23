@@ -1,10 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../../context/AuthContext.jsx';
-import { Search, MapPin, Route, Compass, Star, Bell, Bus, ArrowRight, ShieldCheck, Activity, CheckCircle2 } from 'lucide-react';
+import {
+  Search,
+  MapPin,
+  Route,
+  Compass,
+  Star,
+  Bell,
+  Bus,
+  ArrowRight,
+  ShieldCheck,
+  Activity,
+  CheckCircle2,
+  AlertOctagon,
+  FileText,
+  Package,
+  Clock,
+  Share2,
+  ShieldAlert,
+  HelpCircle,
+  ChevronRight,
+} from 'lucide-react';
 import { transitService } from '../../../services/passenger/transitService.js';
 import { favoriteService } from '../../../services/passenger/favoriteService.js';
 import { journeyService } from '../../../services/passenger/journeyService.js';
 import { passengerNotificationService } from '../../../services/passenger/passengerNotificationService.js';
+import { passengerSosService } from '../../../services/passenger/passengerSosService.js';
 import { BusCard } from '../../../components/cards/BusCard.jsx';
 import { AlertCard } from '../../../components/cards/AlertCard.jsx';
 import { EmptyState } from '../../../components/ui/EmptyState.jsx';
@@ -12,6 +33,10 @@ import { Button } from '../../../components/ui/Button.jsx';
 import { ActiveTripCard } from '../components/ActiveTripCard.jsx';
 import { OccupancyIndicator } from '../components/OccupancyIndicator.jsx';
 import { EtaDisplay } from '../components/EtaDisplay.jsx';
+import { PassengerSosModal } from '../components/PassengerSosModal.jsx';
+import { ActiveSosBanner } from '../components/ActiveSosBanner.jsx';
+import { ReportIssueModal } from '../components/ReportIssueModal.jsx';
+import { ShareJourneyModal } from '../components/ShareJourneyModal.jsx';
 import { cn } from '../../../utils/index.js';
 
 export function PassengerDashboard({ onNavigate }) {
@@ -21,9 +46,23 @@ export function PassengerDashboard({ onNavigate }) {
   const [favorites, setFavorites] = useState(favoriteService.getFavorites());
   const [activeTrip, setActiveTrip] = useState(journeyService.getActiveTrip());
   const [alerts, setAlerts] = useState(passengerNotificationService.getAlerts());
+  const [activeSos, setActiveSos] = useState(passengerSosService.getActiveSos());
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Modals
+  const [isSosModalOpen, setIsSosModalOpen] = useState(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
+  const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+
   const userName = user?.name || 'Aarav Sharma';
+
+  // Greeting based on time of day
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good morning';
+    if (hour < 17) return 'Good afternoon';
+    return 'Good evening';
+  };
 
   useEffect(() => {
     transitService.getLiveBuses().then(setBuses);
@@ -31,6 +70,7 @@ export function PassengerDashboard({ onNavigate }) {
 
     const unsubscribeBuses = transitService.subscribeToLiveBuses(setBuses);
     const unsubscribeTrip = journeyService.subscribeActiveTrip(setActiveTrip);
+    const unsubscribeSos = passengerSosService.subscribe(setActiveSos);
 
     const ticker = setInterval(() => {
       transitService.simulateTick();
@@ -39,6 +79,7 @@ export function PassengerDashboard({ onNavigate }) {
     return () => {
       unsubscribeBuses();
       unsubscribeTrip();
+      unsubscribeSos();
       clearInterval(ticker);
     };
   }, []);
@@ -61,7 +102,7 @@ export function PassengerDashboard({ onNavigate }) {
 
   return (
     <div className="space-y-8 text-left">
-      {/* Top Header & Greeting */}
+      {/* 1. Top Header & Greeting */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="inline-flex items-center space-x-2 px-2.5 py-0.5 rounded-full bg-transit-500/10 text-transit-600 dark:text-transit-400 text-xs font-mono font-bold mb-1 border border-transit-500/20">
@@ -69,26 +110,31 @@ export function PassengerDashboard({ onNavigate }) {
             <span>METROPOLITAN COMMUTER HUB</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white font-sans tracking-tight">
-            Good morning, {userName.split(' ')[0]}.
+            {getGreeting()}, {userName.split(' ')[0]}.
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Here's what's happening across your city transit network.
+            Real-time urban transit navigation, vehicle tracking & safety command.
           </p>
         </div>
 
-        {/* Quick Mode Indicator */}
+        {/* Live Sync Badge */}
         <div className="flex items-center space-x-2 text-xs font-mono text-slate-600 dark:text-slate-300">
-          <span className="p-2 rounded-xl bg-slate-100 dark:bg-navy-800 text-emerald-500 font-bold flex items-center space-x-1">
+          <span className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-emerald-500 font-bold flex items-center space-x-1.5 border border-slate-200 dark:border-slate-700">
             <Activity className="w-3.5 h-3.5 animate-pulse" />
             <span>Live Sync Active</span>
           </span>
         </div>
       </div>
 
-      {/* A. Quick Search Interface ("Where are you going?") */}
+      {/* 2. Active SOS Banner if active */}
+      {activeSos && (
+        <ActiveSosBanner activeSos={activeSos} onResolved={() => setActiveSos(null)} />
+      )}
+
+      {/* 3. Hero Journey Planner Search */}
       <div className="p-6 rounded-3xl bg-gradient-to-r from-transit-500/10 via-cyan-500/10 to-transparent border border-transit-500/30 shadow-sm space-y-3">
         <h2 className="text-base font-bold text-slate-900 dark:text-white font-sans">
-          Where are you going today?
+          Where do you want to go today?
         </h2>
         <form onSubmit={handleQuickSearch} className="flex flex-col sm:flex-row items-center gap-2">
           <div className="relative flex-1 w-full">
@@ -100,7 +146,7 @@ export function PassengerDashboard({ onNavigate }) {
               placeholder="Search by bus number (e.g. 245), route (RT-108), station, or destination..."
               className={cn(
                 'w-full pl-10 pr-4 py-3 rounded-2xl border text-sm transition-all focus:outline-none focus:ring-2',
-                'bg-white dark:bg-navy-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-transit-500'
+                'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-transit-500'
               )}
             />
           </div>
@@ -109,22 +155,23 @@ export function PassengerDashboard({ onNavigate }) {
             variant="primary"
             size="lg"
             rightIcon={ArrowRight}
-            className="w-full sm:w-auto shadow-glow font-bold"
+            className="w-full sm:w-auto shadow-glow font-bold bg-[#B83E12] hover:bg-[#96300c] text-white"
           >
             Find Transit
           </Button>
         </form>
       </div>
 
-      {/* D. Active Trip Experience (If active) or Empty State */}
+      {/* 4. Active Journey Section */}
       {activeTrip && activeTrip.isActive ? (
         <ActiveTripCard
           trip={activeTrip}
           onCancelTrip={handleCancelActiveTrip}
           onOpenLiveMap={() => onNavigate && onNavigate('/passenger/live-map')}
+          onShareJourney={() => setIsShareModalOpen(true)}
         />
       ) : (
-        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-navy-900 border border-slate-200 dark:border-slate-800 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-left flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="text-xs font-mono font-bold uppercase text-slate-400">Journey Status</div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans">No Active Commute in Progress</h3>
@@ -137,15 +184,100 @@ export function PassengerDashboard({ onNavigate }) {
             size="md"
             leftIcon={Compass}
             onClick={() => onNavigate && onNavigate('/passenger/planner')}
+            className="bg-transit-600 hover:bg-transit-700 text-white font-bold"
           >
             Plan a Journey
           </Button>
         </div>
       )}
 
-      {/* Main Grid: B. Nearby Transit & C. Favorite Routes */}
+      {/* 5. Quick Actions Responsive 4-Column Grid */}
+      <div className="space-y-3">
+        <div className="text-xs font-mono font-bold uppercase text-slate-400">
+          Passenger Quick Actions
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {/* Quick Action 1: 🚨 Emergency SOS */}
+          <button
+            type="button"
+            onClick={() => setIsSosModalOpen(true)}
+            className="p-4 rounded-2xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/30 text-left space-y-2 transition-all cursor-pointer group"
+          >
+            <div className="p-2 rounded-xl bg-rose-600 text-white w-fit group-hover:scale-105 transition-transform">
+              <AlertOctagon className="w-5 h-5" />
+            </div>
+            <div>
+              <strong className="text-xs font-bold text-slate-900 dark:text-white block font-sans">
+                Emergency SOS
+              </strong>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                Direct Safety Dispatch
+              </span>
+            </div>
+          </button>
+
+          {/* Quick Action 2: 📝 Report Issue */}
+          <button
+            type="button"
+            onClick={() => setIsReportModalOpen(true)}
+            className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 text-left space-y-2 transition-all cursor-pointer group shadow-2xs"
+          >
+            <div className="p-2 rounded-xl bg-transit-600 text-white w-fit group-hover:scale-105 transition-transform">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div>
+              <strong className="text-xs font-bold text-slate-900 dark:text-white block font-sans">
+                Report Issue
+              </strong>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                File Grievance
+              </span>
+            </div>
+          </button>
+
+          {/* Quick Action 3: 🔔 Service Alerts */}
+          <button
+            type="button"
+            onClick={() => onNavigate && onNavigate('/passenger/notifications')}
+            className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 text-left space-y-2 transition-all cursor-pointer group shadow-2xs"
+          >
+            <div className="p-2 rounded-xl bg-amber-500 text-white w-fit group-hover:scale-105 transition-transform">
+              <Bell className="w-5 h-5" />
+            </div>
+            <div>
+              <strong className="text-xs font-bold text-slate-900 dark:text-white block font-sans">
+                Service Alerts
+              </strong>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                {alerts.length} Active Notices
+              </span>
+            </div>
+          </button>
+
+          {/* Quick Action 4: 🎒 Lost & Found */}
+          <button
+            type="button"
+            onClick={() => onNavigate && onNavigate('/passenger/lost-and-found')}
+            className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800/80 border border-slate-200 dark:border-slate-800 text-left space-y-2 transition-all cursor-pointer group shadow-2xs"
+          >
+            <div className="p-2 rounded-xl bg-purple-600 text-white w-fit group-hover:scale-105 transition-transform">
+              <Package className="w-5 h-5" />
+            </div>
+            <div>
+              <strong className="text-xs font-bold text-slate-900 dark:text-white block font-sans">
+                Lost & Found
+              </strong>
+              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                Property Recovery
+              </span>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      {/* 6. Main Grid: Nearby Transit & Favorite Routes */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left 7 Cols: B. Nearby Transit Stops & Incoming Buses */}
+        {/* Left 7 Cols: Nearby Transit Stops */}
         <div className="lg:col-span-7 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -157,7 +289,7 @@ export function PassengerDashboard({ onNavigate }) {
             <button
               type="button"
               onClick={() => onNavigate && onNavigate('/passenger/live-map')}
-              className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600"
+              className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600 cursor-pointer"
             >
               Open Live Map →
             </button>
@@ -167,14 +299,14 @@ export function PassengerDashboard({ onNavigate }) {
             {stops.slice(0, 2).map((stop) => (
               <div
                 key={stop.id}
-                className="p-5 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3"
+                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3"
               >
                 <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
                   <div>
                     <div className="font-bold text-sm text-slate-900 dark:text-white font-sans">{stop.name}</div>
                     <span className="text-[10px] font-mono text-slate-400">{stop.code} • {stop.zone}</span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-navy-800 text-transit-500 border border-slate-200 dark:border-slate-700">
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-transit-500 border border-slate-200 dark:border-slate-700">
                     {stop.shelterType}
                   </span>
                 </div>
@@ -183,7 +315,7 @@ export function PassengerDashboard({ onNavigate }) {
                   {(stop.incomingBuses || []).map((busItem, bIdx) => (
                     <div
                       key={bIdx}
-                      className="p-2.5 rounded-xl bg-slate-50 dark:bg-navy-850 border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs"
+                      className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center space-x-2">
                         <span className="px-2 py-0.5 rounded bg-transit-500 text-white font-mono font-bold text-[10px]">
@@ -207,9 +339,9 @@ export function PassengerDashboard({ onNavigate }) {
           </div>
         </div>
 
-        {/* Right 5 Cols: C. Favorite Routes & Quick Actions */}
+        {/* Right 5 Cols: Favorite Routes & Commuter Shortcuts */}
         <div className="lg:col-span-5 space-y-6">
-          {/* C. Favorite Routes */}
+          {/* Favorite Routes */}
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -221,7 +353,7 @@ export function PassengerDashboard({ onNavigate }) {
               <button
                 type="button"
                 onClick={() => onNavigate && onNavigate('/passenger/favorites')}
-                className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600"
+                className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600 cursor-pointer"
               >
                 Manage ({favorites?.routes?.length || 0})
               </button>
@@ -231,7 +363,7 @@ export function PassengerDashboard({ onNavigate }) {
               {(favorites?.routes || []).map((fav) => (
                 <div
                   key={fav.id}
-                  className="p-4 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm flex items-center justify-between"
+                  className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between"
                 >
                   <div>
                     <div className="font-bold text-xs text-slate-900 dark:text-white">{fav.name}</div>
@@ -245,7 +377,7 @@ export function PassengerDashboard({ onNavigate }) {
                   <button
                     type="button"
                     onClick={() => handleRemoveFavorite(fav.id)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors text-xs"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors text-xs cursor-pointer"
                     title="Remove from favorites"
                   >
                     ×
@@ -255,48 +387,52 @@ export function PassengerDashboard({ onNavigate }) {
             </div>
           </div>
 
-          {/* F. Quick Action Bar */}
-          <div className="p-5 rounded-2xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 space-y-3">
-            <div className="text-xs font-mono font-bold uppercase text-slate-400">Quick Shortcuts</div>
+          {/* Commuter Navigation Shortcuts */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-3 shadow-xs">
+            <div className="text-xs font-mono font-bold uppercase text-slate-400">Personal Mobility</div>
             <div className="grid grid-cols-2 gap-2 text-xs">
               <Button
                 variant="outline"
                 size="sm"
-                leftIcon={MapPin}
-                onClick={() => onNavigate && onNavigate('/passenger/live-map')}
+                leftIcon={Clock}
+                onClick={() => onNavigate && onNavigate('/passenger/trip-history')}
+                className="justify-start font-bold"
               >
-                Live Map
+                Trip History
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                leftIcon={Compass}
-                onClick={() => onNavigate && onNavigate('/passenger/planner')}
+                leftIcon={ShieldCheck}
+                onClick={() => onNavigate && onNavigate('/passenger/safety-center')}
+                className="justify-start font-bold"
               >
-                Journey Planner
+                Safety Center
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                leftIcon={FileText}
+                onClick={() => onNavigate && onNavigate('/passenger/complaints')}
+                className="justify-start font-bold"
+              >
+                My Complaints
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 leftIcon={Route}
                 onClick={() => onNavigate && onNavigate('/passenger/routes')}
+                className="justify-start font-bold"
               >
                 City Routes
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                leftIcon={Star}
-                onClick={() => onNavigate && onNavigate('/passenger/favorites')}
-              >
-                Favorites
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* E. Service Alerts Ticker */}
+      {/* 7. Service Alerts Section */}
       <div className="space-y-3 pt-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -308,7 +444,7 @@ export function PassengerDashboard({ onNavigate }) {
           <button
             type="button"
             onClick={() => onNavigate && onNavigate('/passenger/notifications')}
-            className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600"
+            className="text-xs font-mono font-bold text-transit-500 hover:text-transit-600 cursor-pointer"
           >
             View All ({alerts.length})
           </button>
@@ -328,6 +464,31 @@ export function PassengerDashboard({ onNavigate }) {
           ))}
         </div>
       </div>
+
+      {/* Modals */}
+      <PassengerSosModal
+        isOpen={isSosModalOpen}
+        onClose={() => setIsSosModalOpen(false)}
+        activeTrip={activeTrip}
+        user={user}
+        onSosTriggered={(sos) => setActiveSos(sos)}
+      />
+
+      <ReportIssueModal
+        isOpen={isReportModalOpen}
+        onClose={() => setIsReportModalOpen(false)}
+        activeTrip={activeTrip}
+        user={user}
+        onComplaintSubmitted={() => {
+          if (onNavigate) onNavigate('/passenger/complaints');
+        }}
+      />
+
+      <ShareJourneyModal
+        isOpen={isShareModalOpen}
+        onClose={() => setIsShareModalOpen(false)}
+        activeTrip={activeTrip}
+      />
     </div>
   );
 }

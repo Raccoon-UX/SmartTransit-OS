@@ -24,6 +24,10 @@ const JourneyPlannerPage = lazy(() => import('../modules/passenger/pages/Journey
 const FavoritesPage = lazy(() => import('../modules/passenger/pages/FavoritesPage.jsx').then((m) => ({ default: m.FavoritesPage })));
 const NotificationsPage = lazy(() => import('../modules/passenger/pages/NotificationsPage.jsx').then((m) => ({ default: m.NotificationsPage })));
 const PassengerProfilePage = lazy(() => import('../modules/passenger/pages/PassengerProfilePage.jsx').then((m) => ({ default: m.PassengerProfilePage })));
+const ComplaintsPage = lazy(() => import('../modules/passenger/pages/ComplaintsPage.jsx').then((m) => ({ default: m.ComplaintsPage })));
+const SafetyCenterPage = lazy(() => import('../modules/passenger/pages/SafetyCenterPage.jsx').then((m) => ({ default: m.SafetyCenterPage })));
+const LostFoundPage = lazy(() => import('../modules/passenger/pages/LostFoundPage.jsx').then((m) => ({ default: m.LostFoundPage })));
+const TripHistoryPage = lazy(() => import('../modules/passenger/pages/TripHistoryPage.jsx').then((m) => ({ default: m.TripHistoryPage })));
 
 // Driver Portal Pages (Lazy Loaded)
 const DriverDashboard = lazy(() => import('../modules/driver/pages/DriverDashboard.jsx').then((m) => ({ default: m.DriverDashboard })));
@@ -284,6 +288,10 @@ export function AppRouter() {
     if (currentRoute.includes('/search')) return 'search-bus';
     if (currentRoute.includes('/routes')) return 'routes';
     if (currentRoute.includes('/planner') || currentRoute.includes('/journey-planner')) return 'journey-planner';
+    if (currentRoute.includes('/trip-history') || currentRoute.includes('/trips')) return 'trip-history';
+    if (currentRoute.includes('/safety-center') || currentRoute.includes('/safety')) return 'safety-center';
+    if (currentRoute.includes('/complaints') || currentRoute.includes('/grievances')) return 'complaints';
+    if (currentRoute.includes('/lost-and-found') || currentRoute.includes('/lost-found')) return 'lost-and-found';
     if (currentRoute.includes('/favorites')) return 'favorites';
     if (currentRoute.includes('/notifications')) return 'notifications';
     if (currentRoute.includes('/profile')) return 'profile';
@@ -497,6 +505,18 @@ export function AppRouter() {
     }
     if (currentRoute === '/passenger/planner' || currentRoute === '/passenger/journey-planner') {
       return <JourneyPlannerPage onNavigate={navigateTo} />;
+    }
+    if (currentRoute === '/passenger/trip-history' || currentRoute === '/passenger/trips') {
+      return <TripHistoryPage onNavigate={navigateTo} />;
+    }
+    if (currentRoute === '/passenger/complaints') {
+      return <ComplaintsPage onNavigate={navigateTo} />;
+    }
+    if (currentRoute === '/passenger/safety-center' || currentRoute === '/passenger/safety') {
+      return <SafetyCenterPage onNavigate={navigateTo} />;
+    }
+    if (currentRoute === '/passenger/lost-and-found' || currentRoute === '/passenger/lost-found') {
+      return <LostFoundPage onNavigate={navigateTo} />;
     }
     if (currentRoute === '/passenger/favorites') {
       return <FavoritesPage onNavigate={navigateTo} />;

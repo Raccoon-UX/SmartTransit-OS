@@ -26,6 +26,8 @@ import {
   ShieldCheck,
   AlertTriangle,
   Sparkles,
+  Clock,
+  Package,
 } from 'lucide-react';
 
 /**
@@ -47,12 +49,21 @@ export const NAVIGATION_CONFIG = {
           { id: 'search-bus', label: 'Search Buses', icon: Search, path: '/passenger/search' },
           { id: 'routes', label: 'Routes & Schedules', icon: Route, path: '/passenger/routes' },
           { id: 'journey-planner', label: 'Trip Planner', icon: Compass, path: '/passenger/planner' },
+          { id: 'trip-history', label: 'Trip History', icon: Clock, path: '/passenger/trip-history' },
+        ],
+      },
+      {
+        title: 'Safety & Assistance',
+        items: [
+          { id: 'safety-center', label: 'Safety Center', icon: ShieldCheck, path: '/passenger/safety-center' },
+          { id: 'notifications', label: 'Service Alerts', icon: Bell, path: '/passenger/notifications', badge: '3', badgeVariant: 'warning' },
+          { id: 'complaints', label: 'My Complaints', icon: FileText, path: '/passenger/complaints' },
+          { id: 'lost-and-found', label: 'Lost & Found', icon: Package, path: '/passenger/lost-and-found' },
         ],
       },
       {
         title: 'Personal Mobility',
         items: [
-          { id: 'notifications', label: 'Alerts & Notices', icon: Bell, path: '/passenger/notifications', badge: '3', badgeVariant: 'warning' },
           { id: 'favorites', label: 'Saved Routes', icon: Star, path: '/passenger/favorites' },
           { id: 'profile', label: 'Profile Settings', icon: User, path: '/passenger/profile' },
         ],
