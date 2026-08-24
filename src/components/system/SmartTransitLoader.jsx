@@ -17,7 +17,7 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
 
   useEffect(() => {
     const startTime = Date.now();
-    const TARGET_DURATION_MS = 5500; // 5.5 Seconds total preloader duration
+    const TARGET_DURATION_MS = 2200; // 2.2 Seconds smooth realistic preloader
 
     const timer = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -28,9 +28,17 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
       if (calculatedProgress >= 100) {
         clearInterval(timer);
       }
-    }, 40);
+    }, 30);
 
-    return () => clearInterval(timer);
+    // Fail-safe timeout ensures transition always fires within 2.8s
+    const failSafeTimer = setTimeout(() => {
+      setProgress(100);
+    }, 2800);
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(failSafeTimer);
+    };
   }, []);
 
   useEffect(() => {
@@ -39,16 +47,23 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
         setIsExiting(true);
         setTimeout(() => {
           if (onComplete) onComplete();
-        }, 400);
-      }, 350);
+        }, 300);
+      }, 250);
       return () => clearTimeout(exitTimer);
     }
   }, [progress, isExiting, onComplete]);
 
+  const handleSkip = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      if (onComplete) onComplete();
+    }, 150);
+  };
+
   return (
     <div
       className={cn(
-        'fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-500',
+        'fixed inset-0 z-50 flex flex-col items-center justify-center p-6 text-center select-none overflow-hidden transition-all duration-400',
         'bg-slate-950 bg-cover bg-center bg-no-repeat text-white',
         isExiting ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100',
         className
@@ -56,7 +71,7 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
       style={{ backgroundImage: `url(${loaderPageBg})` }}
     >
       {/* Dark Backdrop Overlay Layer for High Contrast */}
-      <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs" />
+      <div className="absolute inset-0 bg-slate-950/85 backdrop-blur-xs" />
 
       <div className="relative z-10 max-w-sm w-full space-y-6 text-center">
         {/* Prominent Brand Logo Image in High-Contrast Crisp White Card Container */}
@@ -109,10 +124,20 @@ export function SmartTransitLoader({ onComplete, className = '' }) {
         </div>
 
         {/* Action prompt if completed */}
-        {progress >= 100 && (
+        {progress >= 100 ? (
           <div className="inline-flex items-center space-x-2 text-xs font-mono font-bold text-emerald-400 animate-pulse pt-2">
             <span>System Ready. Launching Workspace...</span>
             <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+        ) : (
+          <div className="pt-2">
+            <button
+              type="button"
+              onClick={handleSkip}
+              className="text-[11px] font-mono text-slate-400 hover:text-slate-200 underline decoration-dotted transition-colors"
+            >
+              Skip to Platform →
+            </button>
           </div>
         )}
       </div>

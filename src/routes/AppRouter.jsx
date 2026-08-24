@@ -104,6 +104,7 @@ export function AppRouter() {
     return '/';
   });
 
+  const [isInitialBoot, setIsInitialBoot] = useState(true);
   const [verificationEmail, setVerificationEmail] = useState('sysadmin@smarttransit.city');
 
   React.useEffect(() => {
@@ -123,6 +124,11 @@ export function AppRouter() {
     setCurrentRoute(path);
     window.scrollTo(0, 0);
   };
+
+  // Initial Application Boot Loader
+  if (isInitialBoot) {
+    return <SmartTransitLoader onComplete={() => setIsInitialBoot(false)} />;
+  }
 
   // Route 1: Public Landing Page
   if (currentRoute === '/' || currentRoute === '') {
