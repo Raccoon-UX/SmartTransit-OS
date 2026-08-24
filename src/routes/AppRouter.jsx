@@ -97,31 +97,45 @@ import { canAccessPath } from '../services/auth/rbacConfig.js';
 
 export function AppRouter() {
   const { user, role, isAuthenticated, logout } = useAuth();
-  const [currentRoute, setCurrentRoute] = useState('/'); // '/', '/login', etc.
-  const [isInitialBoot, setIsInitialBoot] = useState(true);
+  const [currentRoute, setCurrentRoute] = useState(() => {
+    if (typeof window !== 'undefined' && window.location.pathname) {
+      return window.location.pathname;
+    }
+    return '/';
+  });
 
   const [verificationEmail, setVerificationEmail] = useState('sysadmin@smarttransit.city');
 
+  React.useEffect(() => {
+    const handlePopState = () => {
+      if (typeof window !== 'undefined') {
+        setCurrentRoute(window.location.pathname || '/');
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   const navigateTo = (path) => {
+    if (typeof window !== 'undefined' && window.history && window.location.pathname !== path) {
+      window.history.pushState({}, '', path);
+    }
     setCurrentRoute(path);
     window.scrollTo(0, 0);
   };
 
-  // Initial Application Boot Loader
-  if (isInitialBoot) {
-    return <SmartTransitLoader onComplete={() => setIsInitialBoot(false)} />;
-  }
-
   // Route 1: Public Landing Page
-  if (currentRoute === '/') {
+  if (currentRoute === '/' || currentRoute === '') {
     return (
-      <LandingPage
-        onSwitchToShell={() => {
-          const defaultPath = (role && ROLE_METADATA[role]?.defaultRoute) || '/soc/overview';
-          navigateTo(defaultPath);
-        }}
-        onOpenSignIn={() => navigateTo('/login')}
-      />
+      <ErrorBoundary>
+        <LandingPage
+          onSwitchToShell={() => {
+            const defaultPath = (role && ROLE_METADATA[role]?.defaultRoute) || '/soc/overview';
+            navigateTo(defaultPath);
+          }}
+          onOpenSignIn={() => navigateTo('/login')}
+        />
+      </ErrorBoundary>
     );
   }
 

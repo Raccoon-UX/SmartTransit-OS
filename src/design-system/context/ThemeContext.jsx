@@ -10,9 +10,13 @@ const ThemeContext = createContext({
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('smarttransit_theme');
-      if (saved === 'light' || saved === 'dark') return saved;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'dark'; // Enterprise default dark
+      try {
+        const saved = localStorage.getItem('smarttransit_theme');
+        if (saved === 'light' || saved === 'dark') return saved;
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'dark';
+      } catch (_) {
+        return 'dark';
+      }
     }
     return 'dark';
   });
@@ -20,15 +24,17 @@ export function ThemeProvider({ children }) {
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    const root = document.documentElement;
-    if (isDark) {
-      root.classList.add('dark');
-      root.classList.remove('light');
-    } else {
-      root.classList.remove('dark');
-      root.classList.add('light');
-    }
-    localStorage.setItem('smarttransit_theme', theme);
+    try {
+      const root = document.documentElement;
+      if (isDark) {
+        root.classList.add('dark');
+        root.classList.remove('light');
+      } else {
+        root.classList.remove('dark');
+        root.classList.add('light');
+      }
+      localStorage.setItem('smarttransit_theme', theme);
+    } catch (_) {}
   }, [theme, isDark]);
 
   const toggleTheme = () => {

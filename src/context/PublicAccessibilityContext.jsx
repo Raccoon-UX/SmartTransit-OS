@@ -7,38 +7,60 @@ const PublicAccessibilityContext = createContext();
 export function PublicAccessibilityProvider({ children }) {
   // Language state ('en' | 'mr')
   const [language, setLanguage] = useState(() => {
-    return sessionStorage.getItem('st_language') || 'en';
+    try {
+      return sessionStorage.getItem('st_language') || 'en';
+    } catch (_) {
+      return 'en';
+    }
   });
 
   // Font Size Scale ('sm' | 'base' | 'lg')
   const [fontScale, setFontScale] = useState(() => {
-    return sessionStorage.getItem('st_font_scale') || 'base';
+    try {
+      return sessionStorage.getItem('st_font_scale') || 'base';
+    } catch (_) {
+      return 'base';
+    }
   });
 
   // High Contrast Mode
   const [highContrast, setHighContrast] = useState(() => {
-    return sessionStorage.getItem('st_high_contrast') === 'true';
+    try {
+      return sessionStorage.getItem('st_high_contrast') === 'true';
+    } catch (_) {
+      return false;
+    }
   });
 
   useEffect(() => {
-    sessionStorage.setItem('st_language', language);
+    try {
+      sessionStorage.setItem('st_language', language);
+    } catch (_) {}
   }, [language]);
 
   useEffect(() => {
-    sessionStorage.setItem('st_font_scale', fontScale);
-    const root = document.documentElement;
-    root.classList.remove('font-scale-sm', 'font-scale-base', 'font-scale-lg');
-    root.classList.add(`font-scale-${fontScale}`);
+    try {
+      sessionStorage.setItem('st_font_scale', fontScale);
+    } catch (_) {}
+    try {
+      const root = document.documentElement;
+      root.classList.remove('font-scale-sm', 'font-scale-base', 'font-scale-lg');
+      root.classList.add(`font-scale-${fontScale}`);
+    } catch (_) {}
   }, [fontScale]);
 
   useEffect(() => {
-    sessionStorage.setItem('st_high_contrast', highContrast);
-    const root = document.documentElement;
-    if (highContrast) {
-      root.classList.add('high-contrast-mode');
-    } else {
-      root.classList.remove('high-contrast-mode');
-    }
+    try {
+      sessionStorage.setItem('st_high_contrast', highContrast);
+    } catch (_) {}
+    try {
+      const root = document.documentElement;
+      if (highContrast) {
+        root.classList.add('high-contrast-mode');
+      } else {
+        root.classList.remove('high-contrast-mode');
+      }
+    } catch (_) {}
   }, [highContrast]);
 
   const toggleLanguage = (lang) => {
