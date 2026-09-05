@@ -39,9 +39,10 @@ export function BusDetailPage({ busId, onNavigate }) {
           <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans pb-2 border-b border-slate-100 dark:border-slate-800">Vehicle Information</h3>
           <div className="grid grid-cols-2 gap-3 text-xs font-mono">
             {[
-              ['Bus Number', bus.busNumber], ['Serial', bus.serial], ['Type', 'Electric AC Double-Decker'],
-              ['Capacity', '52 Passengers'], ['Assigned Route', `${bus.routeId} (${bus.routeName})`],
-              ['Assigned Pilot', `${bus.driverName} (${bus.driverId})`], ['Depot', bus.depot], ['Service Status', bus.status],
+              ['Bus Number', bus.busNumber], ['Operator', bus.operator || bus.busType || 'Regional'],
+              ['Operating Area', bus.area || 'Maharashtra'], ['Region / District', bus.region || 'Regional'],
+              ['Origin', bus.origin || 'Terminal Stand'], ['Destination', bus.destination || 'Terminal Stand'],
+              ['Depot', bus.depot], ['Data Status', 'Canonical Regional Record'],
             ].map(([label, value]) => (
               <div key={label} className="p-3 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800 space-y-0.5">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">{label}</span>

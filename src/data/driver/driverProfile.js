@@ -1,6 +1,5 @@
 /**
- * SmartTransit OS — Isolated Driver Mock Profile
- * Authenticated driver operational credentials.
+ * SmartTransit OS — Driver Profile (Regional Context)
  */
 
 export const MOCK_DRIVER_PROFILE = {
@@ -13,12 +12,13 @@ export const MOCK_DRIVER_PROFILE = {
   roleTitle: 'Senior Master Transit Pilot',
   licenseNumber: 'HMV-2026-TR-9042',
   badgeNumber: 'ST-PILOT-042',
-  assignedDepot: 'Western Express Regional Depot (Depot #4)',
-  assignedVehicle: 'Bus 245 (NY-TR-8042)',
-  assignedRoute: 'RT-108 (Metro Coastal Express Line)',
+  assignedDepot: 'BEST Regional Depot (Borivali East)',
+  assignedVehicle: 'BEST A-297 (REG-BEST-A297)',
+  assignedRoute: 'BEST-A297 (Borivali Station (E) ➔ Kokanipada Ext)',
   currentShift: '05:30 AM – 02:00 PM (Morning Shift)',
   safetyScore: 98.6,
   totalTripsCompleted: 1420,
   yearsOfService: '6.5 Years',
   status: 'ON DUTY',
+  dataSource: 'Regional Transit Dataset',
 };

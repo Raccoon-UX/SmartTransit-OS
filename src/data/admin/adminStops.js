@@ -1,66 +1,29 @@
 /**
- * SmartTransit OS — Isolated Admin Bus Stops Dataset
+ * SmartTransit OS — Admin Regional Terminals & Endpoints
+ * Sourced canonically from the regional transit dataset.
  */
 
-export const MOCK_ADMIN_STOPS = [
-  {
-    id: 'BST-001',
-    name: 'Borivali Central Hub',
-    code: 'BST-001',
-    zone: 'Zone North-1',
-    routesCount: 6,
-    incomingBusesCount: 4,
-    passengerVolume: 'HIGH (12,400 daily)',
-    kioskStatus: 'ONLINE (100% Operational)',
-    accessibility: 'Full Wheelchair Ramp & Tactile Paving',
-    status: 'ACTIVE', // ACTIVE, CLOSED, MAINTENANCE, LIMITED
-  },
-  {
-    id: 'BST-104',
-    name: 'Western Highway Exchange',
-    code: 'BST-104',
-    zone: 'Zone Central-4',
-    routesCount: 8,
-    incomingBusesCount: 6,
-    passengerVolume: 'VERY HIGH (18,900 daily)',
-    kioskStatus: 'ONLINE (Display Active)',
-    accessibility: 'Elevator & Ramp Access',
+import { CANONICAL_REGIONAL_STOPS, CANONICAL_REGIONAL_BUSES } from '../regionalTransitData.js';
+
+export const MOCK_ADMIN_STOPS = CANONICAL_REGIONAL_STOPS.map((endpoint, idx) => {
+  const servingBuses = CANONICAL_REGIONAL_BUSES.filter(
+    (b) => b.origin === endpoint.name || b.destination === endpoint.name
+  );
+
+  return {
+    id: endpoint.id,
+    name: endpoint.name,
+    code: `END-${String(idx + 1).padStart(3, '0')}`,
+    area: endpoint.area,
+    zone: endpoint.region,
+    routesCount: servingBuses.length,
+    incomingBusesCount: servingBuses.length,
+    passengerVolume: 'Regional Service Endpoint',
+    kioskStatus: 'ONLINE (Terminal Active)',
+    accessibility: 'Standard Platform Access',
     status: 'ACTIVE',
-  },
-  {
-    id: 'BST-208',
-    name: 'Aviation Gate South',
-    code: 'BST-208',
-    zone: 'Zone Airport East',
-    routesCount: 3,
-    incomingBusesCount: 2,
-    passengerVolume: 'MEDIUM (8,500 daily)',
-    kioskStatus: 'ONLINE (Aviation Board)',
-    accessibility: 'Step-Free Platform Access',
-    status: 'ACTIVE',
-  },
-  {
-    id: 'BST-048',
-    name: 'Magathane Junction',
-    code: 'BST-048',
-    zone: 'Zone North-2',
-    routesCount: 4,
-    incomingBusesCount: 3,
-    passengerVolume: 'HIGH (10,200 daily)',
-    kioskStatus: 'LIMITED (Maintenance Alert)',
-    accessibility: 'Standard Ramp Access',
-    status: 'LIMITED',
-  },
-  {
-    id: 'BST-510',
-    name: 'Vashi Sector 17',
-    code: 'BST-510',
-    zone: 'Zone Navi Mumbai',
-    routesCount: 5,
-    incomingBusesCount: 2,
-    passengerVolume: 'MEDIUM (6,800 daily)',
-    kioskStatus: 'ONLINE (Inter-city Board)',
-    accessibility: 'Ramp Access',
-    status: 'ACTIVE',
-  },
-];
+    dataSource: 'Regional Transit Dataset (Endpoints)',
+  };
+});
+
+export default MOCK_ADMIN_STOPS;

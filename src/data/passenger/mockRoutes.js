@@ -1,94 +1,38 @@
 /**
- * SmartTransit OS — Isolated Passenger Mock Routes Data
+ * SmartTransit OS — Passenger Regional Routes Data
+ * Sourced canonically from the regional transit dataset.
+ * 
+ * NOTE: Origins and Destinations are treated strictly as route/service endpoints.
+ * No intermediate stop network is inferred or manufactured.
  */
 
-export const MOCK_PASSENGER_ROUTES = [
-  {
-    id: 'RT-108',
-    routeCode: 'RT-108',
-    routeName: 'Metro Coastal Express Line',
-    origin: 'Borivali Central Hub',
-    destination: 'Andheri West Exchange',
-    color: '#0c87eb',
-    stopsCount: 18,
-    frequency: 'Every 8 mins',
-    operatingHours: '05:30 AM – 11:45 PM',
-    fareRange: '₹15 – ₹45',
-    activeBusesCount: 8,
-    operationalStatus: 'ON TIME',
-    description: 'High-frequency commuter arterial linking north coastal suburbs directly to Western metro hubs.',
-    stops: [
-      { id: 'BST-001', name: 'Borivali Central Hub', code: 'BST-001', sequence: 1, eta: 'Passed', isPassed: true },
-      { id: 'BST-012', name: 'Kandivali Flyover Express', code: 'BST-012', sequence: 2, eta: 'Passed', isPassed: true },
-      { id: 'BST-024', name: 'Dahisar Check Naka', code: 'BST-024', sequence: 3, eta: 'Current Stop', isCurrent: true },
-      { id: 'BST-104', name: 'Western Highway Exchange', code: 'BST-104', sequence: 4, eta: 'In 3 mins', isUpcoming: true },
-      { id: 'BST-180', name: 'Goregaon IT Park Hub', code: 'BST-180', sequence: 5, eta: 'In 9 mins', isUpcoming: true },
-      { id: 'BST-208', name: 'Andheri West Exchange', code: 'BST-208', sequence: 6, eta: 'In 18 mins', isDestination: true },
-    ],
-  },
-  {
-    id: 'RT-204',
-    routeCode: 'RT-204',
-    routeName: 'Airport Superfast Highway Link',
-    origin: 'Metro Interchange',
-    destination: 'Terminal 2 International Airport',
-    color: '#06b6d4',
-    stopsCount: 10,
-    frequency: 'Every 12 mins',
-    operatingHours: '24 Hours (Round-the-clock)',
-    fareRange: '₹30 – ₹80',
-    activeBusesCount: 6,
-    operationalStatus: 'ON TIME',
-    description: 'Dedicated air-conditioned express connector between central rail interchange and international aviation terminals.',
-    stops: [
-      { id: 'BST-090', name: 'Metro Interchange', code: 'BST-090', sequence: 1, eta: 'Passed', isPassed: true },
-      { id: 'BST-112', name: 'Santacruz Junction', code: 'BST-112', sequence: 2, eta: 'Current', isCurrent: true },
-      { id: 'BST-208', name: 'Aviation Gate South', code: 'BST-208', sequence: 3, eta: 'In 8 mins', isUpcoming: true },
-      { id: 'BST-220', name: 'Airport Cargo Zone', code: 'BST-220', sequence: 4, eta: 'In 14 mins', isUpcoming: true },
-      { id: 'BST-250', name: 'Terminal 2 Arrivals', code: 'BST-250', sequence: 5, eta: 'In 20 mins', isDestination: true },
-    ],
-  },
-  {
-    id: 'RT-302',
-    routeCode: 'RT-302',
-    routeName: 'Central Business District Feeder',
-    origin: 'City Center Hub',
-    destination: 'Tech Park Station',
-    color: '#10b981',
-    stopsCount: 14,
-    frequency: 'Every 6 mins',
-    operatingHours: '06:00 AM – 10:30 PM',
-    fareRange: '₹10 – ₹35',
-    activeBusesCount: 10,
-    operationalStatus: 'ON TIME',
-    description: 'Direct high-density feeder service carrying tech commuters and corporate staff into BKC & Silicon Boulevard.',
-    stops: [
-      { id: 'BST-030', name: 'City Center Hub', code: 'BST-030', sequence: 1, eta: 'Passed', isPassed: true },
-      { id: 'BST-042', name: 'Financial District North', code: 'BST-042', sequence: 2, eta: 'In 4 mins', isUpcoming: true },
-      { id: 'BST-075', name: 'Silicon Boulevard', code: 'BST-075', sequence: 3, eta: 'In 12 mins', isUpcoming: true },
-      { id: 'BST-110', name: 'Tech Park Station', code: 'BST-110', sequence: 4, eta: 'In 22 mins', isDestination: true },
-    ],
-  },
-  {
-    id: 'RT-415',
-    routeCode: 'RT-415',
-    routeName: 'Suburban Ring Expressway',
-    origin: 'Thane Central Station',
-    destination: 'Navi Mumbai Gateway',
-    color: '#f59e0b',
-    stopsCount: 22,
-    frequency: 'Every 15 mins',
-    operatingHours: '05:00 AM – 11:00 PM',
-    fareRange: '₹25 – ₹65',
-    activeBusesCount: 5,
-    operationalStatus: 'DELAYED',
-    description: 'Inter-district ring corridor connecting eastern industrial zones with eastern harbor developments.',
-    stops: [
-      { id: 'BST-400', name: 'Thane Central Station', code: 'BST-400', sequence: 1, eta: 'Passed', isPassed: true },
-      { id: 'BST-420', name: 'Mulund Check Naka', code: 'BST-420', sequence: 2, eta: 'Passed', isPassed: true },
-      { id: 'BST-480', name: 'Airoli Toll Plaza', code: 'BST-480', sequence: 3, eta: 'Current Stop', isCurrent: true },
-      { id: 'BST-510', name: 'Vashi Sector 17', code: 'BST-510', sequence: 4, eta: 'In 16 mins', isUpcoming: true },
-      { id: 'BST-550', name: 'Navi Mumbai Gateway', code: 'BST-550', sequence: 5, eta: 'In 28 mins', isDestination: true },
-    ],
-  },
-];
+import { CANONICAL_REGIONAL_ROUTES } from '../regionalTransitData.js';
+
+export const MOCK_PASSENGER_ROUTES = CANONICAL_REGIONAL_ROUTES.map((route) => ({
+  id: route.id,
+  routeCode: route.routeCode,
+  routeName: route.routeName,
+  origin: route.origin,
+  destination: route.destination,
+  operator: route.operator,
+  operatorName: route.operatorName,
+  area: route.area,
+  region: route.region,
+  color: route.color,
+  stopsCount: 2,
+  frequency: 'Regional Schedule',
+  operatingHours: 'Operating Daily (As Per Regional Timetable)',
+  fareRange: 'Standard Regional Fare',
+  activeBusesCount: 1,
+  operationalStatus: 'STATIC SCHEDULED',
+  description: `${route.operator} regional bus service connecting ${route.origin} directly to ${route.destination} (${route.region}).`,
+  endpoints: route.endpoints,
+  stops: [
+    { id: `orig-${route.id}`, name: route.origin, code: 'ORIGIN', sequence: 1, isOrigin: true },
+    { id: `dest-${route.id}`, name: route.destination, code: 'DESTINATION', sequence: 2, isDestination: true },
+  ],
+  intermediateStopsAvailable: false,
+  dataSource: route.dataSource,
+}));
+
+export default MOCK_PASSENGER_ROUTES;

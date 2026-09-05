@@ -53,10 +53,8 @@ export function BusDetailPage({ busId = 'b-245', onNavigate }) {
   };
 
   const timelineStops = [
-    { id: 'st-1', name: bus.origin, code: 'BST-001', eta: 'Passed', isPassed: true },
-    { id: 'st-2', name: bus.currentLocation, code: 'BST-024', eta: 'Current Stop', isCurrent: true },
-    { id: 'st-3', name: bus.nextStop, code: 'BST-104', eta: `In ${bus.eta}`, isUpcoming: true },
-    { id: 'st-4', name: bus.destination, code: 'BST-208', eta: 'Terminal Stop', isDestination: true },
+    { id: 'st-1', name: bus.origin, code: 'ORIGIN', isOrigin: true },
+    { id: 'st-2', name: bus.destination, code: 'DESTINATION', isDestination: true },
   ];
 
   return (

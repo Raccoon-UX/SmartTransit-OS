@@ -1,23 +1,24 @@
 /**
- * SmartTransit OS — Simulated Active Trip Model
+ * SmartTransit OS — Simulated Active Trip Model (Regional Context)
  */
 
 export const INITIAL_ACTIVE_TRIP = {
   isActive: true,
-  busNumber: 'Bus 245',
-  routeCode: 'RT-108',
-  routeName: 'Metro Coastal Express',
-  origin: 'Borivali Central Hub',
-  destination: 'Andheri West Exchange',
-  currentStop: 'Dahisar Check Naka (BST-024)',
-  nextStop: 'Western Highway Exchange (BST-104)',
-  etaToNextStop: '3 min',
-  etaToDestination: '18 min',
-  occupancyPercent: 78,
-  occupancyStatus: 'HIGH',
-  progressPercent: 65,
-  speed: '38 km/h',
-  driverName: 'Vikram J. (Pilot 042)',
-  startedAt: '10:18 AM',
-  estimatedArrival: '10:48 AM',
+  busNumber: 'BEST A-297',
+  routeCode: 'BEST-A297',
+  routeName: 'BEST A-297 (Borivali Station (E) ➔ Kokanipada Ext)',
+  origin: 'Borivali Station (E)',
+  destination: 'Kokanipada Ext',
+  currentStop: 'Borivali Station (E)',
+  nextStop: 'Kokanipada Ext',
+  etaToNextStop: 'Scheduled',
+  etaToDestination: 'Scheduled',
+  occupancyPercent: 50,
+  occupancyStatus: 'SCHEDULED',
+  progressPercent: 50,
+  speed: 'Schedule Pace',
+  driverName: 'BEST Duty Pilot',
+  startedAt: '10:15 AM',
+  estimatedArrival: '10:45 AM',
+  dataSource: 'Regional Transit Dataset',
 };

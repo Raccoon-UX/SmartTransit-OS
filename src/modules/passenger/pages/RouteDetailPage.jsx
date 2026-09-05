@@ -38,11 +38,11 @@ export function RouteDetailPage({ routeId = 'RT-108', onNavigate }) {
       favoriteService.addFavoriteRoute({
         id: route.id,
         routeCode: route.routeCode,
-        busNumber: 'Bus 245',
+        busNumber: route.assignedBus || route.busNumber || route.routeCode,
         origin: route.origin,
         destination: route.destination,
-        eta: '3 min',
-        occupancy: 78,
+        eta: 'Scheduled',
+        occupancy: 50,
       });
       setIsSaved(true);
       setToast('Route saved to favorites!');
@@ -118,13 +118,13 @@ export function RouteDetailPage({ routeId = 'RT-108', onNavigate }) {
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Active Fleet</span>
-            <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{route.activeBusesCount} Buses Running</div>
+            <span className="text-[10px] uppercase font-bold text-slate-400 block">Operator / Type</span>
+            <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{route.operator || 'Regional'}</div>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800">
-            <span className="text-[10px] uppercase font-bold text-slate-400 block">Operating Hours</span>
-            <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 truncate">{route.operatingHours}</div>
+            <span className="text-[10px] uppercase font-bold text-slate-400 block">Operating Region</span>
+            <div className="text-xs font-bold text-slate-900 dark:text-white mt-0.5 truncate">{route.region || 'Maharashtra'}</div>
           </div>
 
           <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800">
@@ -138,12 +138,12 @@ export function RouteDetailPage({ routeId = 'RT-108', onNavigate }) {
       <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
         <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
           <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans">
-            Full Route Stop Progression Timeline ({route.stopsCount} Stops)
+            Route Service Endpoints ({route.stopsCount} Endpoints)
           </h3>
-          <span className="text-xs font-mono text-emerald-500 font-bold">Sub-Minute Sync</span>
+          <span className="text-xs font-mono text-slate-500 font-bold">Regional Dataset</span>
         </div>
 
-        <RouteTimeline stops={route.stops} activeIndex={2} />
+        <RouteTimeline stops={route.stops} activeIndex={0} />
       </div>
     </div>
   );

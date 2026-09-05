@@ -5,14 +5,19 @@ import { StatusBadge } from '../../../components/ui/Badge.jsx';
 import { Button } from '../../../components/ui/Button.jsx';
 import { Modal } from '../../../components/ui/Modal.jsx';
 
+import { regionalTransitData } from '../../../data/regionalTransitData.js';
+
 export function StopDetailPage({ stopId, onNavigate }) {
   const [stop, setStop] = useState(() => stopService.getStopById(stopId));
   const [showToggle, setShowToggle] = useState(false);
   const [toast, setToast] = useState(null);
-  const upcomingBuses = [
-    { bus: 'Bus 245', route: 'RT-108', eta: '3 min', occupancy: '78%' },
-    { bus: 'Bus 312', route: 'RT-204', eta: '8 min', occupancy: '42%' },
-    { bus: 'Bus 118', route: 'RT-302', eta: '12 min', occupancy: '58%' },
+
+  const servingBuses = regionalTransitData.getAllBuses().filter(
+    (b) => b.origin === stop.name || b.destination === stop.name
+  );
+
+  const upcomingBuses = servingBuses.length > 0 ? servingBuses : [
+    { busNumber: 'Regional Service', routeCode: 'Scheduled', origin: stop.name, destination: 'Regional Hub', eta: 'Scheduled', occupancyPercent: 50 }
   ];
 
   const handleToggle = () => {
@@ -55,13 +60,13 @@ export function StopDetailPage({ stopId, onNavigate }) {
         <div className="p-6 rounded-3xl bg-white dark:bg-navy-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           <h3 className="text-base font-bold text-slate-900 dark:text-white font-sans pb-2 border-b border-slate-100 dark:border-slate-800">Upcoming Arrivals</h3>
           <div className="space-y-3">
-            {upcomingBuses.map((b) => (
-              <div key={b.bus} className="p-4 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs font-mono">
+            {upcomingBuses.map((b, idx) => (
+              <div key={b.id || idx} className="p-4 rounded-2xl bg-slate-50 dark:bg-navy-850 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs font-mono">
                 <div className="flex items-center space-x-3">
                   <Bus className="w-4 h-4 text-transit-500" />
-                  <div><span className="font-bold text-slate-900 dark:text-white">{b.bus}</span><span className="text-slate-400 ml-2">{b.route}</span></div>
+                  <div><span className="font-bold text-slate-900 dark:text-white">{b.busNumber}</span><span className="text-slate-400 ml-2">{b.routeCode || b.routeId}</span></div>
                 </div>
-                <div className="text-right"><span className="font-bold text-emerald-500">{b.eta}</span><span className="text-slate-400 ml-2">{b.occupancy}</span></div>
+                <div className="text-right"><span className="font-bold text-emerald-500">{b.eta || 'Scheduled'}</span><span className="text-slate-400 ml-2">{b.destination}</span></div>
               </div>
             ))}
           </div>

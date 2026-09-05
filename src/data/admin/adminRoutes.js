@@ -1,70 +1,30 @@
 /**
- * SmartTransit OS — Isolated Admin Routes Dataset
+ * SmartTransit OS — Admin Regional Routes Dataset
+ * Sourced canonically from the regional transit dataset.
  */
 
-export const MOCK_ADMIN_ROUTES = [
-  {
-    id: 'RT-108',
-    routeCode: 'RT-108',
-    routeName: 'Metro Coastal Express Line',
-    origin: 'Borivali Central Hub',
-    destination: 'Andheri West Exchange',
-    stopsCount: 18,
-    frequency: 'Every 8 mins',
-    operatingHours: '05:30 AM – 11:45 PM',
-    activeBusesCount: 8,
-    operationalStatus: 'ACTIVE', // ACTIVE, DELAYED, SUSPENDED, MAINTENANCE
-    onTimeRate: '95.4%',
-    avgDelayMinutes: '1.2 min',
-    dailyPassengers: '42,500',
-    loadFactorPercent: 78,
-  },
-  {
-    id: 'RT-204',
-    routeCode: 'RT-204',
-    routeName: 'Airport Superfast Highway Link',
-    origin: 'Metro Interchange',
-    destination: 'Terminal 2 International Airport',
-    stopsCount: 10,
-    frequency: 'Every 12 mins',
-    operatingHours: '24 Hours',
-    activeBusesCount: 6,
-    operationalStatus: 'ACTIVE',
-    onTimeRate: '98.2%',
-    avgDelayMinutes: '0.5 min',
-    dailyPassengers: '28,100',
-    loadFactorPercent: 55,
-  },
-  {
-    id: 'RT-302',
-    routeCode: 'RT-302',
-    routeName: 'Central Business District Feeder',
-    origin: 'City Center Hub',
-    destination: 'Tech Park Station',
-    stopsCount: 14,
-    frequency: 'Every 6 mins',
-    operatingHours: '06:00 AM – 10:30 PM',
-    activeBusesCount: 10,
-    operationalStatus: 'ACTIVE',
-    onTimeRate: '96.8%',
-    avgDelayMinutes: '0.8 min',
-    dailyPassengers: '54,200',
-    loadFactorPercent: 82,
-  },
-  {
-    id: 'RT-415',
-    routeCode: 'RT-415',
-    routeName: 'Suburban Ring Expressway',
-    origin: 'Thane Central Station',
-    destination: 'Navi Mumbai Gateway',
-    stopsCount: 22,
-    frequency: 'Every 15 mins',
-    operatingHours: '05:00 AM – 11:00 PM',
-    activeBusesCount: 5,
-    operationalStatus: 'DELAYED',
-    onTimeRate: '88.5%',
-    avgDelayMinutes: '6.4 min',
-    dailyPassengers: '31,000',
-    loadFactorPercent: 88,
-  },
-];
+import { CANONICAL_REGIONAL_ROUTES } from '../regionalTransitData.js';
+
+export const MOCK_ADMIN_ROUTES = CANONICAL_REGIONAL_ROUTES.map((route) => ({
+  id: route.id,
+  routeCode: route.routeCode,
+  routeName: route.routeName,
+  origin: route.origin,
+  destination: route.destination,
+  operator: route.operator,
+  operatorName: route.operatorName,
+  area: route.area,
+  region: route.region,
+  stopsCount: 2, // Endpoints only
+  frequency: 'Regional Schedule',
+  operatingHours: 'Daily Regional Service',
+  activeBusesCount: 1,
+  operationalStatus: 'ACTIVE',
+  onTimeRate: '98.0%',
+  avgDelayMinutes: '0.0 min',
+  dailyPassengers: 'Regional Traffic',
+  loadFactorPercent: 60,
+  dataSource: route.dataSource,
+}));
+
+export default MOCK_ADMIN_ROUTES;

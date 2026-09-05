@@ -1,0 +1,30 @@
+Area,Bus Number,Type of Bus,Origin,Destination,Region/District
+Borivali (East),A-297,BEST,Borivali Station (E),Kokanipada Ext,Mumbai Suburban
+Borivali (East),A-298,BEST,Borivali Station (E),Rawalpada,Mumbai Suburban
+Borivali (West),202,BEST,Borivali Station (W),Mahim Bus Station,Mumbai City/Suburban
+Dahisar (East),A-462,BEST,Borivali Station (E),Vaishali Nagar,Mumbai Suburban
+Andheri (West),203,BEST,Andheri Station (W),Juhu Beach / Dahisar,Mumbai Suburban
+Dadar (East),C-53,BEST,Dadar Station (E),Ghatkopar / Mulund,Mumbai City
+Colaba,1,BEST,Electric House (Colaba),Mahim Bus Station,Mumbai City
+Mira Road,29,MBMT,Mira Road Station (E),Thane Station (E),Thane / MMR
+Mira Road,26GP,MBMT,Mira Road Station (E),Andheri Station (E),Mumbai/Thane Border
+Bhayandar,10,MBMT,Bhayandar Station (W),Thane Station (E),Thane / MMR
+Bhayandar,1,MBMT,Bhayandar Station (W),Ghodbunder Road,Thane / MMR
+Thane,AC-65,TMT,Thane Station (E),Borivali Station (E),Thane / Mumbai
+Thane,55,TMT,Thane Station (W),Borivali Station (E),Thane / Mumbai
+Thane,2,TMT,Thane Station (W),Kalwa Naka,Thane
+Ghodbunder,121,TMT,Ghodbunder Road,Thane Station (W),Thane
+Kharghar,125AC,NMMT,Kharghar (Ove Gaon),Borivali Station (E),Raigad / Mumbai
+Vashi,131,NMMT,Vashi Sector 6,Borivali Station (E),Thane / Mumbai
+Panvel,50,NMMT,Panvel Station,Vashi Bus Station,Raigad / Thane
+Belapur,100,NMMT,CBD Belapur,Lokmanya Tilak Terminus (LTT),Navi Mumbai / Mumbai
+Vasai,102,VVMT,Vasai Station (E),Vasai Phata,Palghar
+Virar,205,VVMT,Virar Station (E),Nallasopara (E),Palghar
+Nallasopara,301,VVMT,Nallasopara Station (W),Bhuigaon Beach,Palghar
+Kalyan,11,KDMT,Kalyan Station (W),Dombivli Station (W),Thane / MMR
+Dombivli,15,KDMT,Dombivli Station (E),Vashi (Navi Mumbai),Thane / Navi Mumbai
+Mumbai/Pune,Shivneri,MSRTC,Dadar (East) / Nancy Colony,Pune Station / Swargate,Intercity Maharashtra
+Mumbai/Nashik,Shivshahi,MSRTC,Borivali (Nancy Colony),Nashik CBS,Intercity Maharashtra
+Pune/Kolhapur,ST Ordinary,MSRTC,Swargate (Pune),Kolhapur Central Stand,Western Maharashtra
+Nagpur/Amravati,MSRTC E-Bus,MSRTC,Nagpur Ganeshpeth,Amravati Station,Vidarbha
+Aurangabad,ST Semi-Luxury,MSRTC,Chhatrapati Sambhajinagar,Jalna / Nanded,Marathwada
