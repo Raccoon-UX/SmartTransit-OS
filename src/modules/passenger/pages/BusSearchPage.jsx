@@ -9,34 +9,52 @@ import { cn } from '../../../utils/index.js';
 export function BusSearchPage({ initialQuery = '', onNavigate }) {
   const [query, setQuery] = useState(initialQuery);
   const [buses, setBuses] = useState([]);
-  const [selectedFilter, setSelectedFilter] = useState('ALL'); // 'ALL' | 'ON TIME' | 'APPROACHING' | 'DELAYED'
-  const [sortBy, setSortBy] = useState('ETA'); // 'ETA' | 'OCCUPANCY' | 'NUMBER'
+  const [selectedOperator, setSelectedOperator] = useState('ALL'); // 'ALL' | 'BEST' | 'MBMT' | 'TMT' | 'NMMT' | 'VVMT' | 'KDMT' | 'MSRTC'
+  const [sortBy, setSortBy] = useState('NUMBER'); // 'NUMBER' | 'AREA' | 'OPERATOR'
 
   useEffect(() => {
     transitService.getLiveBuses().then(setBuses);
   }, []);
 
-  const safeBuses = Array.isArray(buses) ? buses : [];
+  const safeBuses = Array.isArray(buses) && buses.length > 0 ? buses : [];
+  const OPERATORS = ['ALL', 'BEST', 'MBMT', 'TMT', 'NMMT', 'VVMT', 'KDMT', 'MSRTC'];
+
   const filteredBuses = safeBuses
     .filter((bus) => {
       if (!bus) return false;
       const q = query.trim().toLowerCase();
-      const matchesSearch =
-        !q ||
-        bus.busNumber?.toLowerCase().includes(q) ||
-        bus.routeId?.toLowerCase().includes(q) ||
-        bus.routeName?.toLowerCase().includes(q) ||
-        bus.origin?.toLowerCase().includes(q) ||
-        bus.destination?.toLowerCase().includes(q) ||
-        bus.nextStop?.toLowerCase().includes(q);
 
-      if (!matchesSearch) return false;
-      if (selectedFilter !== 'ALL' && bus.operationalStatus !== selectedFilter) return false;
-      return true;
+      if (selectedOperator !== 'ALL' && bus.operator !== selectedOperator) {
+        return false;
+      }
+
+      if (!q) return true;
+
+      const cleanQ = q.replace(/[\s\-_]/g, '');
+      const cleanBusNum = (bus.busNumber || '').toLowerCase().replace(/[\s\-_]/g, '');
+      const cleanRawNum = (bus.rawBusNumber || '').toLowerCase().replace(/[\s\-_]/g, '');
+      const cleanRouteId = (bus.routeId || '').toLowerCase().replace(/[\s\-_]/g, '');
+
+      return (
+        (bus.busNumber && bus.busNumber.toLowerCase().includes(q)) ||
+        (bus.rawBusNumber && bus.rawBusNumber.toLowerCase().includes(q)) ||
+        (cleanBusNum && cleanBusNum.includes(cleanQ)) ||
+        (cleanRawNum && cleanRawNum.includes(cleanQ)) ||
+        (cleanRouteId && cleanRouteId.includes(cleanQ)) ||
+        (bus.routeId && bus.routeId.toLowerCase().includes(q)) ||
+        (bus.routeName && bus.routeName.toLowerCase().includes(q)) ||
+        (bus.origin && bus.origin.toLowerCase().includes(q)) ||
+        (bus.destination && bus.destination.toLowerCase().includes(q)) ||
+        (bus.area && bus.area.toLowerCase().includes(q)) ||
+        (bus.region && bus.region.toLowerCase().includes(q)) ||
+        (bus.operator && bus.operator.toLowerCase().includes(q)) ||
+        (bus.operatorName && bus.operatorName.toLowerCase().includes(q)) ||
+        (bus.nextStop && bus.nextStop.toLowerCase().includes(q))
+      );
     })
     .sort((a, b) => {
-      if (sortBy === 'ETA') return (parseInt(a.eta, 10) || 0) - (parseInt(b.eta, 10) || 0);
-      if (sortBy === 'OCCUPANCY') return (a.occupancyPercent || 0) - (b.occupancyPercent || 0);
+      if (sortBy === 'AREA') return (a.area || '').localeCompare(b.area || '');
+      if (sortBy === 'OPERATOR') return (a.operator || '').localeCompare(b.operator || '');
       return (a.busNumber || '').localeCompare(b.busNumber || '');
     });
 
@@ -49,7 +67,7 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
             Search Transit & Buses
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
-            Find active city buses by vehicle number, line code, or target destination.
+            Search all 29 Maharashtra regional buses across BEST, MBMT, TMT, NMMT, VVMT, KDMT & MSRTC.
           </p>
         </div>
       </div>
@@ -62,7 +80,7 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search e.g. '245', 'RT-108', 'Andheri', 'Borivali'..."
+            placeholder="Search by bus number (e.g. '297', 'A-297', 'Shivneri'), area ('Borivali', 'Thane'), or origin/destination..."
             className={cn(
               'w-full pl-10 pr-4 py-2.5 rounded-2xl border text-sm transition-all focus:outline-none focus:ring-2',
               'bg-slate-50 dark:bg-navy-950 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-transit-500'
@@ -73,21 +91,21 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
 
         {/* Filter & Sort Chips */}
         <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
-          <div className="flex items-center space-x-1.5">
-            <span className="text-slate-400 text-[10px] uppercase font-bold">Status:</span>
-            {['ALL', 'ON TIME', 'APPROACHING', 'DELAYED'].map((st) => (
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="text-slate-400 text-[10px] uppercase font-bold mr-1">Operator:</span>
+            {OPERATORS.map((op) => (
               <button
-                key={st}
+                key={op}
                 type="button"
-                onClick={() => setSelectedFilter(st)}
+                onClick={() => setSelectedOperator(op)}
                 className={cn(
-                  'px-2.5 py-1 rounded-xl transition-colors font-bold',
-                  selectedFilter === st
+                  'px-2.5 py-1 rounded-xl transition-colors font-bold text-[11px]',
+                  selectedOperator === op
                     ? 'bg-transit-500 text-white shadow-sm'
                     : 'bg-slate-100 dark:bg-navy-800 text-slate-600 dark:text-slate-400 hover:text-white'
                 )}
               >
-                {st}
+                {op}
               </button>
             ))}
           </div>
@@ -97,19 +115,24 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-navy-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 focus:outline-none"
+              className="px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-navy-800 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 focus:outline-none text-xs"
             >
-              <option value="ETA">Fastest ETA</option>
-              <option value="OCCUPANCY">Least Crowded</option>
               <option value="NUMBER">Bus Number</option>
+              <option value="AREA">Area / Hub</option>
+              <option value="OPERATOR">Operator Agency</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Results Count */}
-      <div className="text-xs font-mono text-slate-500 dark:text-slate-400">
-        Found <strong className="text-slate-900 dark:text-white">{filteredBuses.length}</strong> matching transit vehicles
+      {/* Results Count & Dataset Notice */}
+      <div className="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400">
+        <div>
+          Found <strong className="text-slate-900 dark:text-white">{filteredBuses.length}</strong> matching transit vehicles
+        </div>
+        <span className="text-[10px] px-2 py-0.5 rounded bg-slate-100 dark:bg-navy-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
+          Canonical Regional Transit Dataset
+        </span>
       </div>
 
       {/* Bus Results List */}
@@ -122,14 +145,19 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
                 routeCode={bus.routeId}
                 origin={bus.origin}
                 destination={bus.destination}
-                eta={bus.eta}
-                occupancyPercent={bus.occupancyPercent}
-                occupancyStatus={bus.occupancyStatus}
-                status={bus.operationalStatus}
-                nextStop={bus.nextStop}
+                eta={bus.eta || 'Scheduled'}
+                occupancyPercent={bus.occupancyPercent || 50}
+                occupancyStatus={bus.occupancyStatus || 'MODERATE'}
+                status={bus.operationalStatus || 'ON TIME'}
+                nextStop={bus.destination}
               />
               <div className="flex items-center justify-between text-xs px-2 font-mono">
-                <span className="text-slate-400">Speed: {bus.speed}</span>
+                <div className="flex items-center space-x-2 text-[11px] text-slate-500 dark:text-slate-400">
+                  <span className="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-navy-800 text-slate-700 dark:text-slate-300 font-semibold">
+                    {bus.area}
+                  </span>
+                  <span>{bus.region}</span>
+                </div>
                 <button
                   type="button"
                   onClick={() => onNavigate && onNavigate(`/passenger/bus/${bus.id}`)}
@@ -146,8 +174,8 @@ export function BusSearchPage({ initialQuery = '', onNavigate }) {
         <EmptyState
           icon={Bus}
           title="No Matching Transit Vehicles"
-          description="We couldn't find any active buses matching your search term. Try checking the line code or view all routes."
-          actionLabel="View All Routes"
+          description={`We couldn't find any regional buses matching "${query}". Try searching for bus numbers like 297, Shivneri, AC-65 or areas like Borivali, Thane, Pune.`}
+          actionLabel="View All 29 Regional Routes"
           onAction={() => onNavigate && onNavigate('/passenger/routes')}
         />
       )}

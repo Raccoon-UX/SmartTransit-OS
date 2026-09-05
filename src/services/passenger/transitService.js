@@ -10,22 +10,37 @@ function notifySubscribers() {
 }
 
 function normalizeBus(b) {
+  const op = b.operator || b.busType || (b.busNumber?.split(' ')[0]) || 'BEST';
   return {
-    id: b.id || b._id,
-    busNumber: b.busNumber,
-    routeId: b.routeId?._id || b.routeId?.routeCode || b.routeId || 'RT-108',
-    routeName: b.routeId?.routeName || b.routeName || 'Metro Coastal Express Line',
-    routeCode: b.routeId?.routeCode || b.routeCode || 'RT-108',
-    status: b.status || 'ON_TIME',
-    operationalStatus: b.status === 'ACTIVE' ? 'ON TIME' : b.status || 'ON TIME',
-    occupancyPercent: b.occupancyPercent !== undefined ? b.occupancyPercent : 65,
-    occupancyStatus: b.occupancyStatus || 'MEDIUM',
+    id: b.id || b._id || `bus-${b.busNumber}`,
+    busNumber: b.busNumber || 'Regional Bus',
+    rawBusNumber: b.rawBusNumber || b.busNumber || '',
+    routeId: b.routeId?._id || b.routeId?.routeCode || b.routeId || b.routeCode || 'REG-ROUTE',
+    routeName: b.routeId?.routeName || b.routeName || `${b.origin || 'Origin'} ➔ ${b.destination || 'Destination'}`,
+    routeCode: b.routeId?.routeCode || b.routeCode || b.routeId || 'REG-ROUTE',
+    origin: b.origin || b.routeId?.origin || 'Origin Terminal',
+    destination: b.destination || b.routeId?.destination || 'Destination Terminal',
+    area: b.area || '',
+    region: b.region || '',
+    busType: b.busType || op,
+    operator: op,
+    operatorName: b.operatorName || `${op} Transit Operations`,
+    operatorColor: b.operatorColor || '#0c87eb',
+    operatorBadgeBg: b.operatorBadgeBg || 'bg-slate-50 text-slate-700 border-slate-200',
+    status: b.status || 'ACTIVE',
+    operationalStatus: b.operationalStatus || (b.status === 'ACTIVE' ? 'ON TIME' : b.status) || 'ON TIME',
+    occupancyPercent: b.occupancyPercent !== undefined ? b.occupancyPercent : 50,
+    occupancyStatus: b.occupancyStatus || 'MODERATE',
     coordinates: b.coordinates || { x: 50, y: 50 },
-    speed: b.speed || 38,
+    speed: b.speed || '38 km/h',
     heading: b.heading || 'NORTH',
-    lastPing: b.lastPing || 'Just now',
-    driverName: b.driverId?.name || b.driverName || 'Vikram J. (Pilot 042)',
-    eta: b.eta || '4 min',
+    lastPing: b.lastPing || 'Regional Transit Dataset',
+    driverName: b.driverId?.name || b.driverName || 'Regional Duty Pilot',
+    eta: b.eta || 'Scheduled',
+    nextStop: b.nextStop || b.destination || 'Destination Terminal',
+    upcomingStops: b.upcomingStops || [b.destination],
+    passedStops: b.passedStops || [b.origin],
+    isStaticRegional: true,
   };
 }
 
@@ -35,7 +50,7 @@ import { socketClient } from '../realtime/socketClient.js';
 socketClient.subscribe('bus:position', (pos) => {
   if (!pos?.busNumber) return;
   liveBusesState = liveBusesState.map((bus) => {
-    if (bus.busNumber === pos.busNumber) {
+    if (bus.busNumber === pos.busNumber || bus.rawBusNumber === pos.busNumber) {
       return {
         ...bus,
         coordinates: pos.coordinates || bus.coordinates,
@@ -53,7 +68,7 @@ socketClient.subscribe('bus:position', (pos) => {
 socketClient.subscribe('bus:occupancy', (occ) => {
   if (!occ?.busNumber) return;
   liveBusesState = liveBusesState.map((bus) => {
-    if (bus.busNumber === occ.busNumber) {
+    if (bus.busNumber === occ.busNumber || bus.rawBusNumber === occ.busNumber) {
       return {
         ...bus,
         occupancyPercent: occ.occupancyPercent !== undefined ? occ.occupancyPercent : bus.occupancyPercent,
@@ -72,16 +87,15 @@ export const transitService = {
    */
   async getLiveBuses() {
     try {
-      const data = await apiClient.get('/fleet');
-      if (Array.isArray(data) && data.length > 0) {
+      const data = await apiClient.get('/fleet', { timeout: 4000 });
+      if (Array.isArray(data) && data.length >= 20) {
         liveBusesState = data.map(normalizeBus);
         return [...liveBusesState];
       }
     } catch (error) {
-      if (!error.isFallbackEligible) {
-        console.warn('[TransitService] Access error:', error);
-      }
+      // Gracefully use canonical regional dataset
     }
+    liveBusesState = MOCK_PASSENGER_BUSES.map(normalizeBus);
     return [...liveBusesState];
   },
 

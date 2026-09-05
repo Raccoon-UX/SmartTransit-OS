@@ -3,15 +3,47 @@ import { Search, Bus, Route, MapPin, User, Server, AlertTriangle, ArrowRight, X,
 import { useAuth } from '../../context/AuthContext.jsx';
 import { cn } from '../../utils/index.js';
 
-const MOCK_SEARCH_DATABASE = [
-  { id: 'b-245', type: 'BUS', title: 'Bus 245 (NY-TR-8042)', subtitle: 'Route RT-108 • Borivali ⇄ Andheri • ETA 4m', icon: Bus, category: 'Vehicles' },
-  { id: 'b-312', type: 'BUS', title: 'Bus 312 (NY-TR-9914)', subtitle: 'Route RT-204 • Airport Express • ETA 11m', icon: Bus, category: 'Vehicles' },
-  { id: 'r-108', type: 'ROUTE', title: 'Route RT-108 (Metro Coastal Line)', subtitle: '18 Bus Stops • Active Fleet: 12 Buses', icon: Route, category: 'Routes' },
-  { id: 'r-204', type: 'ROUTE', title: 'Route RT-204 (Airport Superfast)', subtitle: '10 Bus Stops • Active Fleet: 8 Buses', icon: Route, category: 'Routes' },
-  { id: 's-104', type: 'STOP', title: 'Central Station Terminal Hub (BST-104)', subtitle: 'Digital LED Kiosk • 6 Connecting Routes', icon: MapPin, category: 'Stops' },
-  { id: 's-208', type: 'STOP', title: 'Andheri West Metro Exchange (BST-208)', subtitle: 'Digital LED Kiosk • 4 Connecting Routes', icon: MapPin, category: 'Stops' },
-  { id: 'd-882', type: 'DRIVER', title: 'Driver DRV-8820 (Vikram Jadhav)', subtitle: 'Assigned to Bus 245 • Shift Active', icon: User, category: 'Personnel' },
-  { id: 'sys-1', type: 'SYSTEM', title: 'Core Telemetry Ingestion Node', subtitle: '99.98% Uptime • 14.2k msgs/sec', icon: Server, category: 'Infrastructure' },
+import { CANONICAL_REGIONAL_BUSES, CANONICAL_REGIONAL_ROUTES, CANONICAL_REGIONAL_STOPS } from '../../data/regionalTransitData.js';
+
+const REGIONAL_SEARCH_DATABASE = [
+  ...CANONICAL_REGIONAL_BUSES.map((b) => ({
+    id: b.id,
+    type: 'BUS',
+    title: `${b.operator} ${b.busNumber}`,
+    rawNumber: b.busNumber,
+    subtitle: `${b.area} • ${b.origin} ➔ ${b.destination} (${b.region})`,
+    path: `/passenger/bus/${b.id}`,
+    icon: Bus,
+    category: 'Vehicles',
+    operator: b.operator,
+    area: b.area,
+    region: b.region,
+    origin: b.origin,
+    destination: b.destination,
+  })),
+  ...CANONICAL_REGIONAL_ROUTES.map((r) => ({
+    id: r.id,
+    type: 'ROUTE',
+    title: `Route ${r.routeCode}`,
+    subtitle: `${r.origin} ➔ ${r.destination} • ${r.region}`,
+    path: `/passenger/route/${r.routeCode}`,
+    icon: Route,
+    category: 'Routes',
+    operator: r.operator,
+    region: r.region,
+  })),
+  ...CANONICAL_REGIONAL_STOPS.map((s) => ({
+    id: s.id,
+    type: 'STOP',
+    title: `${s.name} (${s.code})`,
+    subtitle: `Regional Transit Hub • ${s.region} (${s.servingOperators?.join(', ') || 'Regional'})`,
+    path: `/passenger/routes`,
+    icon: MapPin,
+    category: 'Stops',
+    region: s.region,
+  })),
+  { id: 'd-882', type: 'DRIVER', title: 'Senior Pilot Vikram Jadhav (DRV-8820)', subtitle: 'Assigned to BEST A-297 • Shift Active', icon: User, category: 'Personnel', path: '/admin/drivers' },
+  { id: 'sys-1', type: 'SYSTEM', title: 'Maharashtra Transit Telemetry Node', subtitle: '99.98% Uptime • 29 Regional Fleet Routes', icon: Server, category: 'Infrastructure', path: '/soc/telemetry' },
 ];
 
 export function GlobalSearch({ isOpen = false, onClose, onSelect }) {
@@ -19,18 +51,29 @@ export function GlobalSearch({ isOpen = false, onClose, onSelect }) {
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const results = MOCK_SEARCH_DATABASE.filter((item) => {
+  const results = REGIONAL_SEARCH_DATABASE.filter((item) => {
     // Role-Based Access Control Filtering
     if (role === 'passenger' && (item.category === 'Personnel' || item.category === 'Infrastructure')) return false;
     if (role === 'driver' && item.category === 'Infrastructure') return false;
     if (role === 'admin' && item.category === 'Infrastructure') return false;
 
     if (!query) return true;
-    const q = query.toLowerCase();
+    const q = query.trim().toLowerCase();
+    const cleanQ = q.replace(/[\s\-_]/g, '');
+    const cleanTitle = (item.title || '').toLowerCase().replace(/[\s\-_]/g, '');
+    const cleanRaw = (item.rawNumber || '').toLowerCase().replace(/[\s\-_]/g, '');
+
     return (
       item.title.toLowerCase().includes(q) ||
+      cleanTitle.includes(cleanQ) ||
+      cleanRaw.includes(cleanQ) ||
       item.subtitle.toLowerCase().includes(q) ||
-      item.category.toLowerCase().includes(q)
+      item.category.toLowerCase().includes(q) ||
+      (item.area && item.area.toLowerCase().includes(q)) ||
+      (item.region && item.region.toLowerCase().includes(q)) ||
+      (item.operator && item.operator.toLowerCase().includes(q)) ||
+      (item.origin && item.origin.toLowerCase().includes(q)) ||
+      (item.destination && item.destination.toLowerCase().includes(q))
     );
   });
 
