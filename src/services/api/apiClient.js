@@ -14,7 +14,7 @@ const API_BASE_URL =
     ? 'https://smarttransit-os.onrender.com/api/v1'
     : 'http://localhost:5000/api/v1');
 
-const DEFAULT_TIMEOUT_MS = 5000;
+const DEFAULT_TIMEOUT_MS = 8000;
 const ACCESS_TOKEN_KEY = 'smarttransit_access_token';
 
 export class ApiError extends Error {
@@ -125,8 +125,8 @@ export const apiClient = {
         const code = errorInfo.code || `HTTP_${res.status}`;
         const message = errorInfo.message || `Request failed with HTTP status ${res.status}`;
 
-        // 502, 503, 504 are eligible for offline fallback
-        const isFallbackEligible = [502, 503, 504].includes(res.status);
+        // 404, 500, 502, 503, 504 are eligible for offline fallback
+        const isFallbackEligible = [404, 500, 502, 503, 504].includes(res.status);
 
         throw new ApiError(message, {
           status: res.status,

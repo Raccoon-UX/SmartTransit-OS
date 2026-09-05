@@ -58,20 +58,31 @@ export const DEMO_USERS = [
   },
 ];
 
-const STORAGE_KEY = 'smarttransit_os_session_v1';
+export const PRIMARY_STORAGE_KEY = 'smarttransit_session';
+export const LEGACY_STORAGE_KEY = 'smarttransit_os_session_v1';
 const OTP_STORAGE_KEY = 'smarttransit_pending_otp';
+
+function persistSessionToStorage(session) {
+  try {
+    const serialized = JSON.stringify(session);
+    localStorage.setItem(PRIMARY_STORAGE_KEY, serialized);
+    localStorage.setItem(LEGACY_STORAGE_KEY, serialized);
+  } catch (e) {
+    console.warn('[MockAuth] Failed to persist session to storage:', e);
+  }
+}
 
 export const mockAuthService = {
   /**
-   * Restores session from localStorage if present
+   * Restores session from localStorage if present (checks primary and legacy keys)
    */
   getSession() {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
+      const stored = localStorage.getItem(PRIMARY_STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY);
       if (!stored) return null;
       const parsed = JSON.parse(stored);
       // Validate session structure
-      if (parsed && parsed.user && parsed.token) {
+      if (parsed && parsed.user) {
         return parsed;
       }
       return null;
@@ -85,7 +96,7 @@ export const mockAuthService = {
    * Authenticates with email/phone and password
    */
   async login({ emailOrPhone, password }) {
-    await new Promise((res) => setTimeout(res, 600)); // Realistic network latency simulation
+    await new Promise((res) => setTimeout(res, 300)); // Realistic latency
 
     const identifier = (emailOrPhone || '').trim().toLowerCase();
     
@@ -107,8 +118,8 @@ export const mockAuthService = {
         email: identifier.includes('@') ? identifier : `${identifier}@smarttransit.city`,
         phone: identifier.includes('@') ? '+91 98000 00000' : identifier,
         role: assignedRole,
-        roleTitle: ROLE_METADATA[assignedRole].title,
-        roleCode: ROLE_METADATA[assignedRole].code,
+        roleTitle: ROLE_METADATA[assignedRole]?.title || 'Passenger',
+        roleCode: ROLE_METADATA[assignedRole]?.code || 'PASSENGER',
         avatar: 'ST',
         department: 'SmartTransit Network',
       };
@@ -116,20 +127,20 @@ export const mockAuthService = {
       const session = {
         user: genericUser,
         token: `demo_jwt_token_${Date.now()}`,
-        expiresAt: Date.now() + 86400 * 1000,
+        expiresAt: new Date(Date.now() + 86400 * 1000).toISOString(),
       };
 
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+      persistSessionToStorage(session);
       return session;
     }
 
     const session = {
       user: foundUser,
       token: `demo_jwt_token_${foundUser.id}_${Date.now()}`,
-      expiresAt: Date.now() + 86400 * 1000,
+      expiresAt: new Date(Date.now() + 86400 * 1000).toISOString(),
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    persistSessionToStorage(session);
     return session;
   },
 
@@ -137,34 +148,40 @@ export const mockAuthService = {
    * One-click demo login for development & evaluation
    */
   async demoLogin(roleKey) {
-    await new Promise((res) => setTimeout(res, 300));
+    await new Promise((res) => setTimeout(res, 200));
     const user = DEMO_USERS.find((u) => u.role === roleKey) || DEMO_USERS[0];
     
     const session = {
       user,
       token: `demo_jwt_${user.role}_${Date.now()}`,
-      expiresAt: Date.now() + 86400 * 1000,
+      expiresAt: new Date(Date.now() + 86400 * 1000).toISOString(),
       isDemo: true,
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    persistSessionToStorage(session);
     return session;
   },
 
   /**
    * Google authentication simulation for offline development mode
    */
-  async googleLogin(credential) {
-    await new Promise((res) => setTimeout(res, 500));
+  async googleLogin(credential, parsedData = null) {
+    await new Promise((res) => setTimeout(res, 250));
+
+    const name = parsedData?.name || parsedData?.given_name || 'Google Commuter';
+    const email = parsedData?.email || 'commuter.google@smarttransit.city';
+    const avatar = parsedData?.picture || name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase() || 'GC';
+    const id = parsedData?.sub ? `usr_g_${parsedData.sub}` : `usr_google_${Date.now()}`;
 
     const googleUser = {
-      id: `usr_google_${Date.now()}`,
-      name: 'Google Commuter',
-      email: 'commuter.google@smarttransit.city',
+      id,
+      name,
+      email,
       role: USER_ROLES.PASSENGER,
       roleTitle: 'Google Verified Commuter',
       roleCode: 'PASSENGER',
-      avatar: 'GC',
+      avatar,
+      picture: parsedData?.picture || null,
       department: 'Urban Transit Citizens',
       authProvider: 'GOOGLE',
       emailVerified: true,
@@ -172,11 +189,11 @@ export const mockAuthService = {
 
     const session = {
       user: googleUser,
-      token: `demo_jwt_google_${Date.now()}`,
-      expiresAt: Date.now() + 86400 * 1000,
+      token: credential || `demo_jwt_google_${Date.now()}`,
+      expiresAt: new Date(Date.now() + 86400 * 1000).toISOString(),
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    persistSessionToStorage(session);
     return session;
   },
 
@@ -184,7 +201,7 @@ export const mockAuthService = {
    * Passenger registration flow
    */
   async register({ name, fullName, email, phone, phoneNumber, password }) {
-    await new Promise((res) => setTimeout(res, 700));
+    await new Promise((res) => setTimeout(res, 350));
 
     const finalName = (name || fullName || '').trim();
     const finalEmail = (email || '').trim().toLowerCase();
@@ -205,10 +222,10 @@ export const mockAuthService = {
     const session = {
       user: newUser,
       token: `demo_jwt_reg_${Date.now()}`,
-      expiresAt: Date.now() + 86400 * 1000,
+      expiresAt: new Date(Date.now() + 86400 * 1000).toISOString(),
     };
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+    persistSessionToStorage(session);
     return session;
   },
 
@@ -216,7 +233,7 @@ export const mockAuthService = {
    * Request mock OTP for verification / password recovery
    */
   async requestOtp(emailOrPhone) {
-    await new Promise((res) => setTimeout(res, 500));
+    await new Promise((res) => setTimeout(res, 300));
     const demoOtp = '123456';
     const payload = {
       target: emailOrPhone,
@@ -231,7 +248,7 @@ export const mockAuthService = {
    * Verify mock OTP PIN
    */
   async verifyOtp(enteredOtp) {
-    await new Promise((res) => setTimeout(res, 400));
+    await new Promise((res) => setTimeout(res, 200));
     // Accepts '123456' or any 6-digit pin in demo environment
     if (enteredOtp === '123456' || enteredOtp === '999999' || enteredOtp.length === 6) {
       sessionStorage.removeItem(OTP_STORAGE_KEY);
@@ -244,7 +261,7 @@ export const mockAuthService = {
    * Reset Password
    */
   async resetPassword({ newPassword }) {
-    await new Promise((res) => setTimeout(res, 600));
+    await new Promise((res) => setTimeout(res, 300));
     return { success: true, message: 'Password reset successfully. Please sign in with your new credentials.' };
   },
 
@@ -253,10 +270,13 @@ export const mockAuthService = {
    */
   logout() {
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(PRIMARY_STORAGE_KEY);
+      localStorage.removeItem(LEGACY_STORAGE_KEY);
       sessionStorage.removeItem(OTP_STORAGE_KEY);
     } catch (e) {
       console.warn('Error clearing storage on logout', e);
     }
   },
 };
+
+export default mockAuthService;

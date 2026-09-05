@@ -49,6 +49,7 @@ export function LoginPage({
   };
 
   const handleDemoSelect = async (roleKey) => {
+    setLocalError(null);
     try {
       const authenticatedUser = await demoLogin(roleKey);
       if (onLoginSuccess) {
